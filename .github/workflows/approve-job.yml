@@ -1,0 +1,118 @@
+name: Process Job Approval
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  approve-job:
+    # Only run when an admin comments /approve on a job-submission issue
+    if: |
+      github.event.comment.body == '/approve' &&
+      contains(github.event.issue.labels.*.name, 'job-submission') &&
+      github.event.comment.user.login == 'Biokoderka'
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Extract and add job to jobs.json
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          python3 << 'EOF'
+          import json, re, os, hashlib
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          issue_body = os.environ["ISSUE_BODY"]
+          issue_number = os.environ["ISSUE_NUMBER"]
+
+          # Extract JSON from hidden comment block
+          match = re.search(r'<!-- SUBMISSION_DATA\n([\s\S]+?)\n-->', issue_body)
+          if not match:
+              print("⚠ No SUBMISSION_DATA block found in issue body")
+              exit(1)
+
+          try:
+              data = json.loads(match.group(1))
+          except json.JSONDecodeError as e:
+              print(f"⚠ Failed to parse submission data: {e}")
+              exit(1)
+
+          # Build job object
+          uid = hashlib.md5(f"{data['title']}{data['company']}".encode()).hexdigest()[:10]
+          job = {
+              "id": uid,
+              "title": data.get("title", ""),
+              "company": data.get("company", ""),
+              "location": data.get("location", ""),
+              "source": "Community submission",
+              "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+              "url": data.get("url", "#"),
+              "description": data.get("desc", ""),
+              "geo": data.get("geo", "Other"),
+              "category": data.get("category") or None,
+              "tags": [],
+              "summary": None,
+              "manually_added": True,
+              "submitted_by": data.get("submitter", "anonymous"),
+              "issue_number": int(issue_number),
+          }
+
+          # Load existing jobs.json
+          jobs_path = Path("docs/jobs.json")
+          if jobs_path.exists():
+              existing = json.loads(jobs_path.read_text())
+          else:
+              existing = {"updated": "", "count": 0, "jobs": []}
+
+          # Skip if already exists
+          if any(j["id"] == uid for j in existing.get("jobs", [])):
+              print(f"ℹ Job {uid} already in jobs.json — skipping")
+              exit(0)
+
+          # Prepend to list (newest first)
+          existing["jobs"].insert(0, job)
+          existing["count"] = len(existing["jobs"])
+          existing["updated"] = datetime.now(timezone.utc).isoformat()
+
+          jobs_path.write_text(json.dumps(existing, ensure_ascii=False, indent=2))
+          print(f"✅ Added '{job['title']}' @ {job['company']} to jobs.json")
+          EOF
+
+      - name: Commit updated jobs.json
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/jobs.json
+          git diff --cached --quiet || git commit -m "✅ Add approved job from issue #${{ github.event.issue.number }}"
+          git push
+
+      - name: Add approval confirmation comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `✅ **Job approved and added to the board!**\n\nThe listing will appear on [BioInfoJobs](https://Biokoderka.github.io/bioinfo-jobs) immediately.\n\n_Processed by GitHub Actions_`
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            });

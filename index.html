@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BioInfoJobs – Bioinformatics Job Board</title>
+<meta name="description" content="Weekly curated bioinformatics job offers: genomics, NGS, computational biology, drug discovery. Updated automatically every Monday.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0a0e1a; color: #e8eaf0; font-family: 'DM Mono', monospace; min-height: 100vh; }
+::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-thumb { background: #2a2f45; }
+
+/* HEADER */
+#header { background: #060810; border-bottom: 1px solid #1e2436; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; position: sticky; top: 0; z-index: 100; }
+#logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; }
+#logo span { color: #00b4d8; }
+#logo small { display: block; font-family: 'DM Mono', monospace; font-size: 10px; color: #4a5070; font-weight: 400; margin-top: 2px; }
+.header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+#last-updated { font-size: 10px; color: #3a4060; }
+
+/* BUTTONS */
+.btn { cursor: pointer; border: none; border-radius: 6px; font-family: 'DM Mono', monospace; font-size: 12px; padding: 8px 14px; transition: opacity 0.15s, transform 0.15s; }
+.btn:hover { opacity: 0.85; transform: translateY(-1px); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.btn-outline { background: #1a2540; color: #00b4d8; border: 1px solid #00b4d8; }
+.btn-dim { background: #1e2436; color: #e8eaf0; }
+.btn-ai { background: #00b4d8; color: #0a0e1a; font-weight: 700; }
+
+/* STATUS */
+#status-bar { background: #0d1420; padding: 6px 20px; font-size: 11px; color: #4a8070; border-bottom: 1px solid #1e2436; display: none; }
+
+/* FILTERS BAR */
+#filters-bar { background: #080c18; border-bottom: 1px solid #1e2436; padding: 10px 20px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; position: sticky; top: 57px; z-index: 99; }
+#search { background: #111827; border: 1px solid #1e2436; color: #e8eaf0; padding: 7px 12px; border-radius: 6px; font-family: 'DM Mono', monospace; font-size: 12px; width: 220px; }
+#search:focus { outline: none; border-color: #00b4d8; }
+#search::placeholder { color: #3a4060; }
+.filter-group { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+.filter-label { font-size: 10px; color: #3a4060; margin-right: 4px; }
+.flt-btn { cursor: pointer; border: none; border-radius: 4px; font-size: 10px; padding: 4px 10px; font-family: 'DM Mono', monospace; background: #1e2436; color: #6a7090; transition: all 0.15s; white-space: nowrap; }
+.flt-btn.active { color: #0a0e1a; font-weight: 700; }
+#results-count { font-size: 11px; color: #3a4060; margin-left: auto; white-space: nowrap; }
+
+/* GRID */
+#job-grid { padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+
+/* JOB CARD */
+.job-card { background: #0d1120; border: 1px solid #1e2436; border-radius: 10px; padding: 18px; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; gap: 8px; }
+.job-card:hover { border-color: #00b4d8; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,180,216,0.08); }
+.jc-source { font-size: 10px; color: #3a4060; display: flex; justify-content: space-between; align-items: center; }
+.jc-title { font-size: 14px; font-weight: 600; color: #fff; line-height: 1.4; }
+.jc-company { font-size: 12px; color: #6a7090; }
+.jc-location { font-size: 11px; color: #4a5070; }
+.jc-footer { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 10px; }
+.geo-tag { font-size: 10px; padding: 3px 8px; border-radius: 3px; font-weight: 600; }
+.jc-date { font-size: 10px; color: #2a3050; margin-left: auto; align-self: flex-end; }
+
+/* MODAL */
+#modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
+#modal-overlay.open { display: flex; }
+#modal { background: #0d1120; border: 1px solid #1e2436; border-radius: 14px; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto; padding: 28px; position: relative; animation: fadeIn 0.2s ease; }
+#modal-close { position: absolute; top: 16px; right: 16px; background: #1e2436; border: none; color: #e8eaf0; border-radius: 6px; padding: 6px 10px; cursor: pointer; font-size: 14px; }
+#modal-close:hover { background: #2a3050; }
+#modal-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; padding-right: 40px; }
+#modal-meta { font-size: 13px; color: #6a7090; margin-bottom: 4px; }
+#modal-source { font-size: 11px; color: #3a4060; margin-bottom: 16px; }
+#modal-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+#modal-actions { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+
+#ai-box { background: #0a1829; border: 1px solid #1a3050; border-radius: 10px; padding: 16px; margin-bottom: 16px; display: none; }
+#ai-label { font-size: 10px; color: #00b4d8; letter-spacing: 1px; margin-bottom: 8px; }
+#ai-summary { font-size: 13px; color: #c0c8e0; line-height: 1.7; margin-bottom: 10px; }
+#ai-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+#ai-tags-box { margin-top: 10px; }
+
+#desc-box { background: #080c18; border: 1px solid #1a1e30; border-radius: 10px; padding: 16px; }
+#desc-label { font-size: 10px; color: #4a5070; letter-spacing: 1px; margin-bottom: 8px; }
+#desc-text { font-size: 13px; color: #9aa0b8; line-height: 1.8; }
+
+/* EMPTY */
+#empty { display: none; padding: 60px 20px; text-align: center; color: #3a4060; }
+#empty .icon { font-size: 48px; margin-bottom: 14px; }
+#empty h3 { font-family: 'Syne', sans-serif; font-size: 16px; color: #3a4060; }
+
+/* FOOTER */
+#footer { border-top: 1px solid #1e2436; padding: 20px; text-align: center; font-size: 11px; color: #2a3050; line-height: 1.8; }
+#footer a { color: #3a5070; text-decoration: none; }
+#footer a:hover { color: #00b4d8; }
+
+.pulse { animation: pulse 1.2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+@media (max-width: 600px) {
+  #job-grid { grid-template-columns: 1fr; padding: 12px; gap: 12px; }
+  #search { width: 100%; }
+  #filters-bar { flex-direction: column; align-items: flex-start; gap: 8px; top: 53px; }
+  #results-count { margin-left: 0; }
+}
+</style>
+</head>
+<body>
+
+<div id="header">
+  <div id="logo">🧬 <span>BioInfo</span>Jobs <small>weekly bioinformatics job board · AI-powered</small></div>
+  <div class="header-right">
+    <span id="last-updated"></span>
+    <button class="btn btn-outline" id="btn-refresh">⟳ Refresh RSS</button>
+  </div>
+</div>
+
+<div id="status-bar"></div>
+
+<div id="filters-bar">
+  <input id="search" type="text" placeholder="🔍 Search jobs...">
+  <div class="filter-group">
+    <span class="filter-label">📍 Region:</span>
+    <button class="flt-btn active" data-geo="All">All</button>
+    <button class="flt-btn" data-geo="Poland">🇵🇱 Poland</button>
+    <button class="flt-btn" data-geo="Europe">🇪🇺 Europe</button>
+    <button class="flt-btn" data-geo="USA">🇺🇸 USA</button>
+    <button class="flt-btn" data-geo="Remote">🌐 Remote</button>
+  </div>
+  <div class="filter-group">
+    <span class="filter-label">🏢 Sector:</span>
+    <button class="flt-btn active" data-cat="All">All</button>
+    <button class="flt-btn" data-cat="Academia">Academia</button>
+    <button class="flt-btn" data-cat="Pharma/Biotech">Pharma</button>
+    <button class="flt-btn" data-cat="Clinical">Clinical</button>
+    <button class="flt-btn" data-cat="Startup">Startup</button>
+  </div>
+  <span id="results-count"></span>
+</div>
+
+<div id="job-grid"></div>
+<div id="empty"><div class="icon">🔬</div><h3>No jobs match your filters</h3></div>
+
+<!-- MODAL -->
+<div id="modal-overlay">
+  <div id="modal">
+    <button id="modal-close">✕</button>
+    <div id="modal-title"></div>
+    <div id="modal-meta"></div>
+    <div id="modal-source"></div>
+    <div id="modal-badges"></div>
+    <div id="modal-actions"></div>
+    <div id="ai-box">
+      <div id="ai-label">◆ AI ANALYSIS</div>
+      <div id="ai-summary"></div>
+      <div id="ai-meta"></div>
+      <div id="ai-tags-box"></div>
+    </div>
+    <div id="desc-box">
+      <div id="desc-label">◆ JOB DESCRIPTION</div>
+      <div id="desc-text"></div>
+    </div>
+  </div>
+</div>
+
+<div id="footer">
+  🧬 <strong>BioInfoJobs</strong> — open source bioinformatics job board<br>
+  Updated automatically every Monday via GitHub Actions · <a href="https://github.com/YOUR_USERNAME/bioinfo-jobs" target="_blank">View on GitHub</a><br>
+  Sources: Nature Careers · EuroScienceJobs · jobs.ac.uk · EMBL Jobs
+</div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+const KEYWORDS = ["bioinformatics","computational biology","genomics","NGS","sequencing","proteomics","structural biology","biostatistics","systems biology","metagenomics","transcriptomics","single cell","scRNA","CRISPR","phylogenetics","cheminformatics","drug discovery","bioinformatician","next generation sequencing","variant calling","genome assembly","RNA-seq","WGS","WES","multi-omics"];
+
+const GEO_COLORS = { "Poland":"#e63946", "Europe":"#457b9d", "USA":"#2a9d8f", "Remote":"#8338ec", "Other":"#3a4060" };
+const GEO_FLAGS  = { "Poland":"🇵🇱", "Europe":"🇪🇺", "USA":"🇺🇸", "Remote":"🌐", "Other":"🌍" };
+const CAT_COLORS = { "Academia":"#00b4d8","Pharma/Biotech":"#06d6a0","Clinical":"#ffd166","Startup":"#ef476f","Government/Public":"#b5a1ff" };
+
+const RSS_FEEDS = [
+  { name:"Nature Careers",          url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.nature.com/naturecareers/rss/latest") },
+  { name:"jobs.ac.uk – Bioinfo",    url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.jobs.ac.uk/search/rss?keywords=bioinformatics") },
+  { name:"jobs.ac.uk – Genomics",   url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.jobs.ac.uk/search/rss?keywords=genomics") },
+  { name:"jobs.ac.uk – Comp Bio",   url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.jobs.ac.uk/search/rss?keywords=computational+biology") },
+  { name:"EuroScienceJobs",         url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.eurosciencejobs.com/rss/all") },
+  { name:"EMBL Jobs",               url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.embl.org/jobs/rss") }
+];
+
+// ── GEO DETECTION ────────────────────────────────────────────────────────────
+const POLAND_KW  = ["poland","polska","warsaw","wroclaw","krakow","gdansk","poznan","lodz","katowice","lublin","bialystok","pl,","poland,"];
+const USA_KW     = ["usa","united states"," ca,"," ny,"," ma,"," tx,"," wa,"," md,"," nc,"," il,","boston","cambridge, ma","new york","san francisco","seattle","bethesda","baltimore","houston","chicago","los angeles","san diego","denver","atlanta"];
+const REMOTE_KW  = ["remote","fully remote","100% remote","work from home","wfh","distributed team","anywhere"];
+const EUROPE_COUNTRIES = ["germany","france","spain","italy","netherlands","sweden","denmark","norway","finland","switzerland","austria","belgium","czech","hungary","portugal","uk","united kingdom","england","scotland","ireland","heidelberg","london","paris","berlin","amsterdam","barcelona","zurich","geneva","cambridge, uk","oxford","edinburgh","munich","münchen","leiden","utrecht","milan","milan","rome","madrid","stockholm","copenhagen","oslo","helsinki","vienna","wien","brussels","prague","budapest","lisbon","barcelona"];
+
+function detectGeo(title, location, description) {
+  const text = (title+" "+location+" "+description).toLowerCase();
+  if (REMOTE_KW.some(k => text.includes(k))) return "Remote";
+  if (POLAND_KW.some(k => text.includes(k))) return "Poland";
+  if (USA_KW.some(k => text.includes(k))) return "USA";
+  if (EUROPE_COUNTRIES.some(k => text.includes(k))) return "Europe";
+  return "Other";
+}
+
+// ── SEED DATA ────────────────────────────────────────────────────────────────
+let jobs = [
+  { id:1, title:"Senior Bioinformatics Scientist", company:"Genomics UK Ltd", location:"London, UK", source:"Nature Careers", date:"2026-05-15", url:"#", description:"Lead our NGS data analysis pipelines for clinical genomics projects. Experience with WGS, RNA-seq and variant calling required. Strong Python and Snakemake skills.", tags:[], category:null, summary:null },
+  { id:2, title:"Computational Biology Postdoc", company:"EMBL Heidelberg", location:"Heidelberg, Germany", source:"EMBL Jobs", date:"2026-05-14", url:"#", description:"Postdoctoral position in single-cell transcriptomics and spatial genomics. Strong background in Python/R and machine learning for biological data expected. 2-year contract.", tags:[], category:null, summary:null },
+  { id:3, title:"Data Scientist – Drug Discovery", company:"BioNTech SE", location:"Mainz, Germany", source:"jobs.ac.uk", date:"2026-05-13", url:"#", description:"AI-driven drug discovery team. Develop ML models for target identification and compound screening using multi-omics datasets. PyTorch and graph neural networks a plus.", tags:[], category:null, summary:null },
+  { id:4, title:"Structural Bioinformatician", company:"Broad Institute", location:"Cambridge, MA, USA", source:"Nature Careers", date:"2026-05-12", url:"#", description:"Analysis of protein structures using cryo-EM data, AlphaFold2 modeling, and molecular dynamics simulations. Experience with PyMOL and PHENIX preferred.", tags:[], category:null, summary:null },
+  { id:5, title:"Metagenomics Analyst", company:"Microbiome Institute", location:"Warsaw, Poland", source:"EuroScienceJobs", date:"2026-05-11", url:"#", description:"Analysis of gut microbiome data using 16S rRNA and shotgun metagenomics. Develop pipelines in Snakemake/Nextflow for large cohort studies. QIIME2 and HUMAnN required.", tags:[], category:null, summary:null },
+  { id:6, title:"Genomics Data Engineer", company:"TwinsUK / KCL", location:"London, UK", source:"jobs.ac.uk", date:"2026-05-10", url:"#", description:"Build and maintain cloud-based genomics data pipelines. Experience with AWS/GCP, Nextflow, and large-scale variant datasets (UK Biobank, UKBB). Python and Terraform.", tags:[], category:null, summary:null },
+  { id:7, title:"Remote Bioinformatics Scientist", company:"Illumina", location:"Remote (Global)", source:"Nature Careers", date:"2026-05-09", url:"#", description:"Fully remote position developing bioinformatics tools and pipelines for NGS applications. Strong software engineering background with Python/C++ required. Open to candidates worldwide.", tags:[], category:null, summary:null },
+  { id:8, title:"Biostatistician – Clinical Trials", company:"Roche", location:"Basel, Switzerland", source:"EuroScienceJobs", date:"2026-05-08", url:"#", description:"Statistical analysis of Phase II/III clinical trial data with genomic endpoints. R programming, mixed models, survival analysis. Experience with FDA/EMA submissions a plus.", tags:[], category:null, summary:null }
+].map(j => ({ ...j, geo: detectGeo(j.title, j.location, j.description) }));
+
+// ── STATE ────────────────────────────────────────────────────────────────────
+let selectedJob = null;
+let geoFilter = "All";
+let catFilter = "All";
+let searchQ   = "";
+
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+function setStatus(msg) {
+  const el = document.getElementById("status-bar");
+  el.textContent = msg; el.style.display = msg ? "block" : "none";
+}
+
+function getFiltered() {
+  return jobs.filter(j => {
+    const matchGeo = geoFilter === "All" || j.geo === geoFilter;
+    const matchCat = catFilter === "All" || j.category === catFilter;
+    const q = searchQ.toLowerCase();
+    const matchQ = !q || (j.title+" "+j.company+" "+j.location+" "+(j.tags||[]).join(" ")).toLowerCase().includes(q);
+    return matchGeo && matchCat && matchQ;
+  });
+}
+
+// ── RENDER ───────────────────────────────────────────────────────────────────
+function render() {
+  const filtered = getFiltered();
+  document.getElementById("results-count").textContent = `${filtered.length} job${filtered.length!==1?"s":""}`;
+  const grid = document.getElementById("job-grid");
+  const empty = document.getElementById("empty");
+
+  if (!filtered.length) { grid.innerHTML = ""; empty.style.display = "block"; return; }
+  empty.style.display = "none";
+
+  grid.innerHTML = filtered.map(j => {
+    const gc = GEO_COLORS[j.geo]||"#3a4060";
+    const gf = GEO_FLAGS[j.geo]||"🌍";
+    const cc = j.category ? CAT_COLORS[j.category] : null;
+    return `<div class="job-card" data-id="${j.id}">
+      <div class="jc-source"><span>${j.source}</span><span style="color:#2a3050">${j.date}</span></div>
+      <div class="jc-title">${j.title}</div>
+      <div class="jc-company">${j.company}</div>
+      <div class="jc-location">📍 ${j.location}</div>
+      <div class="jc-footer">
+        <span class="geo-tag" style="background:${gc}25;color:${gc}">${gf} ${j.geo}</span>
+        ${cc ? `<span class="tag" style="background:${cc}25;color:${cc}">${j.category}</span>` : ""}
+        ${(j.tags||[]).slice(0,2).map(t=>`<span class="tag" style="background:#1e2436;color:#6a7090">${t}</span>`).join("")}
+        ${!j.summary ? '<span style="font-size:9px;color:#2a3050;margin-left:auto">not analysed</span>' : `<span style="font-size:10px;color:#06d6a0;margin-left:auto">★${j.relevance_score}/10</span>`}
+      </div>
+    </div>`;
+  }).join("");
+
+  grid.querySelectorAll(".job-card").forEach(el => {
+    el.addEventListener("click", () => openModal(parseInt(el.dataset.id)));
+  });
+}
+
+// ── MODAL ────────────────────────────────────────────────────────────────────
+function openModal(id) {
+  selectedJob = jobs.find(j => j.id === id);
+  if (!selectedJob) return;
+  const j = selectedJob;
+  const gc = GEO_COLORS[j.geo]||"#3a4060";
+  const gf = GEO_FLAGS[j.geo]||"🌍";
+
+  document.getElementById("modal-title").textContent  = j.title;
+  document.getElementById("modal-meta").textContent   = j.company + " · " + j.location;
+  document.getElementById("modal-source").textContent = "Source: " + j.source + " · " + j.date;
+
+  // badges
+  const cc = j.category ? CAT_COLORS[j.category] : null;
+  document.getElementById("modal-badges").innerHTML = [
+    `<span class="geo-tag" style="background:${gc}30;color:${gc}">${gf} ${j.geo}</span>`,
+    cc ? `<span class="tag" style="background:${cc}30;color:${cc};padding:3px 8px">${j.category}</span>` : "",
+    j.seniority ? `<span class="tag" style="background:#2a1a40;color:#b5a1ff;padding:3px 8px">${j.seniority}</span>` : ""
+  ].join("");
+
+  // actions
+  document.getElementById("modal-actions").innerHTML = [
+    j.url && j.url !== "#" ? `<a href="${j.url}" target="_blank" rel="noopener" class="btn btn-dim" style="text-decoration:none">🔗 Open listing</a>` : "",
+    `<button class="btn btn-ai" id="btn-analyze">🤖 Analyse with AI</button>`
+  ].join("");
+  document.getElementById("btn-analyze")?.addEventListener("click", analyzeJob);
+
+  // AI box
+  const aiBox = document.getElementById("ai-box");
+  if (j.summary) {
+    aiBox.style.display = "block";
+    document.getElementById("ai-summary").textContent = j.summary;
+    document.getElementById("ai-meta").innerHTML = [
+      j.relevance_score ? `<span style="color:#06d6a0;font-size:12px">★ Relevance: ${j.relevance_score}/10</span>` : ""
+    ].join("");
+    document.getElementById("ai-tags-box").innerHTML = (j.tags||[]).map(t=>`<span class="tag" style="background:#1e2436;color:#8a9ab0;border:1px solid #2a3050">${t}</span>`).join("");
+  } else { aiBox.style.display = "none"; }
+
+  document.getElementById("desc-text").textContent = j.description;
+  document.getElementById("modal-overlay").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+  document.getElementById("modal-overlay").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+// ── AI ANALYSIS ───────────────────────────────────────────────────────────────
+async function analyzeJob() {
+  if (!selectedJob) return;
+  const btn = document.getElementById("btn-analyze");
+  btn.disabled = true; btn.innerHTML = '<span class="pulse">🤖 Analysing...</span>';
+
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({
+        model:"claude-sonnet-4-20250514", max_tokens:1000,
+        system:`You are a career advisor for bioinformaticians. Analyze job offers and return ONLY a valid JSON object (no markdown, no backticks) with:
+- summary: 2-3 sentences in English highlighting what is unique and appealing about this role for a bioinformatician
+- tags: array of 3-5 key technical skills/tools mentioned or implied (e.g. "RNA-seq", "Python", "Nextflow", "AlphaFold2")
+- category: one of [Academia, Pharma/Biotech, Clinical, Startup, Government/Public]
+- seniority: one of [Junior, Mid, Senior, PostDoc, PI/Lead]
+- relevance_score: integer 1-10 for a bioinformatician`,
+        messages:[{ role:"user", content:`Title: ${selectedJob.title}\nCompany: ${selectedJob.company}\nLocation: ${selectedJob.location}\nDescription: ${selectedJob.description}` }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content.map(b=>b.text||"").join("");
+    const parsed = JSON.parse(text.replace(/```json|```/g,"").trim());
+    jobs = jobs.map(j => j.id===selectedJob.id ? {...j,...parsed} : j);
+    selectedJob = {...selectedJob,...parsed};
+    // re-open to refresh
+    openModal(selectedJob.id);
+  } catch(e) { alert("AI analysis failed: "+e.message); }
+
+  btn.disabled = false; btn.textContent = "🤖 Analyse with AI";
+}
+
+// ── RSS FETCH ────────────────────────────────────────────────────────────────
+async function fetchFeeds() {
+  const btn = document.getElementById("btn-refresh");
+  btn.disabled = true; btn.innerHTML = '<span class="pulse">⟳ Fetching...</span>';
+  setStatus("Fetching RSS feeds...");
+
+  let newJobs = []; let id = 100;
+  const parser = new DOMParser();
+
+  for (const feed of RSS_FEEDS) {
+    try {
+      const res  = await fetch(feed.url);
+      const json = await res.json();
+      const xml  = parser.parseFromString(json.contents, "text/xml");
+      xml.querySelectorAll("item").forEach(item => {
+        const title   = item.querySelector("title")?.textContent||"";
+        const desc    = (item.querySelector("description")?.textContent||"").replace(/<[^>]+>/g,"");
+        const link    = item.querySelector("link")?.textContent||"#";
+        const pubDate = item.querySelector("pubDate")?.textContent||"";
+        const loc     = item.querySelector("location")?.textContent || extractLocation(title+" "+desc);
+        const lower   = (title+" "+desc).toLowerCase();
+        if (KEYWORDS.some(k=>lower.includes(k.toLowerCase()))) {
+          const geo = detectGeo(title, loc, desc);
+          newJobs.push({ id:id++, title:title.trim(), company:feed.name, location:loc||"See listing",
+            source:feed.name, date:pubDate?new Date(pubDate).toISOString().split("T")[0]:"—",
+            url:link, description:desc.slice(0,600), tags:[], category:null, summary:null, geo });
+        }
+      });
+      setStatus(`✓ ${feed.name} — ${newJobs.length} relevant jobs so far`);
+    } catch(e) { setStatus(`⚠ Error: ${feed.name}`); }
+  }
+
+  if (newJobs.length > 0) {
+    // deduplicate by title+company
+    const seen = new Set();
+    const deduped = newJobs.filter(j => { const k=j.title+j.company; if(seen.has(k)) return false; seen.add(k); return true; });
+    jobs = [...deduped, ...jobs.filter(j=>j.id<100)].slice(0,40);
+    setStatus(`✅ Fetched ${deduped.length} new jobs from RSS · ${new Date().toLocaleString()}`);
+  } else {
+    setStatus("⚠ No RSS results — showing seed data. RSS proxies may be rate-limited.");
+  }
+
+  document.getElementById("last-updated").textContent = "Updated: "+new Date().toLocaleDateString();
+  saveToStorage();
+  render();
+  btn.disabled = false; btn.textContent = "⟳ Refresh RSS";
+}
+
+function extractLocation(text) {
+  // try to pull a location hint from text
+  const match = text.match(/(?:based in|located in|location[:\s]+)([A-Za-z ,]+?)(?:\.|,|\n|$)/i);
+  return match ? match[1].trim() : "";
+}
+
+// ── LOCAL STORAGE CACHE ───────────────────────────────────────────────────────
+function saveToStorage() {
+  try { localStorage.setItem("bioinfo_jobs", JSON.stringify({ jobs, ts: Date.now() })); } catch(e){}
+}
+function loadFromStorage() {
+  try {
+    const raw = localStorage.getItem("bioinfo_jobs");
+    if (!raw) return false;
+    const { jobs: saved, ts } = JSON.parse(raw);
+    const age = (Date.now()-ts) / 1000 / 60 / 60; // hours
+    if (age < 72 && saved.length > 0) { jobs = saved; return true; }
+  } catch(e){}
+  return false;
+}
+
+// ── EVENTS ───────────────────────────────────────────────────────────────────
+document.getElementById("search").addEventListener("input", e => { searchQ = e.target.value; render(); });
+document.getElementById("btn-refresh").addEventListener("click", fetchFeeds);
+document.getElementById("modal-close").addEventListener("click", closeModal);
+document.getElementById("modal-overlay").addEventListener("click", e => { if(e.target===e.currentTarget) closeModal(); });
+document.addEventListener("keydown", e => { if(e.key==="Escape") closeModal(); });
+
+document.querySelectorAll(".flt-btn[data-geo]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    geoFilter = btn.dataset.geo;
+    document.querySelectorAll(".flt-btn[data-geo]").forEach(b => { b.classList.remove("active"); b.style.background="#1e2436"; b.style.color="#6a7090"; b.style.fontWeight=""; });
+    btn.classList.add("active");
+    const c = GEO_COLORS[geoFilter]||"#00b4d8";
+    btn.style.background = geoFilter==="All" ? "#00b4d8" : c;
+    btn.style.color = "#0a0e1a"; btn.style.fontWeight = "700";
+    render();
+  });
+});
+// fix All button color on load
+document.querySelector('.flt-btn[data-geo="All"]').style.background="#00b4d8";
+document.querySelector('.flt-btn[data-geo="All"]').style.color="#0a0e1a";
+document.querySelector('.flt-btn[data-geo="All"]').style.fontWeight="700";
+
+document.querySelectorAll(".flt-btn[data-cat]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    catFilter = btn.dataset.cat;
+    document.querySelectorAll(".flt-btn[data-cat]").forEach(b => { b.classList.remove("active"); b.style.background="#1e2436"; b.style.color="#6a7090"; b.style.fontWeight=""; });
+    btn.classList.add("active");
+    const c = CAT_COLORS[catFilter]||"#00b4d8";
+    btn.style.background = catFilter==="All" ? "#00b4d8" : c;
+    btn.style.color = "#0a0e1a"; btn.style.fontWeight = "700";
+    render();
+  });
+});
+document.querySelector('.flt-btn[data-cat="All"]').style.background="#00b4d8";
+document.querySelector('.flt-btn[data-cat="All"]').style.color="#0a0e1a";
+document.querySelector('.flt-btn[data-cat="All"]').style.fontWeight="700";
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+if (loadFromStorage()) {
+  setStatus("✓ Loaded from cache · click Refresh RSS to update");
+  document.getElementById("last-updated").textContent = "Cached data";
+}
+render();
+</script>
+</body>
+</html>

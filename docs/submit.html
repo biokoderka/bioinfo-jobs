@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submit a Job — BioInfoJobs by @biokoderka</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0a0010; --bg2:#0f0018; --bg3:#150020;
+  --border:#2a1040; --border2:#3d1860;
+  --magenta:#ff2d9b; --violet:#b44fff; --violet-dim:#7a30b8;
+  --pink-soft:#ff85c8;
+  --text:#f0e8ff; --text-dim:#9b80c0; --text-mute:#5a3878;
+  --glow-m:rgba(255,45,155,0.18); --glow-v:rgba(180,79,255,0.15);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;
+  background-image:radial-gradient(ellipse 60% 40% at 80% 0%,rgba(180,79,255,0.10) 0%,transparent 70%),
+  radial-gradient(ellipse 40% 30% at 10% 100%,rgba(255,45,155,0.08) 0%,transparent 60%);}
+
+/* HEADER */
+#header{background:rgba(10,0,16,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);
+  padding:12px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+#logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+#logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--magenta),var(--violet));
+  display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 16px var(--glow-m);}
+#logo-text{font-size:18px;font-weight:800;color:var(--text);}
+#logo-text span{background:linear-gradient(90deg,var(--magenta),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+#logo small{display:block;font-family:'DM Mono',monospace;font-size:9px;color:var(--text-mute);font-weight:400;margin-top:1px;}
+.nav-link{font-size:12px;color:var(--text-dim);text-decoration:none;padding:6px 12px;border:1px solid var(--border);border-radius:8px;transition:all 0.15s;}
+.nav-link:hover{border-color:var(--violet-dim);color:var(--violet);}
+
+/* MAIN */
+.container{max-width:640px;margin:0 auto;padding:40px 20px;}
+.page-title{font-size:26px;font-weight:800;margin-bottom:8px;}
+.page-title span{background:linear-gradient(90deg,var(--magenta),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.page-subtitle{font-size:13px;color:var(--text-mute);margin-bottom:32px;line-height:1.6;}
+
+/* FORM */
+.form-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:20px;}
+.field{display:flex;flex-direction:column;gap:6px;}
+label{font-size:12px;font-weight:700;color:var(--text-dim);letter-spacing:0.3px;}
+label span{color:var(--magenta);}
+input,select,textarea{background:var(--bg3);border:1px solid var(--border2);color:var(--text);
+  padding:10px 14px;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;
+  transition:border-color 0.15s,box-shadow 0.15s;width:100%;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--violet);box-shadow:0 0 10px var(--glow-v);}
+input::placeholder,textarea::placeholder{color:var(--text-mute);}
+textarea{resize:vertical;min-height:120px;line-height:1.6;}
+select option{background:#150020;color:var(--text);}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+.hint{font-size:11px;color:var(--text-mute);margin-top:2px;font-family:'DM Mono',monospace;}
+
+.btn-submit{background:linear-gradient(135deg,var(--magenta),var(--violet));color:#fff;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;
+  padding:12px 24px;border:none;border-radius:10px;cursor:pointer;
+  transition:all 0.18s;box-shadow:0 0 20px var(--glow-m);width:100%;}
+.btn-submit:hover{box-shadow:0 0 32px var(--glow-m);transform:translateY(-1px);}
+.btn-submit:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+
+/* SUCCESS / ERROR */
+#success-box{display:none;background:rgba(180,79,255,0.08);border:1px solid rgba(180,79,255,0.3);
+  border-radius:12px;padding:24px;text-align:center;}
+#success-box .icon{font-size:36px;margin-bottom:12px;}
+#success-box h3{font-size:18px;font-weight:800;margin-bottom:8px;
+  background:linear-gradient(90deg,var(--magenta),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+#success-box p{font-size:13px;color:var(--text-mute);line-height:1.7;}
+
+#error-box{display:none;background:rgba(230,57,70,0.08);border:1px solid rgba(230,57,70,0.3);
+  border-radius:8px;padding:12px 16px;font-size:12px;color:#ff6b7a;font-family:'DM Mono',monospace;}
+
+.notice{background:rgba(255,133,200,0.06);border:1px solid rgba(255,133,200,0.2);
+  border-radius:10px;padding:14px 16px;font-size:12px;color:var(--text-mute);line-height:1.7;}
+.notice strong{color:var(--pink-soft);}
+
+/* FOOTER */
+#footer{border-top:1px solid var(--border);padding:20px;text-align:center;
+  font-size:11px;color:var(--text-mute);line-height:2;}
+#footer a{color:var(--violet-dim);text-decoration:none;}
+#footer a:hover{color:var(--magenta);}
+</style>
+</head>
+<body>
+
+<div id="header">
+  <a id="logo" href="index.html">
+    <div id="logo-icon">🧬</div>
+    <div id="logo-text"><span>BioInfo</span>Jobs <small>by @biokoderka</small></div>
+  </a>
+  <a class="nav-link" href="index.html">← Back to jobs</a>
+</div>
+
+<div class="container">
+  <div class="page-title">Submit a <span>Job Listing</span></div>
+  <p class="page-subtitle">
+    Know a bioinformatics role that's missing from our board? Submit it here.<br>
+    All submissions are reviewed by <strong style="color:var(--pink-soft)">@biokoderka</strong> before appearing publicly — usually within 24–48h.
+  </p>
+
+  <div class="notice">
+    <strong>✦ What we accept:</strong> roles relevant to bioinformaticians — bioinformatics, genomics, computational biology, data science in life sciences, NGS, drug discovery, structural biology, biostatistics, and related fields.
+  </div>
+
+  <br>
+
+  <div class="form-card" id="submit-form">
+    <div class="field">
+      <label>Job title <span>*</span></label>
+      <input type="text" id="f-title" placeholder="e.g. Senior Bioinformatics Scientist" maxlength="120">
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Company <span>*</span></label>
+        <input type="text" id="f-company" placeholder="e.g. EMBL" maxlength="100">
+      </div>
+      <div class="field">
+        <label>Location <span>*</span></label>
+        <input type="text" id="f-location" placeholder="e.g. Warsaw, Poland / Remote">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Region <span>*</span></label>
+        <select id="f-geo">
+          <option value="">— select —</option>
+          <option value="Poland">🇵🇱 Poland</option>
+          <option value="Europe">🇪🇺 Europe</option>
+          <option value="USA">🇺🇸 USA</option>
+          <option value="Remote">🌐 Remote</option>
+          <option value="Other">🌍 Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Sector</label>
+        <select id="f-category">
+          <option value="">— select —</option>
+          <option value="Academia">Academia</option>
+          <option value="Pharma/Biotech">Pharma / Biotech</option>
+          <option value="Clinical">Clinical</option>
+          <option value="Startup">Startup</option>
+          <option value="Government/Public">Government / Public</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Link to original listing <span>*</span></label>
+      <input type="url" id="f-url" placeholder="https://...">
+      <div class="hint">Direct link to the job posting (Pracuj.pl, LinkedIn, company career page...)</div>
+    </div>
+
+    <div class="field">
+      <label>Short description <span>*</span></label>
+      <textarea id="f-desc" placeholder="Paste or write a brief description of the role (2–5 sentences). Key responsibilities, required skills, contract type..." maxlength="800"></textarea>
+      <div class="hint">Max 800 characters · <span id="char-count">0</span>/800</div>
+    </div>
+
+    <div class="field">
+      <label>Deadline <span>*</span></label>
+      <input type="date" id="f-deadline">
+      <div class="hint">Offers past their deadline are automatically hidden from the board.</div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Your name or handle (optional)</label>
+        <input type="text" id="f-submitter" placeholder="e.g. @biokoderka or anonymous">
+        <div class="hint">Not shown publicly.</div>
+      </div>
+      <div class="field">
+        <label>Your e-mail <span>*</span></label>
+        <input type="email" id="f-email" placeholder="you@example.com">
+        <div class="hint">Only visible to admin, never published.</div>
+      </div>
+    </div>
+
+    <div id="error-box"></div>
+
+    <button class="btn-submit" id="btn-submit">✦ Submit for review</button>
+  </div>
+
+  <div id="success-box">
+    <div class="icon">🧬</div>
+    <h3>Submitted successfully!</h3>
+    <p>
+      Your listing has been sent for review by <strong style="color:var(--pink-soft)">@biokoderka</strong>.<br>
+      If approved, it will appear on the job board within 24–48 hours.<br><br>
+      <a href="index.html" style="color:var(--violet)">← Back to job board</a>
+    </p>
+  </div>
+</div>
+
+<div id="footer">
+  🧬 <strong style="color:#9b80c0">BioInfoJobs</strong> — curated by
+  <a href="https://instagram.com/biokoderka" target="_blank">@biokoderka</a> ·
+  <a href="index.html">Back to board</a>
+</div>
+
+<script>
+// ── CONFIG — wklej swój Formspree Form ID ────────────────────────────────────
+// 1. Wejdź na formspree.io → New Form → skopiuj Form ID (np. "xpzvjwqb")
+// 2. Podmień poniżej
+const FORMSPREE_ID = "xkoenevw";
+// ─────────────────────────────────────────────────────────────────────────────
+
+document.getElementById("f-desc").addEventListener("input", function() {
+  document.getElementById("char-count").textContent = this.value.length;
+});
+
+document.getElementById("btn-submit").addEventListener("click", async () => {
+  const title     = document.getElementById("f-title").value.trim();
+  const company   = document.getElementById("f-company").value.trim();
+  const location  = document.getElementById("f-location").value.trim();
+  const geo       = document.getElementById("f-geo").value;
+  const category  = document.getElementById("f-category").value;
+  const url       = document.getElementById("f-url").value.trim();
+  const desc      = document.getElementById("f-desc").value.trim();
+  const deadline  = document.getElementById("f-deadline").value;
+  const submitter = document.getElementById("f-submitter").value.trim() || "anonymous";
+  const email     = document.getElementById("f-email").value.trim();
+
+  const errBox = document.getElementById("error-box");
+  errBox.style.display = "none";
+
+  const missing = [];
+  if (!title)    missing.push("Job title");
+  if (!company)  missing.push("Company");
+  if (!location) missing.push("Location");
+  if (!geo)      missing.push("Region");
+  if (!url)      missing.push("Link to listing");
+  if (!desc)     missing.push("Description");
+  if (!deadline) missing.push("Deadline");
+  if (!email)    missing.push("E-mail");
+
+  if (missing.length) {
+    errBox.textContent = "⚠ Please fill in: " + missing.join(", ");
+    errBox.style.display = "block"; return;
+  }
+  if (!/^https?:\/\/.+/.test(url)) {
+    errBox.textContent = "⚠ Please enter a valid URL starting with https://";
+    errBox.style.display = "block"; return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errBox.textContent = "⚠ Please enter a valid e-mail address.";
+    errBox.style.display = "block"; return;
+  }
+  if (new Date(deadline) <= new Date()) {
+    errBox.textContent = "⚠ Deadline must be a future date.";
+    errBox.style.display = "block"; return;
+  }
+
+  const btn = document.getElementById("btn-submit");
+  btn.disabled = true; btn.textContent = "Submitting...";
+
+  try {
+    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        _subject: `[BioInfoJobs] New submission: ${title} @ ${company}`,
+        title, company, location, region: geo, sector: category || "not specified",
+        deadline, listing_url: url, description: desc,
+        submitted_by: submitter, contact_email: email,
+        submitted_on: new Date().toISOString().split("T")[0]
+      })
+    });
+
+    if (res.ok) {
+      document.getElementById("submit-form").style.display = "none";
+      document.getElementById("success-box").style.display = "block";
+    } else {
+      throw new Error("Form submission failed");
+    }
+  } catch (e) {
+    errBox.innerHTML = `⚠ Submission failed — please send directly to:<br>
+      📧 <a href="mailto:biokoderka@gmail.com" style="color:var(--magenta)">biokoderka@gmail.com</a> or
+      DM <a href="https://instagram.com/biokoderka" target="_blank" style="color:var(--magenta)">@biokoderka</a> on Instagram.`;
+    errBox.style.display = "block";
+    btn.disabled = false; btn.textContent = "✦ Submit for review";
+  }
+});
+</script>
+</body>
+</html>
