@@ -26,6 +26,23 @@
         "deadline": "2026-07-09"
       },
       {
+  "id": "manual_iop_phd_hemiptera",
+  "title": "PhD Position – Population Genomics of Invasive Hemiptera (OPUS NCN)",
+  "company": "Institute of Nature Conservation, Polish Academy of Sciences",
+  "location": "Kraków, Poland",
+  "source": "IOP PAN",
+  "date": "2026-05-23",
+  "url": "https://www.iop.krakow.pl/files/428/mszyce_ogloszenie_phd_position_within_the_opus_2.pdf",
+  "description": "PhD position (48 months) in population genomics of invasive insect pests (Hemiptera). Whole-genome sequencing, SNP/structural variant analysis, transposable elements, gene family expansions, metagenomics of bacterial endosymbionts. De novo genome assembly and annotation. Collaboration with INRAE Marseilles. MSc required. 5000–6500 PLN/month gross. Supervisor: Dr Aleksandra Biedrzycka.",
+  "geo": "Poland",
+  "category": "Academia",
+  "seniority": "PostDoc",
+  "tags": ["Python", "WGS", "variant calling", "genome assembly", "metagenomics", "population genetics"],
+  "summary": null,
+  "manually_added": true,
+  "deadline": "2026-08-07"
+},
+      {
         "id": "manual_li_fortrea_rp",
         "title": "Clinical Data Scientist – R Programmer",
         "company": "Fortrea",
