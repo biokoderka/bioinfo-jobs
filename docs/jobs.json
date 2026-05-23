@@ -26,6 +26,23 @@
         "deadline": "2026-07-09"
       },
       {
+  "id": "manual_ncn_232317",
+  "title": "PhD Student – RNA Splicing & Structural Biology (SONATA BIS)",
+  "company": "IIMCB Warsaw (International Institute of Molecular and Cell Biology)",
+  "location": "Warsaw, Poland",
+  "source": "NCN",
+  "date": "2026-04-27",
+  "url": "https://www2.ncn.gov.pl/baza-ofert/?akcja=wyswietl&id=232317",
+  "description": "PhD position (4 years) in mechanistic studies of U12-dependent splicing pathway. CRISPR/Cas9 cell engineering, proteomics data generation and analysis, AI-based protein-protein interaction screening, cryo-EM structural characterization of RNA-protein complexes, model building and refinement. MSc in biology/biotechnology/biochemistry required. 5500–6000 PLN net/month.",
+  "geo": "Poland",
+  "category": "Academia",
+  "seniority": "PostDoc",
+  "tags": ["Python", "proteomics", "CRISPR", "structural biology", "single-cell", "AlphaFold"],
+  "summary": null,
+  "manually_added": true,
+  "deadline": "2026-05-31"
+},
+      {
   "id": "manual_iop_phd_hemiptera",
   "title": "PhD Position – Population Genomics of Invasive Hemiptera (OPUS NCN)",
   "company": "Institute of Nature Conservation, Polish Academy of Sciences",
