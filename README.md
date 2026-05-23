@@ -1,6 +1,6 @@
 # 🧬 BioInfoJobs
 
-> **Weekly bioinformatics job board — automatically updated every Monday**
+> **Weekly bioinformatics job board**
 
 A free, open-source job board for bioinformaticians. Aggregates offers from Nature Careers, EMBL, EuroScienceJobs, jobs.ac.uk and more. Filters by region (Poland / Europe / USA / Remote) and sector. AI-powered job analysis via Claude.
 
