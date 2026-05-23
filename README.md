@@ -26,6 +26,7 @@ A free, open-source job board for bioinformaticians. Aggregates offers from Natu
 | [jobs.ac.uk](https://www.jobs.ac.uk) | UK & international academia |
 | [EuroScienceJobs](https://www.eurosciencejobs.com) | European science |
 | [ISCB Careers](https://careers.iscb.org) | Computational biology |
+| Other sources (manual)| Computational biology & bioinformatics |
 
 ## Setup (5 minutes)
 
