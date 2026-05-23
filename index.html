@@ -3,97 +3,200 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BioInfoJobs – Bioinformatics Job Board</title>
-<meta name="description" content="Weekly curated bioinformatics job offers: genomics, NGS, computational biology, drug discovery. Updated automatically every Monday.">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<title>BioInfoJobs by @biokoderka</title>
+<meta name="description" content="Weekly curated bioinformatics job offers by @biokoderka: genomics, NGS, computational biology, drug discovery. Updated automatically every Monday.">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+:root {
+  --bg:        #0a0010;
+  --bg2:       #0f0018;
+  --bg3:       #150020;
+  --border:    #2a1040;
+  --border2:   #3d1860;
+  --magenta:   #ff2d9b;
+  --violet:    #b44fff;
+  --violet-dim:#7a30b8;
+  --pink-soft: #ff85c8;
+  --text:      #f0e8ff;
+  --text-dim:  #9b80c0;
+  --text-mute: #5a3878;
+  --glow-m:    rgba(255,45,155,0.18);
+  --glow-v:    rgba(180,79,255,0.15);
+}
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #0a0e1a; color: #e8eaf0; font-family: 'DM Mono', monospace; min-height: 100vh; }
-::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-thumb { background: #2a2f45; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse 60% 40% at 80% 0%, rgba(180,79,255,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 10% 100%, rgba(255,45,155,0.10) 0%, transparent 60%);
+}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: #3d1860; border-radius: 2px; }
 
-/* HEADER */
-#header { background: #060810; border-bottom: 1px solid #1e2436; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; position: sticky; top: 0; z-index: 100; }
-#logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; }
-#logo span { color: #00b4d8; }
-#logo small { display: block; font-family: 'DM Mono', monospace; font-size: 10px; color: #4a5070; font-weight: 400; margin-top: 2px; }
-.header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-#last-updated { font-size: 10px; color: #3a4060; }
+/* ── HEADER ── */
+#header {
+  background: rgba(10,0,16,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px;
+  position: sticky; top: 0; z-index: 100;
+}
+#logo { display: flex; align-items: center; gap: 10px; }
+#logo-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--magenta), var(--violet));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; box-shadow: 0 0 16px var(--glow-m);
+}
+#logo-text { font-size: 18px; font-weight: 800; color: var(--text); letter-spacing: -0.3px; }
+#logo-text span { background: linear-gradient(90deg, var(--magenta), var(--violet)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#logo small { display: block; font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text-mute); font-weight: 400; margin-top: 1px; }
+.header-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+#last-updated { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text-mute); }
 
-/* BUTTONS */
-.btn { cursor: pointer; border: none; border-radius: 6px; font-family: 'DM Mono', monospace; font-size: 12px; padding: 8px 14px; transition: opacity 0.15s, transform 0.15s; }
-.btn:hover { opacity: 0.85; transform: translateY(-1px); }
-.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-.btn-outline { background: #1a2540; color: #00b4d8; border: 1px solid #00b4d8; }
-.btn-dim { background: #1e2436; color: #e8eaf0; }
-.btn-ai { background: #00b4d8; color: #0a0e1a; font-weight: 700; }
+/* ── BUTTONS ── */
+.btn {
+  cursor: pointer; border: none; border-radius: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 600;
+  padding: 8px 14px; transition: all 0.18s;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+.btn-outline {
+  background: transparent; color: var(--violet);
+  border: 1px solid var(--violet-dim);
+}
+.btn-outline:hover { background: rgba(180,79,255,0.1); border-color: var(--violet); box-shadow: 0 0 12px var(--glow-v); }
+.btn-dim { background: var(--bg3); color: var(--text-dim); border: 1px solid var(--border); }
+.btn-dim:hover { border-color: var(--border2); color: var(--text); }
+.btn-ai {
+  background: linear-gradient(135deg, var(--magenta), var(--violet));
+  color: #fff; font-weight: 700;
+  box-shadow: 0 0 16px var(--glow-m);
+}
+.btn-ai:hover { box-shadow: 0 0 28px var(--glow-m); }
 
-/* STATUS */
-#status-bar { background: #0d1420; padding: 6px 20px; font-size: 11px; color: #4a8070; border-bottom: 1px solid #1e2436; display: none; }
+/* ── STATUS ── */
+#status-bar { background: rgba(180,79,255,0.08); padding: 6px 20px; font-size: 11px; font-family: 'DM Mono', monospace; color: var(--violet); border-bottom: 1px solid var(--border); display: none; }
 
-/* FILTERS BAR */
-#filters-bar { background: #080c18; border-bottom: 1px solid #1e2436; padding: 10px 20px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; position: sticky; top: 57px; z-index: 99; }
-#search { background: #111827; border: 1px solid #1e2436; color: #e8eaf0; padding: 7px 12px; border-radius: 6px; font-family: 'DM Mono', monospace; font-size: 12px; width: 220px; }
-#search:focus { outline: none; border-color: #00b4d8; }
-#search::placeholder { color: #3a4060; }
+/* ── FILTERS BAR ── */
+#filters-bar {
+  background: rgba(10,0,16,0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 20px;
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+  position: sticky; top: 57px; z-index: 99;
+}
+#search {
+  background: var(--bg3); border: 1px solid var(--border2);
+  color: var(--text); padding: 7px 12px; border-radius: 8px;
+  font-family: 'DM Mono', monospace; font-size: 12px; width: 200px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+#search:focus { outline: none; border-color: var(--violet); box-shadow: 0 0 10px var(--glow-v); }
+#search::placeholder { color: var(--text-mute); }
 .filter-group { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
-.filter-label { font-size: 10px; color: #3a4060; margin-right: 4px; }
-.flt-btn { cursor: pointer; border: none; border-radius: 4px; font-size: 10px; padding: 4px 10px; font-family: 'DM Mono', monospace; background: #1e2436; color: #6a7090; transition: all 0.15s; white-space: nowrap; }
-.flt-btn.active { color: #0a0e1a; font-weight: 700; }
-#results-count { font-size: 11px; color: #3a4060; margin-left: auto; white-space: nowrap; }
+.filter-label { font-size: 9px; color: var(--text-mute); font-family: 'DM Mono', monospace; letter-spacing: 0.5px; text-transform: uppercase; margin-right: 2px; }
+.flt-btn {
+  cursor: pointer; border: 1px solid var(--border); border-radius: 20px;
+  font-size: 11px; font-weight: 600; padding: 4px 11px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: transparent; color: var(--text-mute); transition: all 0.15s; white-space: nowrap;
+}
+.flt-btn:hover { border-color: var(--border2); color: var(--text-dim); }
+.flt-btn.active-magenta { background: linear-gradient(135deg,var(--magenta),var(--violet)); color: #fff; border-color: transparent; box-shadow: 0 0 10px var(--glow-m); }
+.flt-btn.active-geo { color: #fff; border-color: transparent; }
+#results-count { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-mute); margin-left: auto; white-space: nowrap; }
 
-/* GRID */
-#job-grid { padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+/* ── GRID ── */
+#job-grid { padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 14px; }
 
-/* JOB CARD */
-.job-card { background: #0d1120; border: 1px solid #1e2436; border-radius: 10px; padding: 18px; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; gap: 8px; }
-.job-card:hover { border-color: #00b4d8; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,180,216,0.08); }
-.jc-source { font-size: 10px; color: #3a4060; display: flex; justify-content: space-between; align-items: center; }
-.jc-title { font-size: 14px; font-weight: 600; color: #fff; line-height: 1.4; }
-.jc-company { font-size: 12px; color: #6a7090; }
-.jc-location { font-size: 11px; color: #4a5070; }
-.jc-footer { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
-.tag { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 10px; }
-.geo-tag { font-size: 10px; padding: 3px 8px; border-radius: 3px; font-weight: 600; }
-.jc-date { font-size: 10px; color: #2a3050; margin-left: auto; align-self: flex-end; }
+/* ── JOB CARD ── */
+.job-card {
+  background: linear-gradient(145deg, var(--bg2), var(--bg3));
+  border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px;
+  cursor: pointer; transition: all 0.22s;
+  display: flex; flex-direction: column; gap: 7px;
+  position: relative; overflow: hidden;
+}
+.job-card::before {
+  content: ''; position: absolute; inset: 0; border-radius: 14px;
+  background: linear-gradient(135deg, var(--glow-m), var(--glow-v));
+  opacity: 0; transition: opacity 0.22s;
+}
+.job-card:hover { border-color: var(--violet-dim); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(180,79,255,0.12); }
+.job-card:hover::before { opacity: 1; }
+.jc-source { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text-mute); display: flex; justify-content: space-between; align-items: center; position: relative; }
+.jc-title { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.4; position: relative; }
+.jc-company { font-size: 12px; color: var(--text-dim); position: relative; }
+.jc-location { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-mute); position: relative; }
+.jc-footer { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; position: relative; align-items: center; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; }
+.geo-tag { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; }
+.score-badge { font-family: 'DM Mono', monospace; font-size: 10px; margin-left: auto; }
 
-/* MODAL */
-#modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
+/* ── MODAL ── */
+#modal-overlay { display: none; position: fixed; inset: 0; background: rgba(5,0,10,0.8); backdrop-filter: blur(6px); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
 #modal-overlay.open { display: flex; }
-#modal { background: #0d1120; border: 1px solid #1e2436; border-radius: 14px; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto; padding: 28px; position: relative; animation: fadeIn 0.2s ease; }
-#modal-close { position: absolute; top: 16px; right: 16px; background: #1e2436; border: none; color: #e8eaf0; border-radius: 6px; padding: 6px 10px; cursor: pointer; font-size: 14px; }
-#modal-close:hover { background: #2a3050; }
-#modal-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; padding-right: 40px; }
-#modal-meta { font-size: 13px; color: #6a7090; margin-bottom: 4px; }
-#modal-source { font-size: 11px; color: #3a4060; margin-bottom: 16px; }
-#modal-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+#modal {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 18px; width: 100%; max-width: 680px; max-height: 90vh;
+  overflow-y: auto; padding: 28px; position: relative;
+  animation: fadeUp 0.22s ease;
+  box-shadow: 0 24px 80px rgba(180,79,255,0.15);
+}
+#modal-close { position: absolute; top: 16px; right: 16px; background: var(--bg3); border: 1px solid var(--border); color: var(--text-dim); border-radius: 8px; padding: 6px 10px; cursor: pointer; font-size: 13px; transition: all 0.15s; }
+#modal-close:hover { border-color: var(--magenta); color: var(--magenta); }
+#modal-title { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 6px; padding-right: 44px; line-height: 1.3; }
+#modal-meta { font-size: 13px; color: var(--text-dim); margin-bottom: 4px; }
+#modal-source { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-mute); margin-bottom: 14px; }
+#modal-badges { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 14px; }
 #modal-actions { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
 
-#ai-box { background: #0a1829; border: 1px solid #1a3050; border-radius: 10px; padding: 16px; margin-bottom: 16px; display: none; }
-#ai-label { font-size: 10px; color: #00b4d8; letter-spacing: 1px; margin-bottom: 8px; }
-#ai-summary { font-size: 13px; color: #c0c8e0; line-height: 1.7; margin-bottom: 10px; }
+#ai-box {
+  background: linear-gradient(135deg, rgba(255,45,155,0.06), rgba(180,79,255,0.06));
+  border: 1px solid rgba(180,79,255,0.3);
+  border-radius: 12px; padding: 16px; margin-bottom: 14px; display: none;
+}
+#ai-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; background: linear-gradient(90deg,var(--magenta),var(--violet)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#ai-summary { font-size: 13px; color: var(--text-dim); line-height: 1.75; margin-bottom: 10px; }
 #ai-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-#ai-tags-box { margin-top: 10px; }
+#ai-tags-box { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px; }
 
-#desc-box { background: #080c18; border: 1px solid #1a1e30; border-radius: 10px; padding: 16px; }
-#desc-label { font-size: 10px; color: #4a5070; letter-spacing: 1px; margin-bottom: 8px; }
-#desc-text { font-size: 13px; color: #9aa0b8; line-height: 1.8; }
+#desc-box { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+#desc-label { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text-mute); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+#desc-text { font-size: 13px; color: #8070a0; line-height: 1.85; }
 
-/* EMPTY */
-#empty { display: none; padding: 60px 20px; text-align: center; color: #3a4060; }
+/* ── EMPTY ── */
+#empty { display: none; padding: 60px 20px; text-align: center; color: var(--text-mute); }
 #empty .icon { font-size: 48px; margin-bottom: 14px; }
-#empty h3 { font-family: 'Syne', sans-serif; font-size: 16px; color: #3a4060; }
+#empty h3 { font-size: 16px; font-weight: 700; color: var(--text-mute); }
 
-/* FOOTER */
-#footer { border-top: 1px solid #1e2436; padding: 20px; text-align: center; font-size: 11px; color: #2a3050; line-height: 1.8; }
-#footer a { color: #3a5070; text-decoration: none; }
-#footer a:hover { color: #00b4d8; }
+/* ── FOOTER ── */
+#footer {
+  border-top: 1px solid var(--border); padding: 20px;
+  text-align: center; font-size: 11px; color: var(--text-mute); line-height: 2;
+  background: linear-gradient(0deg, rgba(180,79,255,0.04), transparent);
+}
+#footer a { color: var(--violet-dim); text-decoration: none; }
+#footer a:hover { color: var(--magenta); }
+#footer .ig-link { display: inline-flex; align-items: center; gap: 5px; color: var(--magenta); font-weight: 600; }
+#footer .ig-link:hover { text-shadow: 0 0 10px var(--glow-m); }
 
 .pulse { animation: pulse 1.2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
-@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.25} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
 
 @media (max-width: 600px) {
-  #job-grid { grid-template-columns: 1fr; padding: 12px; gap: 12px; }
+  #job-grid { grid-template-columns: 1fr; padding: 12px; gap: 10px; }
   #search { width: 100%; }
   #filters-bar { flex-direction: column; align-items: flex-start; gap: 8px; top: 53px; }
   #results-count { margin-left: 0; }
@@ -103,10 +206,20 @@ body { background: #0a0e1a; color: #e8eaf0; font-family: 'DM Mono', monospace; m
 <body>
 
 <div id="header">
-  <div id="logo">🧬 <span>BioInfo</span>Jobs <small>weekly bioinformatics job board · AI-powered</small></div>
+  <div id="logo">
+    <div id="logo-icon">🧬</div>
+    <div id="logo-text">
+      <span>BioInfo</span>Jobs
+      <small>by @biokoderka · weekly · AI-powered</small>
+    </div>
+  </div>
   <div class="header-right">
     <span id="last-updated"></span>
-    <button class="btn btn-outline" id="btn-refresh">⟳ Refresh RSS</button>
+    <a class="btn btn-outline" href="archive.html" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px">📦 Archive</a>
+    <a class="btn btn-outline" href="stats.html" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px">📊 Stats</a>
+    <a class="btn btn-outline" href="https://biokoderka.github.io/bioinfo-news/" target="_blank" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px">📰 News</a>
+    <a class="btn btn-outline" href="https://biokoderka.github.io/bioinfo-uni" target="_blank" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px">🎓 Uni</a>
+    <a class="btn btn-outline" href="submit.html" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600">✦ Submit a job</a>
   </div>
 </div>
 
@@ -115,16 +228,16 @@ body { background: #0a0e1a; color: #e8eaf0; font-family: 'DM Mono', monospace; m
 <div id="filters-bar">
   <input id="search" type="text" placeholder="🔍 Search jobs...">
   <div class="filter-group">
-    <span class="filter-label">📍 Region:</span>
-    <button class="flt-btn active" data-geo="All">All</button>
-    <button class="flt-btn" data-geo="Poland">🇵🇱 Poland</button>
-    <button class="flt-btn" data-geo="Europe">🇪🇺 Europe</button>
-    <button class="flt-btn" data-geo="USA">🇺🇸 USA</button>
-    <button class="flt-btn" data-geo="Remote">🌐 Remote</button>
+    <span class="filter-label">📍 Region</span>
+    <button class="flt-btn active-magenta" data-geo="All">All</button>
+    <button class="flt-btn" data-geo="Poland" style="--gc:#e63946">🇵🇱 Poland</button>
+    <button class="flt-btn" data-geo="Europe" style="--gc:#b44fff">🇪🇺 Europe</button>
+    <button class="flt-btn" data-geo="USA" style="--gc:#ff2d9b">🇺🇸 USA</button>
+    <button class="flt-btn" data-geo="Remote" style="--gc:#ff85c8">🌐 Remote</button>
   </div>
   <div class="filter-group">
-    <span class="filter-label">🏢 Sector:</span>
-    <button class="flt-btn active" data-cat="All">All</button>
+    <span class="filter-label">🏢 Sector</span>
+    <button class="flt-btn active-magenta" data-cat="All">All</button>
     <button class="flt-btn" data-cat="Academia">Academia</button>
     <button class="flt-btn" data-cat="Pharma/Biotech">Pharma</button>
     <button class="flt-btn" data-cat="Clinical">Clinical</button>
@@ -134,7 +247,14 @@ body { background: #0a0e1a; color: #e8eaf0; font-family: 'DM Mono', monospace; m
 </div>
 
 <div id="job-grid"></div>
-<div id="empty"><div class="icon">🔬</div><h3>No jobs match your filters</h3></div>
+<div id="empty">
+  <div class="icon">🧬</div>
+  <h3 id="empty-title">First refresh in progress...</h3>
+  <p id="empty-msg" style="font-size:12px;margin-top:8px;color:var(--text-mute)">
+    Go to <a href="https://github.com/Biokoderka/bioinfo-jobs/actions" target="_blank" style="color:var(--magenta)">GitHub Actions → Weekly Job Refresh → Run workflow</a><br>
+    to load real job listings for the first time.
+  </p>
+</div>
 
 <!-- MODAL -->
 <div id="modal-overlay">
@@ -159,18 +279,53 @@ body { background: #0a0e1a; color: #e8eaf0; font-family: 'DM Mono', monospace; m
 </div>
 
 <div id="footer">
-  🧬 <strong>BioInfoJobs</strong> — open source bioinformatics job board<br>
-  Updated automatically every Monday via GitHub Actions · <a href="https://github.com/YOUR_USERNAME/bioinfo-jobs" target="_blank">View on GitHub</a><br>
-  Sources: Nature Careers · EuroScienceJobs · jobs.ac.uk · EMBL Jobs
+  🧬 <strong style="color:var(--text-dim)">BioInfoJobs</strong> — open source bioinformatics job board<br>
+  curated by <a class="ig-link" href="https://instagram.com/biokoderka" target="_blank">✦ @biokoderka</a> · updated every Monday via GitHub Actions<br>
+  <a href="submit.html">Submit a job listing</a> ·
+  <a href="https://github.com/Biokoderka/bioinfo-jobs" target="_blank">View on GitHub</a> ·
+  <a href="privacy.html">Privacy &amp; Terms</a> ·
+  Sources: Nature Careers · EuroScienceJobs · jobs.ac.uk · EMBL · Science Careers · Euraxess · Bioinformatics.org · JobRxiv
+  <br><br>
+  <span style="font-size:10px;color:var(--text-mute);opacity:0.7;max-width:700px;display:inline-block;line-height:1.6;">
+    <strong style="color:var(--text-mute)">Disclaimer:</strong>
+    BioInfoJobs is an independent job aggregator and does not own, create, or endorse any of the job listings displayed on this site.
+    All listings are sourced from publicly available job boards and company career pages, or submitted by the community.
+    We are not affiliated with any of the employers listed. Clicking "Apply" will redirect you to the original job posting on the employer's website.
+    BioInfoJobs makes no representations or warranties regarding the accuracy, completeness, or availability of any listing.
+    Job seekers should verify all details directly with the employer before applying.
+    If you believe a listing infringes your rights or contains inaccurate information, please
+    <a href="mailto:biokoderka@gmail.com" style="color:var(--violet-dim)">contact us</a>.
+  </span>
 </div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────────────────────────
-const KEYWORDS = ["bioinformatics","computational biology","genomics","NGS","sequencing","proteomics","structural biology","biostatistics","systems biology","metagenomics","transcriptomics","single cell","scRNA","CRISPR","phylogenetics","cheminformatics","drug discovery","bioinformatician","next generation sequencing","variant calling","genome assembly","RNA-seq","WGS","WES","multi-omics"];
+const KEYWORDS = [
+  "bioinformatics","bioinformatician","computational biology","computational biologist",
+  "genomics","NGS","next generation sequencing","sequencing",
+  "metagenomics","transcriptomics","proteomics","metabolomics","epigenomics",
+  "structural biology","biostatistics","systems biology","cheminformatics",
+  "single cell","scRNA","spatial transcriptomics","spatial genomics",
+  "CRISPR","phylogenetics","population genetics","GWAS","polygenic",
+  "variant calling","genome assembly","genome annotation","pangenomics",
+  "RNA-seq","WGS","WES","ChIP-seq","ATAC-seq","multi-omics","nanopore","long read","PacBio",
+  "data scientist life science","data scientist biology","data scientist biotech",
+  "machine learning biology","machine learning genomics","deep learning biology",
+  "AI drug discovery","computational drug discovery","biomedical data","biological data","omics data",
+  "drug discovery","target identification","protein structure",
+  "clinical bioinformatics","clinical genomics","clinical sequencing",
+  "laboratory informatics","LIMS","biological database","sequence analysis",
+  "pipeline developer","pipeline engineer","bioinformatics pipeline",
+  "genomics engineer","scientific programmer","research software engineer",
+  "bioinformatics tools","bioinformatics platform","scientific software",
+  "life science data","life sciences data","pharma data scientist",
+  "precision medicine","personalized medicine","medical genomics",
+  "translational bioinformatics","biomedical informatics",
+];
 
-const GEO_COLORS = { "Poland":"#e63946", "Europe":"#457b9d", "USA":"#2a9d8f", "Remote":"#8338ec", "Other":"#3a4060" };
+const GEO_COLORS = { "Poland":"#e63946", "Europe":"#b44fff", "USA":"#ff2d9b", "Remote":"#ff85c8", "Other":"#5a3878" };
 const GEO_FLAGS  = { "Poland":"🇵🇱", "Europe":"🇪🇺", "USA":"🇺🇸", "Remote":"🌐", "Other":"🌍" };
-const CAT_COLORS = { "Academia":"#00b4d8","Pharma/Biotech":"#06d6a0","Clinical":"#ffd166","Startup":"#ef476f","Government/Public":"#b5a1ff" };
+const CAT_COLORS = { "Academia":"#b44fff","Pharma/Biotech":"#ff2d9b","Clinical":"#ff85c8","Startup":"#e63946","Government/Public":"#7a30b8" };
 
 const RSS_FEEDS = [
   { name:"Nature Careers",          url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.nature.com/naturecareers/rss/latest") },
@@ -178,7 +333,10 @@ const RSS_FEEDS = [
   { name:"jobs.ac.uk – Genomics",   url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.jobs.ac.uk/search/rss?keywords=genomics") },
   { name:"jobs.ac.uk – Comp Bio",   url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.jobs.ac.uk/search/rss?keywords=computational+biology") },
   { name:"EuroScienceJobs",         url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.eurosciencejobs.com/rss/all") },
-  { name:"EMBL Jobs",               url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.embl.org/jobs/rss") }
+  { name:"EMBL Jobs",               url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.embl.org/jobs/rss") },
+  { name:"Science Careers (AAAS)",  url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://jobs.sciencecareers.org/searchjobs/?Keywords=bioinformatics&format=rss") },
+  { name:"Euraxess",                url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://euraxess.ec.europa.eu/jobs/rss") },
+  { name:"Bioinformatics.org",      url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://bioinformatics.org/jobs/rss") },
 ];
 
 // ── GEO DETECTION ────────────────────────────────────────────────────────────
@@ -196,17 +354,64 @@ function detectGeo(title, location, description) {
   return "Other";
 }
 
-// ── SEED DATA ────────────────────────────────────────────────────────────────
-let jobs = [
-  { id:1, title:"Senior Bioinformatics Scientist", company:"Genomics UK Ltd", location:"London, UK", source:"Nature Careers", date:"2026-05-15", url:"#", description:"Lead our NGS data analysis pipelines for clinical genomics projects. Experience with WGS, RNA-seq and variant calling required. Strong Python and Snakemake skills.", tags:[], category:null, summary:null },
-  { id:2, title:"Computational Biology Postdoc", company:"EMBL Heidelberg", location:"Heidelberg, Germany", source:"EMBL Jobs", date:"2026-05-14", url:"#", description:"Postdoctoral position in single-cell transcriptomics and spatial genomics. Strong background in Python/R and machine learning for biological data expected. 2-year contract.", tags:[], category:null, summary:null },
-  { id:3, title:"Data Scientist – Drug Discovery", company:"BioNTech SE", location:"Mainz, Germany", source:"jobs.ac.uk", date:"2026-05-13", url:"#", description:"AI-driven drug discovery team. Develop ML models for target identification and compound screening using multi-omics datasets. PyTorch and graph neural networks a plus.", tags:[], category:null, summary:null },
-  { id:4, title:"Structural Bioinformatician", company:"Broad Institute", location:"Cambridge, MA, USA", source:"Nature Careers", date:"2026-05-12", url:"#", description:"Analysis of protein structures using cryo-EM data, AlphaFold2 modeling, and molecular dynamics simulations. Experience with PyMOL and PHENIX preferred.", tags:[], category:null, summary:null },
-  { id:5, title:"Metagenomics Analyst", company:"Microbiome Institute", location:"Warsaw, Poland", source:"EuroScienceJobs", date:"2026-05-11", url:"#", description:"Analysis of gut microbiome data using 16S rRNA and shotgun metagenomics. Develop pipelines in Snakemake/Nextflow for large cohort studies. QIIME2 and HUMAnN required.", tags:[], category:null, summary:null },
-  { id:6, title:"Genomics Data Engineer", company:"TwinsUK / KCL", location:"London, UK", source:"jobs.ac.uk", date:"2026-05-10", url:"#", description:"Build and maintain cloud-based genomics data pipelines. Experience with AWS/GCP, Nextflow, and large-scale variant datasets (UK Biobank, UKBB). Python and Terraform.", tags:[], category:null, summary:null },
-  { id:7, title:"Remote Bioinformatics Scientist", company:"Illumina", location:"Remote (Global)", source:"Nature Careers", date:"2026-05-09", url:"#", description:"Fully remote position developing bioinformatics tools and pipelines for NGS applications. Strong software engineering background with Python/C++ required. Open to candidates worldwide.", tags:[], category:null, summary:null },
-  { id:8, title:"Biostatistician – Clinical Trials", company:"Roche", location:"Basel, Switzerland", source:"EuroScienceJobs", date:"2026-05-08", url:"#", description:"Statistical analysis of Phase II/III clinical trial data with genomic endpoints. R programming, mixed models, survival analysis. Experience with FDA/EMA submissions a plus.", tags:[], category:null, summary:null }
-].map(j => ({ ...j, geo: detectGeo(j.title, j.location, j.description) }));
+// ── AUTO-PARSER (no AI needed) ────────────────────────────────────────────────
+const TECH_TAGS = [
+  "Python","R","Bash","Perl","Java","C++","Scala","Julia",
+  "RNA-seq","scRNA-seq","WGS","WES","ChIP-seq","ATAC-seq","Hi-C","16S","metagenomics",
+  "Nextflow","Snakemake","CWL","WDL","Galaxy",
+  "GATK","BWA","STAR","HISAT2","Salmon","DESeq2","edgeR","Seurat","Scanpy",
+  "AlphaFold","AlphaFold2","PyMOL","PHENIX","Rosetta","GROMACS",
+  "Docker","Singularity","Kubernetes","AWS","GCP","Azure","HPC","SLURM",
+  "machine learning","deep learning","PyTorch","TensorFlow","scikit-learn",
+  "SQL","MongoDB","PostgreSQL","Spark","Hadoop",
+  "QIIME2","HUMAnN","MetaPhlAn","Kraken","BLAST","HMMER",
+  "variant calling","genome assembly","long-read","nanopore","PacBio",
+  "single cell","spatial transcriptomics","proteomics","metabolomics","multi-omics",
+  "CRISPR","flow cytometry","cryo-EM","NMR","X-ray crystallography",
+  "biostatistics","mixed models","survival analysis","Bayesian","GWAS",
+  "Git","GitHub","CI/CD","Terraform","Linux"
+];
+
+const CATEGORY_RULES = [
+  { cat:"Clinical",       kw:["clinical","hospital","nhs","patient","diagnostic","trials","ehr","emr","fda","ema","regulatory","phase ii","phase iii","pathology","radiology"] },
+  { cat:"Pharma/Biotech", kw:["pharma","biotech","biontech","roche","novartis","pfizer","astrazeneca","genentech","illumina","10x genomics","drug discovery","therapeutics","pipeline","compound","assay","preclinical","gmp","cro"] },
+  { cat:"Startup",        kw:["startup","start-up","series a","series b","seed","venture","equity","founding","early stage"] },
+  { cat:"Government/Public", kw:["government","public health","nhs","mrc","wellcome","nih","doh","agency","ministry","council","erc","horizon"] },
+  { cat:"Academia",       kw:["university","universit","institute","postdoc","phd","professor","faculty","research group","lab","embl","mrc","sanger","broad","academic"] },
+];
+
+const SENIORITY_RULES = [
+  { level:"PostDoc",  kw:["postdoc","post-doc","post doctoral","postdoctoral"] },
+  { level:"PI/Lead",  kw:["principal investigator","group leader","pi ","head of","director","chief","vp of","vice president","staff scientist"] },
+  { level:"Junior",   kw:["junior","graduate","entry level","entry-level","0-2 years","1-2 years","fresh","trainee","intern","msc","master"] },
+  { level:"Senior",   kw:["senior","sr.","lead","principal","5+ years","6+ years","7+ years","8+ years","10+ years","experienced"] },
+  { level:"Mid",      kw:["scientist","analyst","engineer","developer","researcher","3+ years","3-5 years","2-4 years","mid-level"] },
+];
+
+function autoEnrich(job) {
+  const text = (job.title + " " + job.description + " " + job.company).toLowerCase();
+
+  // Tags — find all matching, deduplicate, take top 6
+  const tags = TECH_TAGS.filter(t => text.includes(t.toLowerCase()));
+  const dedupedTags = [...new Set(tags)].slice(0, 6);
+
+  // Category — first rule that matches wins
+  let category = null;
+  for (const rule of CATEGORY_RULES) {
+    if (rule.kw.some(k => text.includes(k))) { category = rule.cat; break; }
+  }
+
+  // Seniority — first rule that matches wins
+  let seniority = null;
+  for (const rule of SENIORITY_RULES) {
+    if (rule.kw.some(k => text.includes(k))) { seniority = rule.level; break; }
+  }
+
+  return { ...job, tags: dedupedTags, category, seniority };
+}
+
+// ── JOBS DATA ────────────────────────────────────────────────────────────────
+let jobs = []; // populated from jobs.json via GitHub Actions
 
 // ── STATE ────────────────────────────────────────────────────────────────────
 let selectedJob = null;
@@ -215,17 +420,27 @@ let catFilter = "All";
 let searchQ   = "";
 
 // ── HELPERS ──────────────────────────────────────────────────────────────────
+function daysAgo(dateStr) {
+  if (!dateStr || dateStr === "—") return null;
+  const diff = Math.floor((Date.now() - new Date(dateStr)) / 86400000);
+  return diff < 0 ? 0 : diff;
+}
+
 function setStatus(msg) {
   const el = document.getElementById("status-bar");
   el.textContent = msg; el.style.display = msg ? "block" : "none";
 }
 
 function getFiltered() {
+  const today = new Date().toISOString().split("T")[0];
+  const cutoff = new Date(Date.now() - 60 * 86400000).toISOString().split("T")[0];
   return jobs.filter(j => {
+    if (j.deadline && j.deadline < today) return false;
+    if (j.date && j.date < cutoff) return false;
     const matchGeo = geoFilter === "All" || j.geo === geoFilter;
     const matchCat = catFilter === "All" || j.category === catFilter;
     const q = searchQ.toLowerCase();
-    const matchQ = !q || (j.title+" "+j.company+" "+j.location+" "+(j.tags||[]).join(" ")).toLowerCase().includes(q);
+    const matchQ = !q || (j.title+" "+j.company+" "+j.location+" "+j.tags.join(" ")).toLowerCase().includes(q);
     return matchGeo && matchCat && matchQ;
   });
 }
@@ -241,19 +456,33 @@ function render() {
   empty.style.display = "none";
 
   grid.innerHTML = filtered.map(j => {
-    const gc = GEO_COLORS[j.geo]||"#3a4060";
+    const gc = GEO_COLORS[j.geo]||"#5a3878";
     const gf = GEO_FLAGS[j.geo]||"🌍";
     const cc = j.category ? CAT_COLORS[j.category] : null;
+    const applyLink = j.url && j.url !== "#"
+      ? `<a href="${j.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="margin-left:auto;flex-shrink:0;font-size:10px;font-weight:700;color:var(--magenta);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,45,155,0.3);border-radius:20px;background:rgba(255,45,155,0.08)">Apply ↗</a>`
+      : `<span style="margin-left:auto;font-size:9px;color:var(--text-mute);font-family:'DM Mono',monospace">demo data</span>`;
+    const age = daysAgo(j.date);
+    const ageColor = age === null ? "var(--text-mute)"
+                   : age === 0   ? "#06d6a0"
+                   : age <= 3    ? "#06d6a0"
+                   : age <= 7    ? "var(--pink-soft)"
+                   : age <= 14   ? "#ffd166"
+                   : "var(--text-mute)";
+    const ageLabel = age === null ? j.date
+                   : age === 0   ? "today"
+                   : age === 1   ? "yesterday"
+                   : `${age}d ago`;
     return `<div class="job-card" data-id="${j.id}">
-      <div class="jc-source"><span>${j.source}</span><span style="color:#2a3050">${j.date}</span></div>
+      <div class="jc-source"><span>${j.source}</span><span style="color:${ageColor};font-weight:600">${ageLabel}</span></div>
       <div class="jc-title">${j.title}</div>
       <div class="jc-company">${j.company}</div>
       <div class="jc-location">📍 ${j.location}</div>
       <div class="jc-footer">
-        <span class="geo-tag" style="background:${gc}25;color:${gc}">${gf} ${j.geo}</span>
-        ${cc ? `<span class="tag" style="background:${cc}25;color:${cc}">${j.category}</span>` : ""}
-        ${(j.tags||[]).slice(0,2).map(t=>`<span class="tag" style="background:#1e2436;color:#6a7090">${t}</span>`).join("")}
-        ${!j.summary ? '<span style="font-size:9px;color:#2a3050;margin-left:auto">not analysed</span>' : `<span style="font-size:10px;color:#06d6a0;margin-left:auto">★${j.relevance_score}/10</span>`}
+        <span class="geo-tag" style="background:${gc}22;color:${gc};border:1px solid ${gc}44">${gf} ${j.geo}</span>
+        ${cc ? `<span class="tag" style="background:${cc}18;color:${cc};border:1px solid ${cc}33">${j.category}</span>` : ""}
+        ${j.tags.slice(0,2).map(t=>`<span class="tag" style="background:rgba(180,79,255,0.1);color:#9060c0;border:1px solid #3d1860">${t}</span>`).join("")}
+        ${applyLink}
       </div>
     </div>`;
   }).join("");
@@ -268,38 +497,39 @@ function openModal(id) {
   selectedJob = jobs.find(j => j.id === id);
   if (!selectedJob) return;
   const j = selectedJob;
-  const gc = GEO_COLORS[j.geo]||"#3a4060";
+  const gc = GEO_COLORS[j.geo]||"#5a3878";
   const gf = GEO_FLAGS[j.geo]||"🌍";
+  const cc = j.category ? CAT_COLORS[j.category] : null;
 
   document.getElementById("modal-title").textContent  = j.title;
   document.getElementById("modal-meta").textContent   = j.company + " · " + j.location;
-  document.getElementById("modal-source").textContent = "Source: " + j.source + " · " + j.date;
+  const age = daysAgo(j.date);
+  const ageStr = age === null ? j.date : age === 0 ? "added today" : age === 1 ? "added yesterday" : `added ${age} days ago`;
+  document.getElementById("modal-source").textContent = `${j.source} · ${ageStr} (${j.date})`;
 
-  // badges
-  const cc = j.category ? CAT_COLORS[j.category] : null;
   document.getElementById("modal-badges").innerHTML = [
-    `<span class="geo-tag" style="background:${gc}30;color:${gc}">${gf} ${j.geo}</span>`,
-    cc ? `<span class="tag" style="background:${cc}30;color:${cc};padding:3px 8px">${j.category}</span>` : "",
-    j.seniority ? `<span class="tag" style="background:#2a1a40;color:#b5a1ff;padding:3px 8px">${j.seniority}</span>` : ""
+    `<span class="geo-tag" style="background:${gc}22;color:${gc};border:1px solid ${gc}44">${gf} ${j.geo}</span>`,
+    cc ? `<span class="tag" style="background:${cc}18;color:${cc};border:1px solid ${cc}33;padding:3px 10px">${j.category}</span>` : "",
+    j.seniority ? `<span class="tag" style="background:rgba(180,79,255,0.12);color:#b44fff;border:1px solid #3d1860;padding:3px 10px">${j.seniority}</span>` : ""
   ].join("");
 
-  // actions
-  document.getElementById("modal-actions").innerHTML = [
-    j.url && j.url !== "#" ? `<a href="${j.url}" target="_blank" rel="noopener" class="btn btn-dim" style="text-decoration:none">🔗 Open listing</a>` : "",
-    `<button class="btn btn-ai" id="btn-analyze">🤖 Analyse with AI</button>`
-  ].join("");
-  document.getElementById("btn-analyze")?.addEventListener("click", analyzeJob);
+  document.getElementById("modal-actions").innerHTML = j.url && j.url !== "#"
+    ? `<a href="${j.url}" target="_blank" rel="noopener" class="btn btn-ai" style="text-decoration:none">🔗 Apply / View listing ↗</a>`
+    : "";
 
-  // AI box
+  // Tags panel (replaces AI box)
   const aiBox = document.getElementById("ai-box");
-  if (j.summary) {
+  if (j.tags.length > 0) {
     aiBox.style.display = "block";
-    document.getElementById("ai-summary").textContent = j.summary;
-    document.getElementById("ai-meta").innerHTML = [
-      j.relevance_score ? `<span style="color:#06d6a0;font-size:12px">★ Relevance: ${j.relevance_score}/10</span>` : ""
-    ].join("");
-    document.getElementById("ai-tags-box").innerHTML = (j.tags||[]).map(t=>`<span class="tag" style="background:#1e2436;color:#8a9ab0;border:1px solid #2a3050">${t}</span>`).join("");
-  } else { aiBox.style.display = "none"; }
+    document.getElementById("ai-label").textContent = "◆ TECH STACK DETECTED";
+    document.getElementById("ai-summary").textContent = "";
+    document.getElementById("ai-meta").innerHTML = "";
+    document.getElementById("ai-tags-box").innerHTML = j.tags.map(t =>
+      `<span class="tag" style="background:rgba(180,79,255,0.1);color:#c090ff;border:1px solid #3d1860;font-size:11px">${t}</span>`
+    ).join("");
+  } else {
+    aiBox.style.display = "none";
+  }
 
   document.getElementById("desc-text").textContent = j.description;
   document.getElementById("modal-overlay").classList.add("open");
@@ -310,43 +540,10 @@ function closeModal() {
   document.getElementById("modal-overlay").classList.remove("open");
   document.body.style.overflow = "";
 }
-
-// ── AI ANALYSIS ───────────────────────────────────────────────────────────────
-async function analyzeJob() {
-  if (!selectedJob) return;
-  const btn = document.getElementById("btn-analyze");
-  btn.disabled = true; btn.innerHTML = '<span class="pulse">🤖 Analysing...</span>';
-
-  try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method:"POST", headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({
-        model:"claude-sonnet-4-20250514", max_tokens:1000,
-        system:`You are a career advisor for bioinformaticians. Analyze job offers and return ONLY a valid JSON object (no markdown, no backticks) with:
-- summary: 2-3 sentences in English highlighting what is unique and appealing about this role for a bioinformatician
-- tags: array of 3-5 key technical skills/tools mentioned or implied (e.g. "RNA-seq", "Python", "Nextflow", "AlphaFold2")
-- category: one of [Academia, Pharma/Biotech, Clinical, Startup, Government/Public]
-- seniority: one of [Junior, Mid, Senior, PostDoc, PI/Lead]
-- relevance_score: integer 1-10 for a bioinformatician`,
-        messages:[{ role:"user", content:`Title: ${selectedJob.title}\nCompany: ${selectedJob.company}\nLocation: ${selectedJob.location}\nDescription: ${selectedJob.description}` }]
-      })
-    });
-    const data = await res.json();
-    const text = data.content.map(b=>b.text||"").join("");
-    const parsed = JSON.parse(text.replace(/```json|```/g,"").trim());
-    jobs = jobs.map(j => j.id===selectedJob.id ? {...j,...parsed} : j);
-    selectedJob = {...selectedJob,...parsed};
-    // re-open to refresh
-    openModal(selectedJob.id);
-  } catch(e) { alert("AI analysis failed: "+e.message); }
-
-  btn.disabled = false; btn.textContent = "🤖 Analyse with AI";
-}
-
 // ── RSS FETCH ────────────────────────────────────────────────────────────────
 async function fetchFeeds() {
   const btn = document.getElementById("btn-refresh");
-  btn.disabled = true; btn.innerHTML = '<span class="pulse">⟳ Fetching...</span>';
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="pulse">⟳ Fetching...</span>'; }
   setStatus("Fetching RSS feeds...");
 
   let newJobs = []; let id = 100;
@@ -366,29 +563,29 @@ async function fetchFeeds() {
         const lower   = (title+" "+desc).toLowerCase();
         if (KEYWORDS.some(k=>lower.includes(k.toLowerCase()))) {
           const geo = detectGeo(title, loc, desc);
-          newJobs.push({ id:id++, title:title.trim(), company:feed.name, location:loc||"See listing",
+          const raw = { id:id++, title:title.trim(), company:feed.name, location:loc||"See listing",
             source:feed.name, date:pubDate?new Date(pubDate).toISOString().split("T")[0]:"—",
-            url:link, description:desc.slice(0,600), tags:[], category:null, summary:null, geo });
+            url:link, description:desc.slice(0,600), geo };
+          newJobs.push(autoEnrich(raw));
         }
       });
       setStatus(`✓ ${feed.name} — ${newJobs.length} relevant jobs so far`);
-    } catch(e) { setStatus(`⚠ Error: ${feed.name}`); }
+    } catch(e) { /* silently skip failed feeds — GitHub Actions handles real fetching */ }
   }
 
   if (newJobs.length > 0) {
-    // deduplicate by title+company
     const seen = new Set();
     const deduped = newJobs.filter(j => { const k=j.title+j.company; if(seen.has(k)) return false; seen.add(k); return true; });
     jobs = [...deduped, ...jobs.filter(j=>j.id<100)].slice(0,40);
-    setStatus(`✅ Fetched ${deduped.length} new jobs from RSS · ${new Date().toLocaleString()}`);
+    setStatus(`✅ Fetched ${deduped.length} new jobs · tags & categories auto-detected · ${new Date().toLocaleString()}`);
   } else {
-    setStatus("⚠ No RSS results — showing seed data. RSS proxies may be rate-limited.");
+    setStatus("ℹ️ Live RSS is fetched automatically every Monday. Showing current board data.");
   }
 
   document.getElementById("last-updated").textContent = "Updated: "+new Date().toLocaleDateString();
   saveToStorage();
   render();
-  btn.disabled = false; btn.textContent = "⟳ Refresh RSS";
+  if (btn) { btn.disabled = false; btn.textContent = "⟳ Refresh RSS"; }
 }
 
 function extractLocation(text) {
@@ -414,7 +611,7 @@ function loadFromStorage() {
 
 // ── EVENTS ───────────────────────────────────────────────────────────────────
 document.getElementById("search").addEventListener("input", e => { searchQ = e.target.value; render(); });
-document.getElementById("btn-refresh").addEventListener("click", fetchFeeds);
+document.getElementById("btn-refresh")?.addEventListener("click", fetchFeeds);
 document.getElementById("modal-close").addEventListener("click", closeModal);
 document.getElementById("modal-overlay").addEventListener("click", e => { if(e.target===e.currentTarget) closeModal(); });
 document.addEventListener("keydown", e => { if(e.key==="Escape") closeModal(); });
@@ -422,40 +619,57 @@ document.addEventListener("keydown", e => { if(e.key==="Escape") closeModal(); }
 document.querySelectorAll(".flt-btn[data-geo]").forEach(btn => {
   btn.addEventListener("click", () => {
     geoFilter = btn.dataset.geo;
-    document.querySelectorAll(".flt-btn[data-geo]").forEach(b => { b.classList.remove("active"); b.style.background="#1e2436"; b.style.color="#6a7090"; b.style.fontWeight=""; });
-    btn.classList.add("active");
-    const c = GEO_COLORS[geoFilter]||"#00b4d8";
-    btn.style.background = geoFilter==="All" ? "#00b4d8" : c;
-    btn.style.color = "#0a0e1a"; btn.style.fontWeight = "700";
+    document.querySelectorAll(".flt-btn[data-geo]").forEach(b => {
+      b.classList.remove("active-magenta","active-geo");
+      b.style.background=""; b.style.color=""; b.style.borderColor=""; b.style.boxShadow="";
+    });
+    btn.classList.add("active-magenta");
     render();
   });
 });
-// fix All button color on load
-document.querySelector('.flt-btn[data-geo="All"]').style.background="#00b4d8";
-document.querySelector('.flt-btn[data-geo="All"]').style.color="#0a0e1a";
-document.querySelector('.flt-btn[data-geo="All"]').style.fontWeight="700";
 
 document.querySelectorAll(".flt-btn[data-cat]").forEach(btn => {
   btn.addEventListener("click", () => {
     catFilter = btn.dataset.cat;
-    document.querySelectorAll(".flt-btn[data-cat]").forEach(b => { b.classList.remove("active"); b.style.background="#1e2436"; b.style.color="#6a7090"; b.style.fontWeight=""; });
-    btn.classList.add("active");
-    const c = CAT_COLORS[catFilter]||"#00b4d8";
-    btn.style.background = catFilter==="All" ? "#00b4d8" : c;
-    btn.style.color = "#0a0e1a"; btn.style.fontWeight = "700";
+    document.querySelectorAll(".flt-btn[data-cat]").forEach(b => {
+      b.classList.remove("active-magenta","active-geo");
+      b.style.background=""; b.style.color=""; b.style.borderColor=""; b.style.boxShadow="";
+    });
+    btn.classList.add("active-magenta");
     render();
   });
 });
-document.querySelector('.flt-btn[data-cat="All"]').style.background="#00b4d8";
-document.querySelector('.flt-btn[data-cat="All"]').style.color="#0a0e1a";
-document.querySelector('.flt-btn[data-cat="All"]').style.fontWeight="700";
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
-if (loadFromStorage()) {
-  setStatus("✓ Loaded from cache · click Refresh RSS to update");
-  document.getElementById("last-updated").textContent = "Cached data";
+async function init() {
+  // 1. Try to load jobs.json (GitHub Pages / auto-refresh)
+  try {
+    const res = await fetch("jobs.json");
+    if (res.ok) {
+      const data = await res.json();
+      if (data.jobs && data.jobs.length > 0) {
+        jobs = data.jobs;
+        document.getElementById("last-updated").textContent = "Updated: " + new Date(data.updated).toLocaleDateString();
+        setStatus(`✅ Loaded ${data.jobs.length} jobs from weekly refresh · ${new Date(data.updated).toLocaleString()}`);
+        render();
+        return;
+      }
+    }
+  } catch(e) {}
+
+  // 2. Fallback: local storage cache
+  if (loadFromStorage()) {
+    setStatus("✓ Loaded from cache · click Refresh RSS to update");
+    document.getElementById("last-updated").textContent = "Cached data";
+    render();
+    return;
+  }
+
+  // 3. No data yet — show empty state with instructions
+  render();
+  setStatus("ℹ️ No job data yet — run GitHub Actions to load real listings.");
 }
-render();
+init();
 </script>
 </body>
 </html>
