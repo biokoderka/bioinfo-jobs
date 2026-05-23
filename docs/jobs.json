@@ -1,13 +1,35 @@
 {
-  "updated": "2026-05-23T08:52:59.389163+00:00",
-  "count": 8,
+  "updated": "2026-05-23T09:09:04.556148+00:00",
+  "count": 22,
   "sources": {
     "rss": 8,
     "greenhouse": 0,
     "lever": 0,
-    "manual": 0
+    "manual": 14
   },
   "jobs": [
+    {
+      "id": "manual_li_4417134722",
+      "title": "Data Scientist – branża medyczna",
+      "company": "Britenet",
+      "location": "Warsaw, Poland",
+      "source": "LinkedIn",
+      "date": "2026-05-23",
+      "url": "https://www.linkedin.com/jobs/view/4417134722/",
+      "description": "Rozwój aplikacji z branży medycznej. AI/ML engineer z doświadczeniem w danych medycznych. Python, LangChain, LangGraph, MCP, Prompt Engineering, LLM API. Systemy przetwarzające dane medyczne, fine-tuning modeli. Min. 4 lata doświadczenia (2 lata w AI/ML). Hybrid Warszawa.",
+      "geo": "Poland",
+      "category": "Clinical",
+      "seniority": "Mid",
+      "tags": [
+        "Python",
+        "machine learning",
+        "deep learning",
+        "biomedical data"
+      ],
+      "summary": null,
+      "manually_added": true,
+      "deadline": "2026-07-23"
+    },
     {
       "id": "8e83cd70de",
       "title": "Research assistant in polymer binders for high voltage batteries",
@@ -16,11 +38,15 @@
       "source": "JobRxiv",
       "date": "2026-05-22",
       "url": "https://jobrxiv.org/job/research-assistant-in-polymer-binders-for-high-voltage-batteries/",
-      "description": "Research Assistant In Polymer Binders For High Voltage Batteries The Department of Chemistry – Ångström conducts research and education in the chemistry field. The department has more than 270 employees... \n The post  Research assistant in polymer binders for high voltage batteries  appeared first on  jobRxiv .",
+      "description": "Research Assistant In Polymer Binders For High Voltage Batteries The Department of Chemistry – Ångström conducts research and education in the chemistry field. The department has more than 270 employees... The post Research assistant in polymer binders for high voltage batteries appeared first on jobRxiv .",
       "geo": "Other",
-      "tags": [],
+      "tags": [
+        "R",
+        "NGS"
+      ],
       "category": null,
-      "summary": null
+      "summary": null,
+      "seniority": null
     },
     {
       "id": "0699bd2da0",
@@ -30,25 +56,55 @@
       "source": "JobRxiv",
       "date": "2026-05-22",
       "url": "https://jobrxiv.org/job/field-applications-scientist-sequencing/",
-      "description": "Field Applications Scientist-Sequencing At Roche you can show up as yourself, embraced for the unique qualities you bring. Our culture encourages personal expression, open dialogue, and genuine connections, where you... \n The post  Field Applications Scientist-Sequencing  appeared first on  jobRxiv .",
+      "description": "Field Applications Scientist-Sequencing At Roche you can show up as yourself, embraced for the unique qualities you bring. Our culture encourages personal expression, open dialogue, and genuine connections, where you... The post Field Applications Scientist-Sequencing appeared first on jobRxiv .",
       "geo": "Other",
-      "tags": [],
-      "category": null,
-      "summary": null
+      "tags": [
+        "R"
+      ],
+      "category": "Pharma/Biotech",
+      "summary": null,
+      "seniority": "Mid"
     },
     {
       "id": "c67182d579",
       "title": "Senior Scientist II, Bioinformatics (Spatial Proteomics and Single Cell Omics)",
       "company": "JobRxiv",
-      "location": "See listing",
+      "location": "Cambridge, MA",
       "source": "JobRxiv",
       "date": "2026-05-22",
       "url": "https://jobrxiv.org/job/senior-scientist-ii-bioinformatics-spatial-proteomics-and-single-cell-omics/",
-      "description": "Senior Scientist The Immune Profiling and Systems Immunology (IPSI) team in Discovery Immunology at Cambridge, Massachusetts is seeking a highly skilled candidate with expertise in spatial proteomics, single cell multi-omics... \n The post  Senior Scientist II, Bioinformatics (Spatial Proteomics and Single Cell Omics)  appeared first on  jobRxiv .",
+      "description": "Senior Scientist The Immune Profiling and Systems Immunology (IPSI) team in Discovery Immunology at Cambridge, Massachusetts is seeking a highly skilled candidate with expertise in spatial proteomics, single cell multi-omics... The post Senior Scientist II, Bioinformatics (Spatial Proteomics and Single Cell Omics) appeared first on jobRxiv .",
       "geo": "USA",
-      "tags": [],
+      "tags": [
+        "R",
+        "multi-omics",
+        "proteomics"
+      ],
       "category": null,
-      "summary": null
+      "summary": null,
+      "seniority": "Senior"
+    },
+    {
+      "id": "manual_li_solventum_swe",
+      "title": "Software Engineer – Healthcare Data Analytics",
+      "company": "Solventum (3M Health Care)",
+      "location": "Wrocław, Poland",
+      "source": "LinkedIn",
+      "date": "2026-05-22",
+      "url": "https://www.linkedin.com/jobs/view/solventum-software-engineer/",
+      "description": "Cloud transformation of a data-intensive analytical platform for healthcare. Design scalable architectures, ETL with SSIS, SQL Server, AWS Glue. Healthcare IT domain. Hybrid Wrocław. 5+ years experience.",
+      "geo": "Poland",
+      "category": "Clinical",
+      "seniority": "Mid",
+      "tags": [
+        "Python",
+        "AWS",
+        "SQL",
+        "biomedical data"
+      ],
+      "summary": null,
+      "manually_added": true,
+      "deadline": "2026-07-22"
     },
     {
       "id": "5bf2a41c30",
@@ -58,11 +114,14 @@
       "source": "JobRxiv",
       "date": "2026-05-21",
       "url": "https://jobrxiv.org/job/pharmacovigilance-scientist-5/",
-      "description": "Pharmacovigilance Scientist Location: Gentilly/ Campus Lyon Carteret– France About the Job Are you ready to shape the future of medicine? The race is on to speed up drug discovery and... \n The post  Pharmacovigilance Scientist  appeared first on  jobRxiv .",
+      "description": "Pharmacovigilance Scientist Location: Gentilly/ Campus Lyon Carteret– France About the Job Are you ready to shape the future of medicine? The race is on to speed up drug discovery and... The post Pharmacovigilance Scientist appeared first on jobRxiv .",
       "geo": "Europe",
-      "tags": [],
-      "category": null,
-      "summary": null
+      "tags": [
+        "R"
+      ],
+      "category": "Pharma/Biotech",
+      "summary": null,
+      "seniority": "Mid"
     },
     {
       "id": "4ac5d1356b",
@@ -72,11 +131,14 @@
       "source": "JobRxiv",
       "date": "2026-05-21",
       "url": "https://jobrxiv.org/job/senior-principal-scientist-preclinical-pk-pd-modelling-and-simulation/",
-      "description": "Senior/Principal Scientist In Global Preclinical Pk/Pd Modelling Unleash your passion, embrace the science, and make an impact. As a Senior/Principal Scientist in Global Preclinical PK/PD Modelling within Global Drug Discovery... \n The post  Senior / Principal Scientist &#8211; Preclinical PK/PD Modelling and Simulation  appeared first on  jobRxiv .",
+      "description": "Senior/Principal Scientist In Global Preclinical Pk/Pd Modelling Unleash your passion, embrace the science, and make an impact. As a Senior/Principal Scientist in Global Preclinical PK/PD Modelling within Global Drug Discovery... The post Senior / Principal Scientist – Preclinical PK/PD Modelling and Simulation appeared first on jobRxiv .",
       "geo": "Other",
-      "tags": [],
-      "category": null,
-      "summary": null
+      "tags": [
+        "R"
+      ],
+      "category": "Pharma/Biotech",
+      "summary": null,
+      "seniority": "Senior"
     },
     {
       "id": "551bc0b33b",
@@ -86,11 +148,15 @@
       "source": "JobRxiv",
       "date": "2026-05-21",
       "url": "https://jobrxiv.org/job/postdoc-position-in-electronically-conductive-polymers-for-silicon-based-electrodes-for-lithium-ion-batteries-2/",
-      "description": "Postdoc Position In Electronically Conductive Polymers For Silicon-Based Electrodes For Lithium-Ion Batteries Uppsala University, Disciplinary Domain Of Science And Technology, Faculty Of Chemistry, Department Of Chemistry &#8211; Ångström Laboratory The... \n The post  Postdoc position in electronically conductive polymers for silicon-based electrodes for lithium-ion batteries  appeared first on  jobRxiv .",
+      "description": "Postdoc Position In Electronically Conductive Polymers For Silicon-Based Electrodes For Lithium-Ion Batteries Uppsala University, Disciplinary Domain Of Science And Technology, Faculty Of Chemistry, Department Of Chemistry – Ångström Laboratory The... The post Postdoc position in electronically conductive polymers for silicon-based electrodes for lithium-ion batteries appeared first on jobRxiv .",
       "geo": "Other",
-      "tags": [],
-      "category": null,
-      "summary": null
+      "tags": [
+        "R",
+        "NGS"
+      ],
+      "category": "Academia",
+      "summary": null,
+      "seniority": "PostDoc"
     },
     {
       "id": "e8ca19b763",
@@ -100,11 +166,14 @@
       "source": "JobRxiv",
       "date": "2026-05-21",
       "url": "https://jobrxiv.org/job/simons-foundation-27778-director-senior-director-of-research-software-engineering/",
-      "description": "Director/Senior Director of Research Software Engineering &#160; Full Time &#160; R0002112 &#160; POSITION SUMMARY &#160; The Simons Foundation&#8217;s Informatics group, part of the Division of Autism and Neuroscience (A&#38;N), is... \n The post  Director/Senior Director of Research Software Engineering  appeared first on  jobRxiv .",
+      "description": "Director/Senior Director of Research Software Engineering Full Time R0002112 POSITION SUMMARY The Simons Foundation’s Informatics group, part of the Division of Autism and Neuroscience (A&N), is... The post Director/Senior Director of Research Software Engineering appeared first on jobRxiv .",
       "geo": "Other",
-      "tags": [],
+      "tags": [
+        "R"
+      ],
       "category": null,
-      "summary": null
+      "summary": null,
+      "seniority": "PI/Lead"
     },
     {
       "id": "65859d7e83",
@@ -114,11 +183,294 @@
       "source": "JobRxiv",
       "date": "2026-05-21",
       "url": "https://jobrxiv.org/job/faculty-of-sciencedoctoral-researcher-in-algorithmic-bioinformaticsthe-algorithmic-bioinformatics-lab-is-recruiting-a-phd-student-funded-by-teampermed-center-for-data-enriched-personalised-medicine-y/",
-      "description": "Doctoral Researcher in Algorithmic Bioinformatics The Algorithmic Bioinformatics Lab is recruiting a PhD student funded by TeamPerMed Center for Data-Enriched Personalised Medicine. You will work with Professor Veli Mäkinen. The... \n The post  Faculty of ScienceDoctoral Researcher in Algorithmic BioinformaticsThe Algorithmic Bioinformatics Lab is recruiting a PhD student funded by TeamPerMed Center for Data-Enriched Personalised Medicine. You will work with Professor Veli Mäkinen. The general s  appeared first on  jobRxiv .",
+      "description": "Doctoral Researcher in Algorithmic Bioinformatics The Algorithmic Bioinformatics Lab is recruiting a PhD student funded by TeamPerMed Center for Data-Enriched Personalised Medicine. You will work with Professor Veli Mäkinen. The... The post Faculty of ScienceDoctoral Researcher in Algorithmic BioinformaticsThe Algorithmic Bioinformatics Lab is recruiting a PhD student funded by TeamPerMed Center for Data-Enriched Personalised Medicine. You will work with Professor Veli Mäkinen. The general s appeared first on jobRxiv .",
       "geo": "Other",
-      "tags": [],
-      "category": null,
-      "summary": null
+      "tags": [
+        "R"
+      ],
+      "category": "Academia",
+      "summary": null,
+      "seniority": "Mid"
+    },
+    {
+      "id": "manual_li_4417350388",
+      "title": "AI Scientist / Principal AI Engineer – Drug Discovery & Life Sciences",
+      "company": "Holisticon Connect (NEXER GROUP)",
+      "location": "Wrocław, Poland",
+      "source": "LinkedIn",
+      "date": "2026-05-21",
+      "url": "https://www.linkedin.com/jobs/view/4417350388/",
+      "description": "AI-driven Bio/Pharma research initiative focused on next-generation drug discovery. Build production-ready AI systems, apply Graph ML and knowledge graphs to biomedical problems, develop AI for molecular modelling and small molecule discovery. Python, GNNs, agentic AI. Remote or Wrocław. UoP: 17 000–20 000 PLN/month, B2B: 140–170 PLN/h.",
+      "geo": "Poland",
+      "category": "Pharma/Biotech",
+      "seniority": "Senior",
+      "tags": [
+        "Python",
+        "machine learning",
+        "drug discovery",
+        "deep learning",
+        "GNN"
+      ],
+      "summary": null,
+      "manually_added": true,
+      "deadline": "2026-07-21"
+    },
+    {
+      "id": "manual_li_4405543525",
+      "title": "Data Analytics Engineer – Pharmaceutical Industry",
+      "company": "Sii Poland",
+      "location": "Wrocław, Poland",
+      "source": "LinkedIn",
+      "date": "2026-05-21",
+      "url": "https://www.linkedin.com/jobs/view/4405543525/",
+      "description": "Projects for one of the world's largest pharmaceutical companies. Design data models and APIs for inner/open-source projects, CI/CD pipelines, cloud technologies (AWS/Azure/GCP). Java, Python, SQL, NoSQL. Remote. 5+ years.",
+      "geo": "Poland",
+      "category": "Pharma/Biotech",
+      "seniority": "Senior",
+      "tags": [
+        "Python",
+        "AWS",
+        "GCP",
+        "SQL",
+        "biological data"
+      ],
+      "summary": null,
+      "manually_added": true,
+      "deadline": "2026-07-21"
+    },
+    {
+      "id": "manual_li_roche_ba_warsaw",
+      "title": "IT Business Analyst – Biometrics and Clinical Evidence",
+      "company": "Roche",
+      "location": "Warsaw, Poland",
+      "source": "LinkedIn",
+      "date": "2026-05-16",
+      "url": "https://careers.roche.com/global/en/",
+      "description": "Lead data discovery across clinical study data and real-world evidence. Define data product roadmaps, translate business goals into data requirements, ensure data quality and regulatory compliance. AI-ready data foundations supporting ML and agentic AI. Life Sciences background required. 19 000–35 400 PLN gross/month.",
+      "geo": "Poland",
+      "category": "Pharma/Biotech",
+      "seniority": "Senior",
+      "tags": [
+        "biomedical data",
+        "machine learning",
+        "clinical genomics",
+        "biostatistics",
+        "AWS"
+      ],
+      "summary": null,
+      "manually_added": true,
+      "deadline": "2026-07-16"
+    },
+    {
+      "id": "manual_li_roche_ba_poznan",
+      "title": "IT Business Analyst – Biometrics and Clinical Evidence",
+      "company": "Roche",
+      "location": "Poznań, Poland",
+      "source": "LinkedIn",
+      "date": "2026-05-16",
+      "url": "https://careers.roche.com/global/en/",
+      "description": "Lead data discovery across clinical study data and real-world evidence. Define data product roadmaps, translate business goals into data requirements, ensure data quality and regulatory compliance. AI-ready data foundations supporting ML and agentic AI. Life Sciences background required. 19 000–35 400 PLN gross/month.",
+      "geo": "Poland",
+      "category": "Pharma/Biotech",
+      "seniority": "Senior",
+      "tags": [
+        "biomedical data",
+        "machine learning",
+        "clinical genomics",
+        "biostatistics",
+        "AWS"
+      ],
+      "summary": null,
+      "manually_added": true,
+      "deadline": "2026-07-16"
+    },
+    {
+      "id": "manual_li_moderna_ds_warsaw1",
+      "title": "Data Scientist – mRNA Manufacturing & Technical Development",
+      "company": "Moderna",
+      "location": "Warsaw, Poland",
+      "source": "LinkedIn",
+      "date": "2026-05-16",
+      "url": "https://www.modernatx.com/careers",
+      "description": "Design and deploy advanced ML and optimization solutions for mRNA manufacturing and technical development. Statistical modeling, Bayesian experimental design, constrained optimization, Monte Carlo simulations. Python, scikit-learn, AWS, Docker. Background in bioinformatics preferred. PhD + 0-2 years or MSc + 5-8 years.",
+      "geo": "Poland",
+      "category": "Pharma/Biotech",
+      "seniority": "Mid",
+      "tags": [
+        "Python",
+        "machine learning",
+        "biostatistics",
+        "AWS",
+        "Docker",
+        "deep learning"
+      ],
+      "summary": null,
+      "manually_added": true,
+      "deadline": "2026-07-16"
+    },
+    {
+      "id": "manual_li_moderna_bioengineer",
+      "title": "Sr. Bioinformatics Engineer II – Pipeline Operations",
+      "company": "Moderna",
+      "location": "Warsaw, Poland",
+      "source": "LinkedIn",
+      "date": "2026-05-16",
+      "url": "https://www.modernatx.com/careers",
+      "description": "Monitor and maintain bioinformatics pipelines ensuring continuous operation for neoantigen therapies. Troubleshoot pipeline issues, support computer system validation in GxP environment, automate error reporting. Python, Nextflow, Snakemake, AWS, Docker, Git. 10+ years experience. Shift work including Sundays.",
+      "geo": "Poland",
+      "category": "Pharma/Biotech",
+      "seniority": "Senior",
+      "tags": [
+        "Python",
+        "Nextflow",
+        "Snakemake",
+        "AWS",
+        "Docker",
+        "bioinformatics pipeline"
+      ],
+      "summary": null,
+      "manually_added": true,
+      "deadline": "2026-07-16"
+    },
+    {
+      "id": "manual_li_accenture_ls",
+      "title": "Life Science Data Consultant / Analyst",
+      "company": "Accenture (ICH Europe)",
+      "location": "Warsaw, Poland",
+      "source": "LinkedIn",
+      "date": "2026-05-16",
+      "url": "https://www.linkedin.com/jobs/view/life-science-data-consultant-accenture/",
+      "description": "IT Data/Business Analyst for Life Sciences and Healthcare/Pharma clients. Gather requirements, analyze clinical data, design data products. Background in Bioinformatics, Bioengineering or Data Science preferred. SQL, Python, AWS/Azure/GCP, Veeva Systems. GenAI and agentic AI for drug discovery pipelines. Hybrid Warsaw/Kraków/Wrocław.",
+      "geo": "Poland",
+      "category": "Pharma/Biotech",
+      "seniority": "Mid",
+      "tags": [
+        "Python",
+        "SQL",
+        "AWS",
+        "biomedical data",
+        "clinical genomics"
+      ],
+      "summary": null,
+      "manually_added": true,
+      "deadline": "2026-07-16"
+    },
+    {
+      "id": "manual_li_4415327854",
+      "title": "Data Scientist – Life Sciences & Cancer Drug Discovery",
+      "company": "Seargin",
+      "location": "Poland",
+      "source": "LinkedIn",
+      "date": "2026-05-16",
+      "url": "https://www.linkedin.com/jobs/view/4415327854/",
+      "description": "Data Science team supporting cancer drug discovery and industrial projects. Generative AI, agentic AI, RAG/GraphRAG, PySpark, Python, Azure stack (ADF, Databricks, ADLS). Knowledge graphs, Neo4j. Remote Poland. B2B full-time.",
+      "geo": "Poland",
+      "category": "Pharma/Biotech",
+      "seniority": "Mid",
+      "tags": [
+        "Python",
+        "machine learning",
+        "drug discovery",
+        "deep learning",
+        "GCP"
+      ],
+      "summary": null,
+      "manually_added": true,
+      "deadline": "2026-07-16"
+    },
+    {
+      "id": "manual_li_holisticon_mlswe",
+      "title": "ML Software Engineer – Medical Research",
+      "company": "Holisticon Connect (NEXER GROUP)",
+      "location": "Wrocław, Poland",
+      "source": "LinkedIn",
+      "date": "2026-05-09",
+      "url": "https://www.linkedin.com/jobs/view/holisticon-ml-software-engineer/",
+      "description": "ML tooling for modern medical research — transform prototype workflows into scalable production solutions. PyTorch, TensorFlow, JAX, MLOps, proteomics data processing, computer vision. Remote or Wrocław. UoP: 15 000–18 000 PLN/month, B2B: 130–150 PLN/h.",
+      "geo": "Poland",
+      "category": "Pharma/Biotech",
+      "seniority": "Mid",
+      "tags": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "proteomics",
+        "machine learning",
+        "AWS"
+      ],
+      "summary": null,
+      "manually_added": true,
+      "deadline": "2026-07-09"
+    },
+    {
+      "id": "manual_li_moderna_ds_warsaw2",
+      "title": "Data Scientist – mRNA AI Platform",
+      "company": "Moderna",
+      "location": "Warsaw, Poland",
+      "source": "LinkedIn",
+      "date": "2026-05-09",
+      "url": "https://www.modernatx.com/careers",
+      "description": "Design and deploy ML and optimization solutions for mRNA therapeutics manufacturing. Bayesian experimental design, constrained optimization, Monte Carlo simulations, Generative AI. Python, scikit-learn, AWS, Docker. Bioinformatics background preferred. 70% in-office Warsaw.",
+      "geo": "Poland",
+      "category": "Pharma/Biotech",
+      "seniority": "Mid",
+      "tags": [
+        "Python",
+        "machine learning",
+        "biostatistics",
+        "AWS",
+        "Docker",
+        "deep learning"
+      ],
+      "summary": null,
+      "manually_added": true,
+      "deadline": "2026-07-09"
+    },
+    {
+      "id": "manual_li_kpmg_ds",
+      "title": "Senior Data Science Consultant – Data Science & AI",
+      "company": "KPMG Poland",
+      "location": "Wrocław, Poland",
+      "source": "LinkedIn",
+      "date": "2026-05-02",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=BIOINFORMATICS",
+      "description": "Tworzenie i wdrażanie aplikacji AI z naciskiem na generatywną AI, modele językowe i wyszukiwanie wektorowe. Projekty transformacyjne dla największych organizacji. Python, PyTorch, HuggingFace, Azure, LLM. Hybrid Wrocław. 3–5 lat doświadczenia w ML/AI.",
+      "geo": "Poland",
+      "category": "Startup",
+      "seniority": "Senior",
+      "tags": [
+        "Python",
+        "PyTorch",
+        "machine learning",
+        "deep learning",
+        "AWS"
+      ],
+      "summary": null,
+      "manually_added": true,
+      "deadline": "2026-07-01"
+    },
+    {
+      "id": "manual_li_4404976088",
+      "title": "Senior Data Engineer – Precision Cancer Medicine",
+      "company": "Holisticon Connect (NEXER GROUP)",
+      "location": "Wrocław, Poland",
+      "source": "LinkedIn",
+      "date": "2026-04-23",
+      "url": "https://www.linkedin.com/jobs/view/4404976088/",
+      "description": "AI-driven Pharma-Tech company focused on precision cancer medicine. Build scalable data pipelines, GCP/AWS, ETL/ELT, data lake/lakehouse, Terraform, Python or Snowflake. US time overlap required (12–18 CET). Remote. UoP: 20 000–22 000 PLN/month, B2B: 160–175 PLN/h.",
+      "geo": "Poland",
+      "category": "Pharma/Biotech",
+      "seniority": "Senior",
+      "tags": [
+        "Python",
+        "GCP",
+        "AWS",
+        "precision medicine",
+        "medical genomics"
+      ],
+      "summary": null,
+      "manually_added": true,
+      "deadline": "2026-07-23"
     }
   ]
 }
