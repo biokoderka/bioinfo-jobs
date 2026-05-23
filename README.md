@@ -4,7 +4,7 @@
 
 A free, open-source job board for bioinformaticians. Aggregates offers from Nature Careers, EMBL, EuroScienceJobs, jobs.ac.uk and more. Filters by region (Poland / Europe / USA / Remote) and sector. AI-powered job analysis via Claude.
 
-🌐 **Live site:** `https://YOUR_USERNAME.github.io/bioinfo-jobs`
+🌐 **Live site:** `https://biokoderka.github.io/bioinfo-jobs`
 
 ---
 
