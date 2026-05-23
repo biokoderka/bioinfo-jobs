@@ -1,4 +1,4 @@
-# 🧬 BioInfoJobs
+# 🧬 BioInfoJobs 
 
 > **Weekly bioinformatics job board**
 
