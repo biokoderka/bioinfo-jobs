@@ -202,7 +202,9 @@ body {
   #results-count { margin-left: 0; }
 }
 </style>
-<script defer src="https://umami-rose-alpha.vercel.app/script.js" data-website-id="0f8a4bbd-7790-437c-912f-15149106ebab"></script>
+<!-- Umami Analytics — privacy-friendly, no cookies, GDPR compliant -->
+<!-- Replace src and data-website-id with your own from Umami dashboard -->
+<!-- <script defer src="https://YOUR-UMAMI.vercel.app/script.js" data-website-id="YOUR-WEBSITE-ID"></script> -->
 </head>
 <body>
 
@@ -281,10 +283,11 @@ body {
 
 <div id="footer">
   🧬 <strong style="color:var(--text-dim)">BioInfoJobs</strong> — open source bioinformatics job board<br>
-  curated by <a class="ig-link" href="https://instagram.com/biokoderka" target="_blank">✦ @biokoderka</a> <br>
-  <a href="privacy.html" style="color:var(--magenta);font-weight:700">🔒 Privacy &amp; Terms</a> ·
+  curated by <a class="ig-link" href="https://instagram.com/biokoderka" target="_blank">✦ @biokoderka</a> · updated every Monday via GitHub Actions<br>
   <a href="submit.html">Submit a job listing</a> ·
   <a href="https://github.com/Biokoderka/bioinfo-jobs" target="_blank">View on GitHub</a> ·
+  <a href="privacy.html">Privacy &amp; Terms</a> ·
+  Sources: Nature Careers · EuroScienceJobs · jobs.ac.uk · EMBL · Science Careers · Euraxess · Bioinformatics.org · JobRxiv
   <br><br>
   <span style="font-size:10px;color:var(--text-mute);opacity:0.7;max-width:700px;display:inline-block;line-height:1.6;">
     <strong style="color:var(--text-mute)">Disclaimer:</strong>
@@ -488,13 +491,13 @@ function render() {
   }).join("");
 
   grid.querySelectorAll(".job-card").forEach(el => {
-    el.addEventListener("click", () => openModal(parseInt(el.dataset.id)));
+    el.addEventListener("click", () => openModal(el.dataset.id));
   });
 }
 
 // ── MODAL ────────────────────────────────────────────────────────────────────
 function openModal(id) {
-  selectedJob = jobs.find(j => j.id === id);
+  selectedJob = jobs.find(j => String(j.id) === String(id));
   if (!selectedJob) return;
   const j = selectedJob;
   const gc = GEO_COLORS[j.geo]||"#5a3878";
