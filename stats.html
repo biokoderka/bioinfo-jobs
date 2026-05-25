@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stats — BioInfoJobs by @biokoderka</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0a0010;--bg2:#0f0018;--bg3:#150020;
+  --border:#2a1040;--border2:#3d1860;
+  --magenta:#ff2d9b;--violet:#b44fff;--violet-dim:#7a30b8;
+  --pink-soft:#ff85c8;--green:#06d6a0;--yellow:#ffd166;
+  --text:#f0e8ff;--text-dim:#9b80c0;--text-mute:#5a3878;
+  --glow-m:rgba(255,45,155,0.18);--glow-v:rgba(180,79,255,0.15);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;
+  background-image:
+    radial-gradient(ellipse 60% 35% at 85% 5%,rgba(180,79,255,0.10) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 25% at 5% 95%,rgba(255,45,155,0.07) 0%,transparent 60%);}
+::-webkit-scrollbar{width:4px;} ::-webkit-scrollbar-thumb{background:#3d1860;}
+
+/* HEADER */
+#header{background:rgba(10,0,16,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);
+  padding:12px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  position:sticky;top:0;z-index:100;}
+#logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+#logo-icon{width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,var(--magenta),var(--violet));
+  display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 16px var(--glow-m);}
+#logo-text{font-size:18px;font-weight:800;color:var(--text);}
+#logo-text span{background:linear-gradient(90deg,var(--magenta),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+#logo small{display:block;font-family:'DM Mono',monospace;font-size:9px;color:var(--text-mute);font-weight:400;margin-top:1px;}
+.nav-links{display:flex;gap:8px;}
+.nav-link{font-size:12px;color:var(--text-dim);text-decoration:none;padding:6px 12px;
+  border:1px solid var(--border);border-radius:8px;transition:all 0.15s;font-weight:600;}
+.nav-link:hover{border-color:var(--violet-dim);color:var(--violet);}
+.nav-link.active{border-color:var(--violet-dim);color:var(--violet);background:rgba(180,79,255,0.08);}
+
+/* SCOPE TOGGLE */
+#scope-bar{background:rgba(10,0,16,0.88);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);padding:12px 20px;
+  display:flex;align-items:center;gap:12px;position:sticky;top:57px;z-index:99;}
+#scope-bar span{font-size:11px;color:var(--text-mute);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.5px;}
+.scope-btn{cursor:pointer;border:1px solid var(--border);border-radius:20px;font-size:11px;
+  font-weight:700;padding:5px 14px;font-family:'Plus Jakarta Sans',sans-serif;
+  background:transparent;color:var(--text-mute);transition:all 0.15s;}
+.scope-btn:hover{border-color:var(--border2);color:var(--text-dim);}
+.scope-btn.on{background:linear-gradient(135deg,var(--magenta),var(--violet));color:#fff;border-color:transparent;box-shadow:0 0 12px var(--glow-m);}
+#total-badge{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-mute);margin-left:auto;}
+#total-badge strong{color:var(--violet);}
+
+/* MAIN GRID */
+.stats-container{padding:24px 20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;}
+
+/* KPI STRIP */
+.kpi-strip{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px 20px;
+  position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;inset:0;border-radius:14px;
+  background:linear-gradient(135deg,var(--glow-m),var(--glow-v));opacity:0.5;}
+.kpi-num{font-family:'DM Mono',monospace;font-size:32px;font-weight:500;position:relative;
+  background:linear-gradient(90deg,var(--magenta),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.kpi-label{font-size:11px;color:var(--text-mute);position:relative;margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;}
+
+/* CHART CARD */
+.chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:22px;
+  display:flex;flex-direction:column;gap:14px;}
+.chart-card.wide{grid-column:span 2;}
+.chart-title{font-size:13px;font-weight:800;color:var(--text);letter-spacing:-0.2px;}
+.chart-subtitle{font-size:10px;color:var(--text-mute);font-family:'DM Mono',monospace;margin-top:-10px;}
+
+/* BAR CHART */
+.bar-list{display:flex;flex-direction:column;gap:10px;}
+.bar-row{display:grid;grid-template-columns:90px 1fr 36px;align-items:center;gap:10px;}
+.bar-label{font-size:11px;color:var(--text-dim);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-track{background:rgba(255,255,255,0.04);border-radius:20px;height:8px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:20px;transition:width 0.6s cubic-bezier(.34,1.56,.64,1);}
+.bar-val{font-family:'DM Mono',monospace;font-size:10px;color:var(--text-mute);text-align:right;}
+
+/* DONUT */
+.donut-wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.donut-svg{flex-shrink:0;}
+.donut-legend{display:flex;flex-direction:column;gap:8px;flex:1;}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:11px;}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.legend-label{color:var(--text-dim);flex:1;}
+.legend-val{font-family:'DM Mono',monospace;font-size:10px;color:var(--text-mute);}
+
+/* TREEMAP-style tech grid */
+.tech-grid{display:flex;flex-wrap:wrap;gap:6px;}
+.tech-chip{padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;
+  font-family:'DM Mono',monospace;border:1px solid;transition:transform 0.15s;}
+.tech-chip:hover{transform:translateY(-2px);}
+
+/* TIMELINE */
+.timeline-wrap{overflow-x:auto;padding-bottom:4px;}
+.timeline-bars{display:flex;align-items:flex-end;gap:4px;height:80px;min-width:100%;}
+.t-bar-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;min-width:28px;}
+.t-bar{border-radius:4px 4px 0 0;transition:height 0.5s cubic-bezier(.34,1.56,.64,1);min-height:2px;width:100%;}
+.t-label{font-size:8px;color:var(--text-mute);font-family:'DM Mono',monospace;white-space:nowrap;}
+.t-count{font-size:8px;font-family:'DM Mono',monospace;color:var(--text-mute);}
+
+#empty-stats{padding:60px 20px;text-align:center;color:var(--text-mute);}
+
+#footer{border-top:1px solid var(--border);padding:20px;text-align:center;
+  font-size:11px;color:var(--text-mute);line-height:2;}
+#footer a{color:var(--violet-dim);text-decoration:none;}
+#footer a:hover{color:var(--magenta);}
+
+@media(max-width:700px){
+  .chart-card.wide{grid-column:span 1;}
+  .stats-container{grid-template-columns:1fr;}
+  .kpi-strip{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div id="header">
+  <a id="logo" href="index.html">
+    <div id="logo-icon">🧬</div>
+    <div id="logo-text"><span>BioInfo</span>Jobs <small>by @biokoderka</small></div>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">Active jobs</a>
+    <a class="nav-link" href="archive.html">📦 Archive</a>
+    <a class="nav-link active" href="stats.html">📊 Stats</a>
+    <a class="nav-link" href="submit.html">✦ Submit</a>
+  </div>
+</div>
+
+<div id="scope-bar">
+  <span>Show data for:</span>
+  <button class="scope-btn on" data-scope="active">Active only</button>
+  <button class="scope-btn" data-scope="archived">Archived only</button>
+  <button class="scope-btn" data-scope="all">All time</button>
+  <span id="total-badge">— jobs</span>
+</div>
+
+<div class="stats-container" id="stats-container">
+  <div id="empty-stats" style="grid-column:1/-1">
+    <p style="font-size:28px;margin-bottom:12px">📊</p>
+    <p>Loading statistics...</p>
+  </div>
+</div>
+
+<div style="
+  margin: 0 20px 20px;
+  background: linear-gradient(135deg, rgba(255,45,155,0.08), rgba(180,79,255,0.12));
+  border: 1px solid rgba(180,79,255,0.3);
+  border-radius: 16px;
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+">
+  <div>
+    <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--magenta);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">✦ 1:1 with @biokoderka</div>
+    <div style="font-size:16px;font-weight:800;color:var(--text);margin-bottom:6px;">The market data is here — now let's talk about your place in it.</div>
+    <div style="font-size:13px;color:var(--text-dim);line-height:1.6;">Book a personalized 45-min career session grounded in real market data — not generic advice. CV review, job search strategy, and a concrete action plan tailored specifically to you and the roles that actually exist.</div>
+  </div>
+  <a href="https://www.naffy.io/biokoderka/konsultacja-kariery-bioinformatycznej" target="_blank" rel="noopener" style="
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--magenta), var(--violet));
+    color: #fff;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 12px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0 0 20px rgba(255,45,155,0.3);
+    white-space: nowrap;
+  ">Book a session →</a>
+</div>
+
+<div id="footer">
+  🧬 <strong style="color:#9b80c0">BioInfoJobs</strong> — curated by
+  <a href="https://instagram.com/biokoderka" target="_blank" style="color:var(--magenta);font-weight:600">@biokoderka</a> ·
+  <a href="index.html">Active jobs</a> · <a href="archive.html">Archive</a>
+</div>
+
+<script>
+const GEO_COLORS = {"Poland":"#e63946","Europe":"#b44fff","USA":"#ff2d9b","Remote":"#ff85c8","Other":"#5a3878"};
+const GEO_FLAGS  = {"Poland":"🇵🇱","Europe":"🇪🇺","USA":"🇺🇸","Remote":"🌐","Other":"🌍"};
+const CAT_COLORS = {"Academia":"#b44fff","Pharma/Biotech":"#ff2d9b","Clinical":"#ff85c8","Startup":"#e63946","Government/Public":"#7a30b8"};
+const SEN_COLORS = {"Junior":"#06d6a0","Mid":"#00b4d8","Senior":"#b44fff","PostDoc":"#ff2d9b","PI/Lead":"#ffd166"};
+
+const TECH_PALETTE = [
+  "#ff2d9b","#b44fff","#ff85c8","#06d6a0","#ffd166",
+  "#00b4d8","#e63946","#7a30b8","#3a9bd5","#f4845f"
+];
+
+let allJobs = [];
+let scope = "active";
+
+function isActive(j) {
+  const today = new Date().toISOString().split("T")[0];
+  const cutoff = new Date(Date.now()-60*86400000).toISOString().split("T")[0];
+  if (j.deadline && j.deadline < today) return false;
+  if (j.date && j.date < cutoff) return false;
+  return true;
+}
+
+function getScopedJobs() {
+  if (scope === "active")   return allJobs.filter(j => isActive(j));
+  if (scope === "archived") return allJobs.filter(j => !isActive(j));
+  return allJobs;
+}
+
+// ── SEED DATA ─────────────────────────────────────────────────────────────────
+const SEED = [
+  {title:"Senior Bioinformatics Scientist",company:"Genomics UK",location:"London, UK",date:"2026-05-15",geo:"Europe",category:"Pharma/Biotech",seniority:"Senior",tags:["Python","WGS","RNA-seq","Snakemake","variant calling"]},
+  {title:"Computational Biology Postdoc",company:"EMBL",location:"Heidelberg",date:"2026-05-14",geo:"Europe",category:"Academia",seniority:"PostDoc",tags:["Python","R","Seurat","Scanpy","single cell"]},
+  {title:"Data Scientist Drug Discovery",company:"BioNTech",location:"Mainz",date:"2026-05-13",geo:"Europe",category:"Pharma/Biotech",seniority:"Mid",tags:["PyTorch","deep learning","Python","multi-omics"]},
+  {title:"Structural Bioinformatician",company:"Broad Institute",location:"Cambridge MA",date:"2026-05-12",geo:"USA",category:"Academia",seniority:"Senior",tags:["AlphaFold2","PyMOL","GROMACS","Python"]},
+  {title:"Metagenomics Analyst",company:"Microbiome Institute",location:"Warsaw",date:"2026-05-11",geo:"Poland",category:"Academia",seniority:"Mid",tags:["QIIME2","Snakemake","16S","metagenomics","Python"]},
+  {title:"Genomics Data Engineer",company:"KCL",location:"London",date:"2026-05-10",geo:"Europe",category:"Academia",seniority:"Mid",tags:["AWS","Nextflow","Python","Docker","SLURM"]},
+  {title:"Remote Bioinformatics Scientist",company:"Illumina",location:"Remote",date:"2026-05-09",geo:"Remote",category:"Pharma/Biotech",seniority:"Senior",tags:["Python","Bash","Docker","NGS","CI/CD"]},
+  {title:"Biostatistician",company:"Roche",location:"Basel",date:"2026-05-08",geo:"Europe",category:"Pharma/Biotech",seniority:"Senior",tags:["R","Bayesian","mixed models","survival analysis"]},
+  {title:"NGS Pipeline Developer",company:"Sanger",location:"Cambridge UK",date:"2026-04-20",geo:"Europe",category:"Academia",seniority:"Mid",tags:["Python","Nextflow","WES","GATK","Docker"]},
+  {title:"Bioinformatics Postdoc",company:"Oxford",location:"Oxford UK",date:"2026-04-15",geo:"Europe",category:"Academia",seniority:"PostDoc",tags:["R","Python","GWAS","population genetics"]},
+  {title:"Clinical Bioinformatician",company:"NHS",location:"London",date:"2026-04-10",geo:"Europe",category:"Clinical",seniority:"Mid",tags:["Python","variant calling","WGS","clinical"]},
+  {title:"ML Engineer Life Sciences",company:"Recursion",location:"Remote",date:"2026-04-05",geo:"Remote",category:"Startup",seniority:"Senior",tags:["PyTorch","Python","deep learning","multi-omics"]},
+  {title:"Bioinformatics Analyst",company:"Ardigen",location:"Kraków",date:"2026-03-25",geo:"Poland",category:"Pharma/Biotech",seniority:"Junior",tags:["Python","R","NGS","RNA-seq"]},
+  {title:"Genomics Research Scientist",company:"Tempus",location:"Chicago",date:"2026-03-15",geo:"USA",category:"Startup",seniority:"Senior",tags:["Python","WGS","variant calling","AWS"]},
+  {title:"Spatial Transcriptomics Postdoc",company:"Karolinska",location:"Stockholm",date:"2025-12-10",geo:"Europe",category:"Academia",seniority:"PostDoc",tags:["R","Seurat","Python","spatial transcriptomics"]},
+  {title:"Protein Structure Scientist",company:"Genentech",location:"San Francisco",date:"2025-11-20",geo:"USA",category:"Pharma/Biotech",seniority:"Senior",tags:["AlphaFold2","Python","structural biology","PyMOL"]},
+];
+
+// ── CHART HELPERS ─────────────────────────────────────────────────────────────
+function count(jobs, key) {
+  const m = {};
+  jobs.forEach(j => { const v = j[key]||"Unknown"; m[v]=(m[v]||0)+1; });
+  return Object.entries(m).sort((a,b)=>b[1]-a[1]);
+}
+
+function countTags(jobs) {
+  const m = {};
+  jobs.forEach(j => (j.tags||[]).forEach(t => { m[t]=(m[t]||0)+1; }));
+  return Object.entries(m).sort((a,b)=>b[1]-a[1]);
+}
+
+function countByMonth(jobs) {
+  const m = {};
+  jobs.forEach(j => {
+    if (!j.date||j.date==="—") return;
+    const mo = j.date.slice(0,7);
+    m[mo]=(m[mo]||0)+1;
+  });
+  return Object.entries(m).sort();
+}
+
+// ── BAR CHART ─────────────────────────────────────────────────────────────────
+function barChart(data, colorMap, maxVal) {
+  const max = maxVal || Math.max(...data.map(d=>d[1]), 1);
+  return `<div class="bar-list">${data.slice(0,8).map(([label,val])=>{
+    const color = colorMap?.[label] || "#b44fff";
+    const pct = Math.round((val/max)*100);
+    return `<div class="bar-row">
+      <div class="bar-label" title="${label}">${label}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:linear-gradient(90deg,${color},${color}99)"></div></div>
+      <div class="bar-val">${val}</div>
+    </div>`;
+  }).join("")}</div>`;
+}
+
+// ── DONUT CHART ───────────────────────────────────────────────────────────────
+function donutChart(data, colorMap, size=120) {
+  const total = data.reduce((s,[,v])=>s+v, 0) || 1;
+  const r = 46, cx = size/2, cy = size/2, stroke = 16;
+  let offset = 0;
+  const circ = 2*Math.PI*r;
+  const arcs = data.slice(0,6).map(([label,val])=>{
+    const color = colorMap?.[label] || "#b44fff";
+    const dash = (val/total)*circ;
+    const arc = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}"
+      stroke-dasharray="${dash} ${circ-dash}" stroke-dashoffset="${-offset}" stroke-linecap="butt"
+      style="transition:stroke-dasharray 0.6s ease"/>`;
+    offset += dash;
+    return {arc, label, val, color, pct:Math.round((val/total)*100)};
+  });
+
+  const svg = `<svg class="donut-svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="${stroke}"/>
+    ${arcs.map(a=>a.arc).join("")}
+    <text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="central"
+      font-family="'DM Mono',monospace" font-size="18" font-weight="500" fill="#f0e8ff">${total}</text>
+    <text x="${cx}" y="${cy+16}" text-anchor="middle" dominant-baseline="central"
+      font-family="'DM Mono',monospace" font-size="8" fill="#5a3878">total</text>
+  </svg>`;
+
+  const legend = `<div class="donut-legend">${arcs.map(a=>`
+    <div class="legend-item">
+      <div class="legend-dot" style="background:${a.color}"></div>
+      <div class="legend-label">${a.label}</div>
+      <div class="legend-val">${a.val} <span style="color:#3a4060">(${a.pct}%)</span></div>
+    </div>`).join("")}</div>`;
+
+  return `<div class="donut-wrap">${svg}${legend}</div>`;
+}
+
+// ── TECH GRID ─────────────────────────────────────────────────────────────────
+function techGrid(data) {
+  const max = data[0]?.[1] || 1;
+  return `<div class="tech-grid">${data.slice(0,20).map(([tag,val],i)=>{
+    const color = TECH_PALETTE[i % TECH_PALETTE.length];
+    const size = 10 + Math.round((val/max)*4);
+    return `<span class="tech-chip" style="font-size:${size}px;color:${color};border-color:${color}44;background:${color}10"
+      title="${val} jobs">${tag} <span style="opacity:0.6">${val}</span></span>`;
+  }).join("")}</div>`;
+}
+
+// ── TIMELINE ──────────────────────────────────────────────────────────────────
+function timeline(data) {
+  if (!data.length) return "<p style='color:var(--text-mute);font-size:12px'>No data</p>";
+  const max = Math.max(...data.map(d=>d[1]), 1);
+  return `<div class="timeline-wrap"><div class="timeline-bars">${data.map(([mo,val])=>{
+    const h = Math.max(4, Math.round((val/max)*72));
+    const label = mo.slice(5); // MM
+    const months = ["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    return `<div class="t-bar-wrap">
+      <div class="t-count">${val}</div>
+      <div class="t-bar" style="height:${h}px;background:linear-gradient(180deg,var(--magenta),var(--violet))"></div>
+      <div class="t-label">${months[parseInt(label)]||label}</div>
+    </div>`;
+  }).join("")}</div></div>`;
+}
+
+// ── RENDER STATS ──────────────────────────────────────────────────────────────
+function renderStats() {
+  const jobs = getScopedJobs();
+  const container = document.getElementById("stats-container");
+
+  if (!jobs.length) {
+    container.innerHTML = `<div id="empty-stats" style="grid-column:1/-1;padding:60px 20px;text-align:center;color:var(--text-mute)">
+      <p style="font-size:28px;margin-bottom:12px">📊</p><p>No data for this scope.</p></div>`;
+    return;
+  }
+
+  document.getElementById("total-badge").innerHTML = `<strong>${jobs.length}</strong> jobs analysed`;
+
+  const geoData  = count(jobs,"geo");
+  const catData  = count(jobs,"category");
+  const senData  = count(jobs,"seniority");
+  const tagData  = countTags(jobs);
+  const moData   = countByMonth(jobs);
+
+  const activeCount   = allJobs.filter(j=>isActive(j)).length;
+  const remoteCount   = jobs.filter(j=>j.geo==="Remote").length;
+  const polandCount   = jobs.filter(j=>j.geo==="Poland").length;
+  const uniqueTechs   = new Set(jobs.flatMap(j=>j.tags||[])).size;
+  const topTech       = tagData[0]?.[0] || "—";
+  const topGeo        = geoData[0]?.[0] || "—";
+
+  container.innerHTML = `
+    <!-- KPIs -->
+    <div class="kpi-strip">
+      <div class="kpi"><div class="kpi-num">${jobs.length}</div><div class="kpi-label">Total listings</div></div>
+      <div class="kpi"><div class="kpi-num">${remoteCount}</div><div class="kpi-label">Remote positions</div></div>
+      <div class="kpi"><div class="kpi-num">${polandCount}</div><div class="kpi-label">🇵🇱 Poland</div></div>
+      <div class="kpi"><div class="kpi-num">${uniqueTechs}</div><div class="kpi-label">Unique tech skills</div></div>
+      <div class="kpi"><div class="kpi-num" style="font-size:18px;padding-top:6px">${topTech}</div><div class="kpi-label">Most demanded skill</div></div>
+      <div class="kpi"><div class="kpi-num" style="font-size:18px;padding-top:6px">${topGeo}</div><div class="kpi-label">Top region</div></div>
+    </div>
+
+    <!-- Region donut -->
+    <div class="chart-card">
+      <div class="chart-title">📍 By Region</div>
+      <div class="chart-subtitle">geographic distribution</div>
+      ${donutChart(geoData, GEO_COLORS)}
+    </div>
+
+    <!-- Sector donut -->
+    <div class="chart-card">
+      <div class="chart-title">🏢 By Sector</div>
+      <div class="chart-subtitle">academia vs industry</div>
+      ${donutChart(catData, CAT_COLORS)}
+    </div>
+
+    <!-- Seniority bars -->
+    <div class="chart-card">
+      <div class="chart-title">🎓 By Seniority</div>
+      <div class="chart-subtitle">career level distribution</div>
+      ${barChart(senData, SEN_COLORS)}
+    </div>
+
+    <!-- Region bars -->
+    <div class="chart-card">
+      <div class="chart-title">🌍 Region breakdown</div>
+      <div class="chart-subtitle">number of listings per region</div>
+      ${barChart(geoData, GEO_COLORS)}
+    </div>
+
+    <!-- Tech stack -->
+    <div class="chart-card wide">
+      <div class="chart-title">🛠 Tech Stack — most demanded skills</div>
+      <div class="chart-subtitle">extracted automatically from job descriptions · size = frequency</div>
+      ${techGrid(tagData)}
+    </div>
+
+    <!-- Timeline -->
+    <div class="chart-card wide">
+      <div class="chart-title">📅 Listings over time</div>
+      <div class="chart-subtitle">number of new job postings per month</div>
+      ${timeline(moData)}
+    </div>
+  `;
+}
+
+// ── LOAD ──────────────────────────────────────────────────────────────────────
+async function loadJobs() {
+  try {
+    const r = await fetch("jobs.json");
+    if (r.ok) {
+      const data = await r.json();
+      allJobs = data.jobs || [];
+    }
+  } catch(e) {}
+  if (!allJobs.length) allJobs = SEED;
+  renderStats();
+}
+
+document.querySelectorAll(".scope-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    scope = btn.dataset.scope;
+    document.querySelectorAll(".scope-btn").forEach(b => b.classList.remove("on"));
+    btn.classList.add("on");
+    renderStats();
+  });
+});
+
+loadJobs();
+</script>
+</body>
+</html>
