@@ -8,6 +8,23 @@
     "manual": 27
   },
   "jobs": [
+    {
+  "id": "manual_li_mcbuj_phd_amr",
+  "title": "PhD – AMR Resistance Profiling & Hospital Metagenomics (Topic M4)",
+  "company": "Małopolska Centre of Biotechnology, Jagiellonian University",
+  "location": "Kraków, Poland",
+  "source": "LinkedIn",
+  "date": "2026-05-26",
+  "url": "https://lnkd.in/dM_QGfv9",
+  "description": "PhD project developing scalable bioinformatic pipelines for tracking antimicrobial resistance (AMR) spread in hospitals and environments. NGS-based metagenomics, MAG reconstruction, ARG functional annotation, MGE analysis. Integration of clinical, environmental and epidemiological datasets. Collaboration with MetaSUB Consortium, CYFRONET, UJ Collegium Medicum. International team.",
+  "geo": "Poland",
+  "category": "Academia",
+  "seniority": "PostDoc",
+  "tags": ["Python", "metagenomics", "NGS", "bioinformatics pipeline", "GWAS", "variant calling", "Nextflow", "HPC"],
+  "summary": null,
+  "manually_added": true,
+  "deadline": "2026-06-08"
+},
   {
     "id": "manual_li_astek_spm2",
     "title": "Software Product Manager – navify Mutation Profiler (Roche)",
