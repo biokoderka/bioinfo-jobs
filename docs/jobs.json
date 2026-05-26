@@ -9,6 +9,23 @@
   },
   "jobs": [
     {
+  "id": "manual_li_4415212745",
+  "title": "Python & Nextflow Developer (NGS)",
+  "company": "Intelliseq",
+  "location": "Poland",
+  "source": "LinkedIn",
+  "date": "2026-05-26",
+  "url": "https://www.linkedin.com/jobs/view/4415212745/",
+  "description": "Intelliseq — firma bioinformatyczna specjalizująca się w analizie NGS i medycynie personalizowanej. Rozwój skalowalnych pipeline'ów bioinformatycznych (WGS, WES, Targeted). Python, Nextflow, Docker, GCP/AWS, BWA, GATK, SAMtools, BCFtools, VEP. Formaty FASTQ/BAM/VCF. Testy pytest/nf-test, code review, CI/CD. Praca w pełni zdalna, UoP lub B2B.",
+  "geo": "Remote",
+  "category": "Pharma/Biotech",
+  "seniority": "Mid",
+  "tags": ["Python", "Nextflow", "WGS", "WES", "Docker", "GCP", "AWS", "GATK", "variant calling", "bioinformatics pipeline"],
+  "summary": null,
+  "manually_added": true,
+  "deadline": "2026-07-26"
+},
+    {
       "id": "manual_az_ssp_cvrm",
       "title": "Senior Statistical Programmer I/II – CVRM",
       "company": "AstraZeneca",
