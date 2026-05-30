@@ -59,26 +59,53 @@ LEVER_COMPANIES = [
 
 # ── KEYWORDS ──────────────────────────────────────────────────────────────────
 KEYWORDS = [
+    # core bioinformatics
     "bioinformatics","bioinformatician","computational biology","computational biologist",
     "genomics","genomicist","NGS","next generation sequencing","sequencing",
     "metagenomics","transcriptomics","proteomics","metabolomics","epigenomics",
-    "structural biology","biostatistics","systems biology","cheminformatics",
+    "biostatistics","systems biology","cheminformatics",
     "single cell","scRNA","spatial transcriptomics","spatial genomics",
     "CRISPR","phylogenetics","population genetics","GWAS","polygenic",
     "variant calling","genome assembly","genome annotation","pangenomics",
     "RNA-seq","WGS","WES","ChIP-seq","ATAC-seq","multi-omics","nanopore","long read","PacBio",
+    # structural biology & biophysics (Instruct-ERIC)
+    "structural biology","cryo-EM","cryoEM","cryo-ET","cryoET",
+    "X-ray crystallography","NMR spectroscopy","structural bioinformatics",
+    "protein structure prediction","protein modelling","protein folding",
+    "AlphaFold","RoseTTAFold","molecular dynamics","MD simulation",
+    "intrinsically disordered","integrative structural biology",
+    "single-particle analysis","subtomogram averaging","electron microscopy",
+    "structural genomics","structure-based drug design","SAXS","HDX-MS",
+    # antibody & immunology computational
+    "antibody discovery","nanobody","antibody engineering",
+    "immune repertoire","repertoire analysis","BCR sequencing","TCR sequencing",
+    "immunoinformatics","antibody-antigen","epitope prediction",
+    "nanobody-antigen","VHH","single-domain antibody",
+    # data science in life sciences
     "data scientist life science","data scientist biology","data scientist biotech",
     "machine learning biology","machine learning genomics","deep learning biology",
     "AI drug discovery","computational drug discovery","biomedical data","biological data","omics data",
     "drug discovery","target identification","protein structure",
+    # clinical & informatics
     "clinical bioinformatics","clinical genomics","clinical sequencing",
     "laboratory informatics","LIMS","biological database","sequence analysis",
+    # engineering & software
     "pipeline developer","pipeline engineer","bioinformatics pipeline",
     "genomics engineer","scientific programmer","research software engineer",
     "bioinformatics tools","bioinformatics platform","scientific software",
+    # pharma & precision medicine
     "life science data","life sciences data","pharma data scientist",
     "precision medicine","personalized medicine","medical genomics",
     "translational bioinformatics","biomedical informatics",
+    # broader roles
+    "computational scientist","postdoc computational","postdoc bioinformatics",
+    "postdoc genomics","postdoc structural","research engineer biology",
+    # methods & tools
+    "cancer genomics","tumor sequencing","liquid biopsy","cfDNA",
+    "microbiome","16S rRNA","resistome","population genomics",
+    "in silico","virtual screening","molecular docking","biomarker",
+    "AlphaFold2","protein language model","ESMFold",
+    "graph neural network","knowledge graph biology",
 ]
 
 POLAND_KW  = ["poland","polska","warsaw","wroclaw","krakow","gdansk","poznan","lodz","katowice"]
@@ -223,6 +250,76 @@ def fetch_lever(seen, headers):
     return results
 
 # ── MAIN ──────────────────────────────────────────────────────────────────────
+
+def fetch_instruct_eric(seen, headers):
+    """Scrape jobs from instruct-eric.org/jobs — structural biology & related."""
+    results = []
+    base = "https://instruct-eric.org"
+    try:
+        r = requests.get(f"{base}/jobs/", headers=headers, timeout=15)
+        # Extract job links and basic info from listing page
+        links = re.findall(r'href="(/jobs/[^"]+/)"', r.text)
+        links = list(dict.fromkeys(links))  # deduplicate
+        links = [l for l in links if l != "/jobs/"]
+        print(f"  Instruct-ERIC: {len(links)} listings found")
+        added = 0
+        for path in links[:40]:  # max 40 per run
+            url = base + path
+            uid = hashlib.md5(url.encode()).hexdigest()[:10]
+            if uid in seen: continue
+            try:
+                page = requests.get(url, headers=headers, timeout=12)
+                text = page.text
+                # Title
+                title_m = re.search(r'<h2[^>]*>([^<]+)</h2>', text)
+                if not title_m: continue
+                title = title_m.group(1).strip()
+                # Company + location + deadline from h4
+                meta_m = re.search(r'<h4[^>]*>([^<]+)</h4>', text)
+                company, location, deadline = "", "", None
+                if meta_m:
+                    meta = meta_m.group(1).strip()
+                    # Format: "Company, City, Country Application deadline: DD Mon YYYY"
+                    dl_m = re.search(r'Application deadline:\s*(\d{1,2}\s+\w+\s+\d{4})', meta)
+                    if dl_m:
+                        try:
+                            from datetime import datetime as dt
+                            deadline = dt.strptime(dl_m.group(1), "%d %b %Y").strftime("%Y-%m-%d")
+                        except: pass
+                        meta = meta[:dl_m.start()].strip().rstrip(",")
+                    parts = [p.strip() for p in meta.split(",")]
+                    if parts:
+                        company = parts[0]
+                        location = ", ".join(parts[1:]) if len(parts) > 1 else ""
+                # Description — first few paragraphs of body text
+                desc_parts = re.findall(r'<p[^>]*>([^<]{40,})</p>', text)
+                desc = " ".join(desc_parts[:4])
+                desc = re.sub(r'<[^>]+>', ' ', desc).strip()[:800]
+                if not is_relevant(title, desc): continue
+                seen.add(uid)
+                results.append({
+                    "id": uid,
+                    "title": title,
+                    "company": company or "Instruct-ERIC",
+                    "location": location or "See listing",
+                    "source": "Instruct-ERIC",
+                    "date": today(),
+                    "url": url,
+                    "description": desc,
+                    "geo": detect_geo(title, location, desc),
+                    "tags": [],
+                    "category": "Academia",
+                    "summary": None,
+                    "deadline": deadline,
+                })
+                added += 1
+            except Exception as e:
+                pass
+        print(f"  → {added} relevant")
+    except Exception as e:
+        print(f"  ERROR: {e}")
+    return results
+
 def main():
     print(f"\n🧬 BioInfoJobs Fetcher — {datetime.now(timezone.utc).isoformat()}\n")
     seen = set()
@@ -240,7 +337,10 @@ def main():
     print("\n🔧 Lever APIs:")
     lv = fetch_lever(seen, headers)
 
-    all_jobs = sorted(rss + gh + lv, key=lambda j: j["date"], reverse=True)
+    print("\n🏛 Instruct-ERIC:")
+    ie = fetch_instruct_eric(seen, headers)
+
+    all_jobs = sorted(rss + gh + lv + ie, key=lambda j: j["date"], reverse=True)
 
     # Drop jobs older than 60 days
     cutoff = (datetime.now(timezone.utc) - timedelta(days=60)).strftime("%Y-%m-%d")
@@ -273,7 +373,7 @@ def main():
     out.write_text(json.dumps({
         "updated": datetime.now(timezone.utc).isoformat(),
         "count": len(all_jobs),
-        "sources": {"rss": len(rss), "greenhouse": len(gh), "lever": len(lv), "manual": len(existing_manual)},
+        "sources": {"rss": len(rss), "greenhouse": len(gh), "lever": len(lv), "instruct_eric": len(ie), "manual": len(existing_manual)},
         "jobs": all_jobs,
     }, ensure_ascii=False, indent=2), encoding="utf-8")
 
