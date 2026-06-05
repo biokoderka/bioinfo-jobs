@@ -50,8 +50,6 @@ LEVER_COMPANIES = [
     ("Natera",           "natera"),
     ("Veracyte",         "veracyte"),
     ("Absci",            "absci"),
-    ("Enveda Biosciences","enveda"),
-    ("Synthego",         "synthego"),
 ]
 
 # ── KEYWORDS ──────────────────────────────────────────────────────────────────
@@ -165,6 +163,31 @@ def detect_geo(title, location, description):
     if any(k in text for k in EUROPE_KW): return "Europe"
     return "Other"
 
+def detect_seniority(title):
+    t = title.lower()
+    if any(k in t for k in ["phd", "ph.d", "doctoral", "doctorate"]):
+        return "PostDoc" if any(k in t for k in ["postdoc","post-doc","post doc","fellow"]) else "PostDoc"
+    if any(k in t for k in ["postdoc","post-doc","post doc","postdoctoral","research fellow"]):
+        return "PostDoc"
+    if any(k in t for k in ["phd student","phd position","phd candidate","phd fellowship",
+                             "phd thesis","doctoral student","doctorate student"]):
+        return "PostDoc"
+    if any(k in t for k in ["intern","internship","trainee","praktyk","staz","staż"]):
+        return "Intern"
+    if any(k in t for k in ["junior","entry level","entry-level","graduate","jr."]):
+        return "Junior"
+    if any(k in t for k in ["principal","staff scientist","staff engineer","distinguished",
+                             "vp ","vice president","chief","head of","director"]):
+        return "PI/Lead"
+    if any(k in t for k in ["senior","sr.","sr ","lead","principal","staff","associate director",
+                             "associate professor","assistant professor","professor"]):
+        return "Senior"
+    if any(k in t for k in ["associate","scientist ii","scientist 2","engineer ii","engineer 2",
+                             "analyst ii","analyst 2","mid-level"]):
+        return "Mid"
+    return "Mid"  # default for unclassified scientist/engineer roles
+
+
 def is_relevant(title, description):
     text = (title+" "+description).lower()
     return any(kw.lower() in text for kw in KEYWORDS)
@@ -245,7 +268,8 @@ def fetch_rss(seen, headers):
                 results.append({"id":uid,"title":title,"company":f["name"],
                     "location":loc or "See listing","source":f["name"],
                     "date":parse_date(e),"url":link,"description":desc[:800],
-                    "geo":detect_geo(title,loc,desc),"tags":[],"category":None,"summary":None})
+                    "geo":detect_geo(title,loc,desc),"tags":[],"category":None,
+                    "seniority":detect_seniority(title),"summary":None})
                 added += 1
             print(f"→ {added} relevant")
         except Exception as e:
@@ -282,7 +306,8 @@ def fetch_greenhouse(seen, headers):
                 results.append({"id":uid,"title":title,"company":company,
                     "location":loc or "See listing","source":f"{company} (Greenhouse)",
                     "date":date,"url":link,"description":desc,
-                    "geo":detect_geo(title,loc,desc),"tags":[],"category":None,"summary":None})
+                    "geo":detect_geo(title,loc,desc),"tags":[],"category":None,
+                    "seniority":detect_seniority(title),"summary":None})
                 added += 1
             if added: print(f"  ✓ {company}: {added} jobs")
         except Exception as e:
@@ -310,7 +335,8 @@ def fetch_lever(seen, headers):
                 results.append({"id":uid,"title":title,"company":company,
                     "location":loc or "See listing","source":f"{company} (Lever)",
                     "date":today(),"url":link,"description":desc,
-                    "geo":detect_geo(title,loc,desc),"tags":[],"category":None,"summary":None})
+                    "geo":detect_geo(title,loc,desc),"tags":[],"category":None,
+                    "seniority":detect_seniority(title),"summary":None})
                 added += 1
             if added: print(f"  ✓ {company}: {added} jobs")
         except Exception as e:

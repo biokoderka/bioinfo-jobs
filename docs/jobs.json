@@ -1,67 +1,26 @@
 {
-  "updated": "2026-06-05T09:46:24.607833+00:00",
-  "count": 281,
+  "updated": "2026-06-05T11:22:53.937172+00:00",
+  "count": 277,
   "sources": {
     "rss": 190,
     "greenhouse": 22,
-    "lever": 4,
+    "lever": 0,
     "manual": 75
   },
   "jobs": [
     {
-      "id": "637c0e100b",
-      "title": "Clinical Development Contractor (Neuro)",
-      "company": "Enveda Biosciences",
-      "location": "Remote, United States",
-      "source": "Enveda Biosciences (Lever)",
+      "id": "c73d824b54",
+      "title": "Senior Scientist – Bioinformatics",
+      "company": "JobRxiv",
+      "location": "See listing",
+      "source": "JobRxiv",
       "date": "2026-06-05",
-      "url": "https://jobs.lever.co/enveda/5148f955-460f-4a45-bf1c-b21a0031c328",
-      "description": "Let’s build the future of medicine - together. \n Join Enveda in  Clinical Development  on a  Contract  basis and help us transform natural compounds into life-changing medicines. We’re a team driven by curiosity and innovation - are you ready to make a difference? \n  Remote | Contract | $275-$350/hr |  \n  What Makes Us Enveda  \n Life is smart, and we can learn from it. We’re reinventing drug discovery by harnessing nature’s intelligence. Our platform identifies new medicines four times faster than the industry standard because patients can’t wait.&nbsp;What sets Enveda apart isn’t just what we do - it’s how we do it. Our culture is built on creativity, collaboration, and deep respect for each other. We believe&nbsp;  “People Create All Value”  , and our success is driven by the extraordina",
-      "geo": "Remote",
-      "tags": [],
-      "category": null,
-      "summary": null
-    },
-    {
-      "id": "d5151e71dd",
-      "title": "Senior Research Associate, Analytical Chemistry",
-      "company": "Enveda Biosciences",
-      "location": "Hyderabad",
-      "source": "Enveda Biosciences (Lever)",
-      "date": "2026-06-05",
-      "url": "https://jobs.lever.co/enveda/ab43d6b8-0bd7-4b45-a653-9328a83163ea",
-      "description": "Let’s build the future of medicine — together. Join Enveda as a&nbsp;  Senior Research Associate, Analytical Chemistry&nbsp;  in India and help us transform natural compounds into life-changing medicines.   \n &nbsp; \n  We’re a team driven by curiosity and innovation—are you ready to make a difference?  \n &nbsp; \n  What Makes Us Enveda Life is smart, and we can learn from it. We’re reinventing drug discovery by harnessing nature’s intelligence. Our platform identifies new medicines four times faster than the industry standard—because patients can’t wait. What sets Enveda apart isn’t just what we do—it’s how we do it. Our culture is built on creativity, collaboration, and deep respect for each other. We believe “People Create All Value”, and our success is driven by the extraordinary team tu",
+      "url": "https://jobrxiv.org/job/senior-scientist-bioinformatics-22/",
+      "description": "Senior Scientist (AI/ML) At Regeneron, we use science and innovation to develop life-changing medicines for people with serious diseases. We are seeking a Senior Scientist (AI/ML) to join our tech-dev... \n The post  Senior Scientist &#8211; Bioinformatics  appeared first on  jobRxiv .",
       "geo": "Other",
       "tags": [],
       "category": null,
-      "summary": null
-    },
-    {
-      "id": "292742a54a",
-      "title": "Senior Research Associate, Invivo Pharmacology",
-      "company": "Enveda Biosciences",
-      "location": "Hyderabad",
-      "source": "Enveda Biosciences (Lever)",
-      "date": "2026-06-05",
-      "url": "https://jobs.lever.co/enveda/43c5b064-c8d2-4d36-88e2-874e58afc1d4",
-      "description": "Let’s build the future of medicine—together.  \n Join Enveda as a&nbsp; Senior Research Associate, In Vivo Pharmacology  in Hyderabad, India and help us transform natural compounds into life-changing medicines. We’re a team driven by curiosity and innovation—are you ready to make a difference? \n  Hyderabad, India | Full-time  \n What Makes Us Enveda \n Life is smart, and we can learn from it. We’re reinventing drug discovery by harnessing nature’s intelligence. Our platform identifies new medicines four times faster than the industry standard because patients can’t wait. \n What sets Enveda apart isn’t just what we do—it’s how we do it. Our culture is built on creativity, collaboration, and deep respect for each other. We believe “People Create All Value”, and our success is driven by the extr",
-      "geo": "Other",
-      "tags": [],
-      "category": null,
-      "summary": null
-    },
-    {
-      "id": "a937cf6034",
-      "title": "Software Engineer",
-      "company": "Enveda Biosciences",
-      "location": "Hyderabad",
-      "source": "Enveda Biosciences (Lever)",
-      "date": "2026-06-05",
-      "url": "https://jobs.lever.co/enveda/c14d0b11-a2a5-4411-ae5f-52cc33c6707c",
-      "description": "Let’s build the future of medicine—together.&nbsp;    Join Enveda as a   Software Engineer   in Hyderabad and help us transform natural compounds into life-changing medicines. We’re a team driven by curiosity and innovation—are you ready to make a difference?       On-Site | Hyderabad, India | Full-Time |&nbsp;       🌿What Makes Us Enveda  Life is smart, and we can learn from it. We’re reinventing drug discovery by harnessing nature’s intelligence. Our platform identifies new medicines four times faster than the industry standard—because patients can’t wait. What sets Enveda apart isn’t just what we do—it’s how we do it. Our culture is built on creativity, collaboration, and deep respect for each other. We believe “People Create All Value,” and our success is driven by the extraordinary te",
-      "geo": "Other",
-      "tags": [],
-      "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -76,6 +35,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -90,6 +50,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -104,6 +65,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -118,6 +80,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -132,6 +95,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -146,6 +110,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -160,6 +125,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -174,6 +140,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -188,6 +155,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -202,6 +170,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -211,11 +180,12 @@
       "location": "See listing",
       "source": "JobRxiv",
       "date": "2026-06-03",
-      "url": "https://jobrxiv.org/job/scientist-rc-discovery-biology/",
-      "description": "Fusion Pharmaceuticals Scientist, Bioscience Fusion Pharmaceuticals, a member of the AstraZeneca Group, is advancing next generation radio conjugates as precision medicines for cancer. By combining Fusion&apos;s deep radiopharmaceutical expertise with... \n The post  Scientist &#8211; RC Discovery Biology  appeared first on  jobRxiv .",
+      "url": "https://jobrxiv.org/job/scientist-rc-discovery-biology-2/",
+      "description": "Scientist, Bioscience Fusion Pharmaceuticals, a member of the AstraZeneca Group, is advancing next generation radio conjugates as precision medicines for cancer. By combining Fusion&apos;s deep radiopharmaceutical expertise with AstraZeneca&apos;s global... \n The post  Scientist &#8211; RC Discovery Biology  appeared first on  jobRxiv .",
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -230,6 +200,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -244,6 +215,7 @@
       "geo": "Europe",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -258,6 +230,7 @@
       "geo": "USA",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -272,6 +245,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -286,6 +260,7 @@
       "geo": "USA",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -300,20 +275,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
-      "summary": null
-    },
-    {
-      "id": "8b3bfc9bc2",
-      "title": "Assistant Professor in ​Epidemiology or Biostatistics",
-      "company": "JobRxiv",
-      "location": "See listing",
-      "source": "JobRxiv",
-      "date": "2026-06-02",
-      "url": "https://jobrxiv.org/job/assistant-professor-in-epidemiology-or-biostatistics/",
-      "description": "Assistant Professor in Epidemiology or Biostatistics Karolinska Institute (KI), one of the world&apos;s foremost medical universities, is launching a major recruitment initiative in 2026. KI is looking for up to... \n The post  Assistant Professor in ​Epidemiology or Biostatistics  appeared first on  jobRxiv .",
-      "geo": "Other",
-      "tags": [],
-      "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -328,6 +290,22 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
+      "summary": null
+    },
+    {
+      "id": "8b3bfc9bc2",
+      "title": "Assistant Professor in ​Epidemiology or Biostatistics",
+      "company": "JobRxiv",
+      "location": "See listing",
+      "source": "JobRxiv",
+      "date": "2026-06-02",
+      "url": "https://jobrxiv.org/job/assistant-professor-in-epidemiology-or-biostatistics/",
+      "description": "Assistant Professor in Epidemiology or Biostatistics Karolinska Institute (KI), one of the world&apos;s foremost medical universities, is launching a major recruitment initiative in 2026. KI is looking for up to... \n The post  Assistant Professor in ​Epidemiology or Biostatistics  appeared first on  jobRxiv .",
+      "geo": "Other",
+      "tags": [],
+      "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -342,6 +320,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -356,6 +335,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -370,20 +350,7 @@
       "geo": "USA",
       "tags": [],
       "category": null,
-      "summary": null
-    },
-    {
-      "id": "875ad6f579",
-      "title": "Postdoc in Non-random selection and causal inference at the Department of Public Health",
-      "company": "JobRxiv",
-      "location": "See listing",
-      "source": "JobRxiv",
-      "date": "2026-06-02",
-      "url": "https://jobrxiv.org/job/postdoc-in-non-random-selection-and-causal-inference-at-the-department-of-public-health/",
-      "description": "Postdoctoral Position In Biostatistics The Section of Biostatistics is looking for a postdoc to develop statistical methods for inference on causal effects in studies affected by non-random participation, particularly self-selection... \n The post  Postdoc in Non-random selection and causal inference at the Department of Public Health  appeared first on  jobRxiv .",
-      "geo": "USA",
-      "tags": [],
-      "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -398,6 +365,22 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
+      "summary": null
+    },
+    {
+      "id": "875ad6f579",
+      "title": "Postdoc in Non-random selection and causal inference at the Department of Public Health",
+      "company": "JobRxiv",
+      "location": "See listing",
+      "source": "JobRxiv",
+      "date": "2026-06-02",
+      "url": "https://jobrxiv.org/job/postdoc-in-non-random-selection-and-causal-inference-at-the-department-of-public-health/",
+      "description": "Postdoctoral Position In Biostatistics The Section of Biostatistics is looking for a postdoc to develop statistical methods for inference on causal effects in studies affected by non-random participation, particularly self-selection... \n The post  Postdoc in Non-random selection and causal inference at the Department of Public Health  appeared first on  jobRxiv .",
+      "geo": "USA",
+      "tags": [],
+      "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -412,6 +395,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -506,6 +490,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -520,6 +505,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -534,6 +520,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -548,20 +535,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
-      "summary": null
-    },
-    {
-      "id": "2b587895d8",
-      "title": "Research Assistent and PhD in Precision Medicine from Graph-Based Medical Digital Twins",
-      "company": "JobRxiv",
-      "location": "See listing",
-      "source": "JobRxiv",
-      "date": "2026-06-01",
-      "url": "https://jobrxiv.org/job/research-assistent-and-phd-in-precision-medicine-from-graph-based-medical-digital-twins/",
-      "description": "PhD Fellowship Opportunity The University of Copenhagen is seeking a highly motivated and talented PhD fellow to commence November 15, 2026, or after agreement in the Rasmussen Group at the... \n The post  Research Assistent and PhD in Precision Medicine from Graph-Based Medical Digital Twins  appeared first on  jobRxiv .",
-      "geo": "Other",
-      "tags": [],
-      "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -576,20 +550,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
-      "summary": null
-    },
-    {
-      "id": "b591cd7cbf",
-      "title": "Postdoc in Deciphering the Oral–Liver Axis: Integrative Cross-Organ Multi-Omics Analysis",
-      "company": "JobRxiv",
-      "location": "See listing",
-      "source": "JobRxiv",
-      "date": "2026-06-01",
-      "url": "https://jobrxiv.org/job/postdoc-in-deciphering-the-oral-liver-axis-integrative-cross-organ-multi-omics-analysis/",
-      "description": "Postdoctoral Fellow Position The University of Copenhagen is seeking a highly motivated and talented postdoctoral fellow to commence on November 15, 2026, or after agreement in the Hansen Group at... \n The post  Postdoc in Deciphering the Oral–Liver Axis: Integrative Cross-Organ Multi-Omics Analysis  appeared first on  jobRxiv .",
-      "geo": "Other",
-      "tags": [],
-      "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -604,6 +565,7 @@
       "geo": "Europe",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -618,6 +580,22 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
+      "summary": null
+    },
+    {
+      "id": "b591cd7cbf",
+      "title": "Postdoc in Deciphering the Oral–Liver Axis: Integrative Cross-Organ Multi-Omics Analysis",
+      "company": "JobRxiv",
+      "location": "See listing",
+      "source": "JobRxiv",
+      "date": "2026-06-01",
+      "url": "https://jobrxiv.org/job/postdoc-in-deciphering-the-oral-liver-axis-integrative-cross-organ-multi-omics-analysis/",
+      "description": "Postdoctoral Fellow Position The University of Copenhagen is seeking a highly motivated and talented postdoctoral fellow to commence on November 15, 2026, or after agreement in the Hansen Group at... \n The post  Postdoc in Deciphering the Oral–Liver Axis: Integrative Cross-Organ Multi-Omics Analysis  appeared first on  jobRxiv .",
+      "geo": "Other",
+      "tags": [],
+      "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -632,6 +610,7 @@
       "geo": "USA",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -646,6 +625,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -660,6 +640,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -674,6 +655,7 @@
       "geo": "USA",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -688,6 +670,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -702,6 +685,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -716,6 +700,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -730,6 +715,7 @@
       "geo": "Europe",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -744,6 +730,7 @@
       "geo": "USA",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -1183,6 +1170,7 @@
       "geo": "Europe",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -1197,6 +1185,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -1211,6 +1200,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -1225,6 +1215,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -1239,6 +1230,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -1253,6 +1245,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -1294,20 +1287,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
-      "summary": null
-    },
-    {
-      "id": "3549eba139",
-      "title": "Research Specialist (20%) in gastrointestinal epidemiology",
-      "company": "JobRxiv",
-      "location": "See listing",
-      "source": "JobRxiv",
-      "date": "2026-05-27",
-      "url": "https://jobrxiv.org/job/research-specialist-20-in-gastrointestinal-epidemiology/",
-      "description": "Research Specialist (20%) in Gastrointestinal Epidemiology Do you want to contribute to top quality medical research? The Department of Medical Epidemiology and Biostatistics conducts research in epidemiology and biostatistics across... \n The post  Research Specialist (20%) in gastrointestinal epidemiology  appeared first on  jobRxiv .",
-      "geo": "Other",
-      "tags": [],
-      "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -1322,6 +1302,22 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
+      "summary": null
+    },
+    {
+      "id": "3549eba139",
+      "title": "Research Specialist (20%) in gastrointestinal epidemiology",
+      "company": "JobRxiv",
+      "location": "See listing",
+      "source": "JobRxiv",
+      "date": "2026-05-27",
+      "url": "https://jobrxiv.org/job/research-specialist-20-in-gastrointestinal-epidemiology/",
+      "description": "Research Specialist (20%) in Gastrointestinal Epidemiology Do you want to contribute to top quality medical research? The Department of Medical Epidemiology and Biostatistics conducts research in epidemiology and biostatistics across... \n The post  Research Specialist (20%) in gastrointestinal epidemiology  appeared first on  jobRxiv .",
+      "geo": "Other",
+      "tags": [],
+      "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -1336,20 +1332,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
-      "summary": null
-    },
-    {
-      "id": "2ab1469e83",
-      "title": "Research Scientist – Proteomics Workflow Innovation (m/f/d)",
-      "company": "JobRxiv",
-      "location": "See listing",
-      "source": "JobRxiv",
-      "date": "2026-05-27",
-      "url": "https://jobrxiv.org/job/research-scientist-proteomics-workflow-innovation-m-f-d/",
-      "description": "Research Scientist – Proteomics Workflow Innovation We are seeking a highly motivated Research Scientist – Proteomics Workflow Innovation with strong practical expertise in LC–MS-based proteomics and a passion for data... \n The post  Research Scientist – Proteomics Workflow Innovation (m/f/d)  appeared first on  jobRxiv .",
-      "geo": "Other",
-      "tags": [],
-      "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -1364,6 +1347,22 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
+      "summary": null
+    },
+    {
+      "id": "2ab1469e83",
+      "title": "Research Scientist – Proteomics Workflow Innovation (m/f/d)",
+      "company": "JobRxiv",
+      "location": "See listing",
+      "source": "JobRxiv",
+      "date": "2026-05-27",
+      "url": "https://jobrxiv.org/job/research-scientist-proteomics-workflow-innovation-m-f-d/",
+      "description": "Research Scientist – Proteomics Workflow Innovation We are seeking a highly motivated Research Scientist – Proteomics Workflow Innovation with strong practical expertise in LC–MS-based proteomics and a passion for data... \n The post  Research Scientist – Proteomics Workflow Innovation (m/f/d)  appeared first on  jobRxiv .",
+      "geo": "Other",
+      "tags": [],
+      "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -1378,6 +1377,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -1392,6 +1392,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -1406,6 +1407,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -1420,6 +1422,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -1434,6 +1437,7 @@
       "geo": "Europe",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -1448,6 +1452,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -1462,6 +1467,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -1476,6 +1482,7 @@
       "geo": "USA",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -1490,6 +1497,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -1504,6 +1512,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -1518,6 +1527,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -1677,11 +1687,12 @@
       "location": "See listing",
       "source": "JobRxiv",
       "date": "2026-05-25",
-      "url": "https://jobrxiv.org/?post_type=job_listing&p=133507",
+      "url": "https://jobrxiv.org/job/postdoc-in-functional-genomics-jens-hjerling-leffler-group-karolinska-institutet-scholarship/",
       "description": "Postdoc in Functional Genomics, Jens Hjerling-Leffler Group The position is located within The Division of Molecular Neurobiology in the lab of Professor Jens Hjerling-Leffler at the Department of Medical Biochemistry... \n The post  Postdoc in Functional Genomics, Jens Hjerling-Leffler group, Karolinska Institutet (scholarship)  appeared first on  jobRxiv .",
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -1696,6 +1707,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -1971,6 +1983,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -1985,6 +1998,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -2062,11 +2076,12 @@
       "location": "See listing",
       "source": "JobRxiv",
       "date": "2026-05-22",
-      "url": "https://jobrxiv.org/?post_type=job_listing&p=133083",
+      "url": "https://jobrxiv.org/job/research-assistant-in-biostatistics-with-a-focus-on-survival-analysis/",
       "description": "Research Assistant In Biostatistics With A Focus On Survival Analysis Do you want to contribute to top quality medical research? The Department of Medical Epidemiology and Biostatistics conducts research in... \n The post  Research assistant in biostatistics with a focus on survival analysis  appeared first on  jobRxiv .",
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -2081,6 +2096,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -2095,6 +2111,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -2109,6 +2126,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -2123,6 +2141,7 @@
       "geo": "USA",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -2229,6 +2248,7 @@
       "geo": "Europe",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -2243,6 +2263,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -2257,6 +2278,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -2271,6 +2293,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -2285,6 +2308,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -2299,6 +2323,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -2313,6 +2338,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -2327,6 +2353,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -2341,6 +2368,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -2423,20 +2451,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
-      "summary": null
-    },
-    {
-      "id": "f88fcbebdd",
-      "title": "Research Associate in Population Genetics Modelling and Environmental DNA (Fixed Term)",
-      "company": "JobRxiv",
-      "location": "See listing",
-      "source": "JobRxiv",
-      "date": "2026-05-20",
-      "url": "https://jobrxiv.org/job/research-associate-in-population-genetics-modelling-and-environmental-dna-fixed-term/",
-      "description": "Postdoctoral Research Associate in Population Genetics Modelling and Environmental DNA We invite applications for a Postdoctoral Research Associate in Population Genetics Modelling and Environmental DNA, jointly supervised by Dr Gamze... \n The post  Research Associate in Population Genetics Modelling and Environmental DNA (Fixed Term)  appeared first on  jobRxiv .",
-      "geo": "Other",
-      "tags": [],
-      "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -2451,6 +2466,22 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
+      "summary": null
+    },
+    {
+      "id": "f88fcbebdd",
+      "title": "Research Associate in Population Genetics Modelling and Environmental DNA (Fixed Term)",
+      "company": "JobRxiv",
+      "location": "See listing",
+      "source": "JobRxiv",
+      "date": "2026-05-20",
+      "url": "https://jobrxiv.org/job/research-associate-in-population-genetics-modelling-and-environmental-dna-fixed-term/",
+      "description": "Postdoctoral Research Associate in Population Genetics Modelling and Environmental DNA We invite applications for a Postdoctoral Research Associate in Population Genetics Modelling and Environmental DNA, jointly supervised by Dr Gamze... \n The post  Research Associate in Population Genetics Modelling and Environmental DNA (Fixed Term)  appeared first on  jobRxiv .",
+      "geo": "Other",
+      "tags": [],
+      "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -2465,6 +2496,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -2479,6 +2511,7 @@
       "geo": "USA",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -2493,6 +2526,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -2507,20 +2541,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
-      "summary": null
-    },
-    {
-      "id": "b63ebe5c1d",
-      "title": "PhD Thesis – Ultrafast Electron Holography of Cobalt Nanowires Using GHz RF Electron Beam Pulser",
-      "company": "JobRxiv",
-      "location": "See listing",
-      "source": "JobRxiv",
-      "date": "2026-05-20",
-      "url": "https://jobrxiv.org/job/phd-thesis-ultrafast-electron-holography-of-cobalt-nanowires-using-ghz-rf-electron-beam-pulser/",
-      "description": "PhD Thesis &#8211; Ultrafast Electron Holography of Cobalt Nanowires Using GHz RF Electron Beam Pulser Forschungszentrum Jülich&apos;s Ernst Ruska-Centre for Microscopy and Spectroscopy with Electrons (ER-C), specifically the Physics of... \n The post  PhD Thesis &#8211; Ultrafast Electron Holography of Cobalt Nanowires Using GHz RF Electron Beam Pulser  appeared first on  jobRxiv .",
-      "geo": "Other",
-      "tags": [],
-      "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -2535,6 +2556,22 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
+      "summary": null
+    },
+    {
+      "id": "b63ebe5c1d",
+      "title": "PhD Thesis – Ultrafast Electron Holography of Cobalt Nanowires Using GHz RF Electron Beam Pulser",
+      "company": "JobRxiv",
+      "location": "See listing",
+      "source": "JobRxiv",
+      "date": "2026-05-20",
+      "url": "https://jobrxiv.org/job/phd-thesis-ultrafast-electron-holography-of-cobalt-nanowires-using-ghz-rf-electron-beam-pulser/",
+      "description": "PhD Thesis &#8211; Ultrafast Electron Holography of Cobalt Nanowires Using GHz RF Electron Beam Pulser Forschungszentrum Jülich&apos;s Ernst Ruska-Centre for Microscopy and Spectroscopy with Electrons (ER-C), specifically the Physics of... \n The post  PhD Thesis &#8211; Ultrafast Electron Holography of Cobalt Nanowires Using GHz RF Electron Beam Pulser  appeared first on  jobRxiv .",
+      "geo": "Other",
+      "tags": [],
+      "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -2549,6 +2586,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -2563,6 +2601,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -2577,6 +2616,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -2591,6 +2631,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -2649,6 +2690,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -2663,6 +2705,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -2677,6 +2720,7 @@
       "geo": "Europe",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -2816,20 +2860,6 @@
       "deadline": "2026-07-26"
     },
     {
-      "id": "ad46dfed68",
-      "title": "PhD position in Biostatistics",
-      "company": "JobRxiv",
-      "location": "See listing",
-      "source": "JobRxiv",
-      "date": "2026-05-18",
-      "url": "https://jobrxiv.org/job/phd-position-in-biostatistics/",
-      "description": "PhD Position in Biostatistics To be a doctoral student means to devote oneself to a research project under supervision of experienced researchers and following an individual study plan. For a... \n The post  PhD position in Biostatistics  appeared first on  jobRxiv .",
-      "geo": "Other",
-      "tags": [],
-      "category": null,
-      "summary": null
-    },
-    {
       "id": "a0fe4c2033",
       "title": "Postdoctoral Researcher in Psychiatric Pharmacoepidemiology",
       "company": "JobRxiv",
@@ -2841,6 +2871,22 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
+      "summary": null
+    },
+    {
+      "id": "ad46dfed68",
+      "title": "PhD position in Biostatistics",
+      "company": "JobRxiv",
+      "location": "See listing",
+      "source": "JobRxiv",
+      "date": "2026-05-18",
+      "url": "https://jobrxiv.org/job/phd-position-in-biostatistics/",
+      "description": "PhD Position in Biostatistics To be a doctoral student means to devote oneself to a research project under supervision of experienced researchers and following an individual study plan. For a... \n The post  PhD position in Biostatistics  appeared first on  jobRxiv .",
+      "geo": "Other",
+      "tags": [],
+      "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -2855,6 +2901,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -2869,6 +2916,7 @@
       "geo": "USA",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -2883,6 +2931,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -2897,6 +2946,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Intern",
       "summary": null
     },
     {
@@ -2911,6 +2961,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -2925,6 +2976,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Intern",
       "summary": null
     },
     {
@@ -2939,6 +2991,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Intern",
       "summary": null
     },
     {
@@ -2953,6 +3006,7 @@
       "geo": "Remote",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -2967,6 +3021,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Intern",
       "summary": null
     },
     {
@@ -2981,6 +3036,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Intern",
       "summary": null
     },
     {
@@ -2995,6 +3051,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Intern",
       "summary": null
     },
     {
@@ -3009,6 +3066,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -3023,6 +3081,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -3037,6 +3096,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -3051,20 +3111,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
-      "summary": null
-    },
-    {
-      "id": "2071fc18ae",
-      "title": "Senior Scientist II, Precision Medicine Translational Research Immunology",
-      "company": "JobRxiv",
-      "location": "See listing",
-      "source": "JobRxiv",
-      "date": "2026-05-16",
-      "url": "https://jobrxiv.org/?post_type=job_listing&p=132128",
-      "description": "Job Title The Precision Medicine Immunology department is seeking a highly motivated and talented Scientist with a background in immunology or immuno-oncology and experience in single-cell or spatial genomics, molecular... \n The post  Senior Scientist II, Precision Medicine Translational Research Immunology  appeared first on  jobRxiv .",
-      "geo": "Other",
-      "tags": [],
-      "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -3243,6 +3290,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -3257,6 +3305,7 @@
       "geo": "Europe",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -3271,20 +3320,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
-      "summary": null
-    },
-    {
-      "id": "af437b2c6b",
-      "title": "Associate Principal Scientist, Epidemiology",
-      "company": "JobRxiv",
-      "location": "See listing",
-      "source": "JobRxiv",
-      "date": "2026-05-15",
-      "url": "https://jobrxiv.org/?post_type=job_listing&p=133062",
-      "description": "Associate Principal Scientist, Epidemiology In BARDS (Biostatistics and Research Decision Sciences), a distinguished department within our company&apos;s renowned Research and Development division, quantitative scientists, in partnership with other subject matter... \n The post  Associate Principal Scientist, Epidemiology  appeared first on  jobRxiv .",
-      "geo": "Other",
-      "tags": [],
-      "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -3299,6 +3335,22 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
+      "summary": null
+    },
+    {
+      "id": "af437b2c6b",
+      "title": "Associate Principal Scientist, Epidemiology",
+      "company": "JobRxiv",
+      "location": "See listing",
+      "source": "JobRxiv",
+      "date": "2026-05-15",
+      "url": "https://jobrxiv.org/?post_type=job_listing&p=133062",
+      "description": "Associate Principal Scientist, Epidemiology In BARDS (Biostatistics and Research Decision Sciences), a distinguished department within our company&apos;s renowned Research and Development division, quantitative scientists, in partnership with other subject matter... \n The post  Associate Principal Scientist, Epidemiology  appeared first on  jobRxiv .",
+      "geo": "Other",
+      "tags": [],
+      "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -3313,6 +3365,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -3327,6 +3380,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -3341,6 +3395,7 @@
       "geo": "Europe",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -3355,6 +3410,7 @@
       "geo": "USA",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -3369,6 +3425,7 @@
       "geo": "Europe",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -3383,6 +3440,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -3397,6 +3455,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -3411,6 +3470,7 @@
       "geo": "Europe",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -3425,6 +3485,22 @@
       "geo": "USA",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
+      "summary": null
+    },
+    {
+      "id": "237d674e86",
+      "title": "Postdoc position in anode-free solid-state batteries",
+      "company": "JobRxiv",
+      "location": "See listing",
+      "source": "JobRxiv",
+      "date": "2026-05-14",
+      "url": "https://jobrxiv.org/?post_type=job_listing&p=131889",
+      "description": "Postdoc Position In Anode-Free Solid-State Batteries The Department of Chemistry &#8211; Ångström conducts research and education in the chemistry field. The department has more than 270 employees and has a... \n The post  Postdoc position in anode-free solid-state batteries  appeared first on  jobRxiv .",
+      "geo": "Other",
+      "tags": [],
+      "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -3439,6 +3515,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -3453,6 +3530,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -3467,6 +3545,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -3481,6 +3560,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -3495,6 +3575,7 @@
       "geo": "Europe",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -3509,6 +3590,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -3523,6 +3605,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -3537,6 +3620,7 @@
       "geo": "USA",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -3574,6 +3658,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -3588,6 +3673,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -3602,6 +3688,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -3616,6 +3703,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -3630,6 +3718,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -3644,20 +3733,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
-      "summary": null
-    },
-    {
-      "id": "eeda7ef5f8",
-      "title": "PhD fellowship in Biochemistry and Structural Biology",
-      "company": "JobRxiv",
-      "location": "See listing",
-      "source": "JobRxiv",
-      "date": "2026-05-12",
-      "url": "https://jobrxiv.org/?post_type=job_listing&p=131559",
-      "description": "PhD Project in Protein Assemblies The Linderstrøm-Lang Centre for Protein Science in the Department of Biology is looking for a highly motivated PhD student to join projects on the biochemical... \n The post  PhD fellowship in Biochemistry and Structural Biology  appeared first on  jobRxiv .",
-      "geo": "Other",
-      "tags": [],
-      "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -3672,6 +3748,22 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
+      "summary": null
+    },
+    {
+      "id": "eeda7ef5f8",
+      "title": "PhD fellowship in Biochemistry and Structural Biology",
+      "company": "JobRxiv",
+      "location": "See listing",
+      "source": "JobRxiv",
+      "date": "2026-05-12",
+      "url": "https://jobrxiv.org/?post_type=job_listing&p=131559",
+      "description": "PhD Project in Protein Assemblies The Linderstrøm-Lang Centre for Protein Science in the Department of Biology is looking for a highly motivated PhD student to join projects on the biochemical... \n The post  PhD fellowship in Biochemistry and Structural Biology  appeared first on  jobRxiv .",
+      "geo": "Other",
+      "tags": [],
+      "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -3686,6 +3778,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -3700,6 +3793,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -3714,6 +3808,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -3728,6 +3823,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -3788,6 +3884,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -3802,6 +3899,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -3816,6 +3914,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -3830,6 +3929,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -3844,6 +3944,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -3858,6 +3959,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -3872,6 +3974,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -3886,6 +3989,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -3994,6 +4098,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -4008,20 +4113,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
-      "summary": null
-    },
-    {
-      "id": "1467c394d6",
-      "title": "Postdoctoral position in Computerised Image Processing with focus on Machine Learning for Data-Driven Precision Medicine and Diagnostics",
-      "company": "JobRxiv",
-      "location": "See listing",
-      "source": "JobRxiv",
-      "date": "2026-05-08",
-      "url": "https://jobrxiv.org/?post_type=job_listing&p=131029",
-      "description": "Postdoctoral Position in Computerised Image Processing with Focus on Machine Learning for Data-Driven Precision Medicine and Diagnostics Are you interested in developing new image analysis and machine learning methods for... \n The post  Postdoctoral position in Computerised Image Processing with focus on Machine Learning for Data-Driven Precision Medicine and Diagnostics  appeared first on  jobRxiv .",
-      "geo": "Other",
-      "tags": [],
-      "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -4036,6 +4128,22 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
+      "summary": null
+    },
+    {
+      "id": "1467c394d6",
+      "title": "Postdoctoral position in Computerised Image Processing with focus on Machine Learning for Data-Driven Precision Medicine and Diagnostics",
+      "company": "JobRxiv",
+      "location": "See listing",
+      "source": "JobRxiv",
+      "date": "2026-05-08",
+      "url": "https://jobrxiv.org/?post_type=job_listing&p=131029",
+      "description": "Postdoctoral Position in Computerised Image Processing with Focus on Machine Learning for Data-Driven Precision Medicine and Diagnostics Are you interested in developing new image analysis and machine learning methods for... \n The post  Postdoctoral position in Computerised Image Processing with focus on Machine Learning for Data-Driven Precision Medicine and Diagnostics  appeared first on  jobRxiv .",
+      "geo": "Other",
+      "tags": [],
+      "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -4050,6 +4158,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -4064,6 +4173,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -4078,6 +4188,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -4092,6 +4203,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -4106,6 +4218,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -4120,6 +4233,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -4134,6 +4248,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -4148,6 +4263,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -4162,6 +4278,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -4176,6 +4293,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -4190,6 +4308,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -4204,20 +4323,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
-      "summary": null
-    },
-    {
-      "id": "32645f5b26",
-      "title": "MRC BSU PhD Studentship",
-      "company": "JobRxiv",
-      "location": "See listing",
-      "source": "JobRxiv",
-      "date": "2026-05-07",
-      "url": "https://jobrxiv.org/job/mrc-bsu-phd-studentship/",
-      "description": "MRC Biostatistics Unit Studentship The Medical Research Council (MRC) Biostatistics Unit (BSU) is one of the largest groups of biostatisticians in Europe, and a major centre for research, training and... \n The post  MRC BSU PhD Studentship  appeared first on  jobRxiv .",
-      "geo": "Other",
-      "tags": [],
-      "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -4232,6 +4338,22 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
+      "summary": null
+    },
+    {
+      "id": "32645f5b26",
+      "title": "MRC BSU PhD Studentship",
+      "company": "JobRxiv",
+      "location": "See listing",
+      "source": "JobRxiv",
+      "date": "2026-05-07",
+      "url": "https://jobrxiv.org/job/mrc-bsu-phd-studentship/",
+      "description": "MRC Biostatistics Unit Studentship The Medical Research Council (MRC) Biostatistics Unit (BSU) is one of the largest groups of biostatisticians in Europe, and a major centre for research, training and... \n The post  MRC BSU PhD Studentship  appeared first on  jobRxiv .",
+      "geo": "Other",
+      "tags": [],
+      "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -4246,6 +4368,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -4260,6 +4383,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -4274,6 +4398,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -4288,6 +4413,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -4302,6 +4428,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -4316,6 +4443,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -4330,6 +4458,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -4344,6 +4473,7 @@
       "geo": "Europe",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -4358,6 +4488,7 @@
       "geo": "Europe",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -4372,6 +4503,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -4386,6 +4518,7 @@
       "geo": "Europe",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -4400,6 +4533,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -4414,6 +4548,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -4428,6 +4563,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PostDoc",
       "summary": null
     },
     {
@@ -4442,6 +4578,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -4456,6 +4593,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -4470,6 +4608,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -4484,6 +4623,7 @@
       "geo": "USA",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -4498,6 +4638,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
@@ -4512,6 +4653,7 @@
       "geo": "Other",
       "tags": [],
       "category": null,
+      "seniority": "PI/Lead",
       "summary": null
     },
     {
@@ -4526,6 +4668,7 @@
       "geo": "USA",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -4586,6 +4729,7 @@
       "geo": "USA",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -4600,6 +4744,7 @@
       "geo": "USA",
       "tags": [],
       "category": null,
+      "seniority": "Mid",
       "summary": null
     },
     {
@@ -4614,6 +4759,7 @@
       "geo": "USA",
       "tags": [],
       "category": null,
+      "seniority": "Senior",
       "summary": null
     },
     {
