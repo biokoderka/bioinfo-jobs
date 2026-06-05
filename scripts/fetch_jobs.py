@@ -14,7 +14,7 @@ import feedparser, requests
 # ── RSS FEEDS ─────────────────────────────────────────────────────────────────
 RSS_FEEDS = [
     # Confirmed working from local Mac
-    {"name": "JobRxiv",                "url": "https://jobrxiv.org/?post_type=job_listing&feed=rss2"},
+    {"name": "JobRxiv",                "url": "https://jobrxiv.org/?post_type=job_listing&feed=rss2", "paginate": True},
     # Try these - may work from local IP but not GitHub Actions
     {"name": "Nature Careers",         "url": "https://www.nature.com/naturecareers/rss/latest"},
     {"name": "jobs.ac.uk – Bioinfo",   "url": "https://www.jobs.ac.uk/search/rss?keywords=bioinformatics"},
@@ -31,23 +31,18 @@ RSS_FEEDS = [
 
 # ── GREENHOUSE — verified working slugs only ──────────────────────────────────
 GREENHOUSE_COMPANIES = [
+    # ✅ Confirmed working locally (2026-06-05)
     ("10x Genomics",               "10xgenomics"),
     ("Recursion Pharma",           "recursionpharmaceuticals"),
-    ("Tempus",                     "tempus"),
-    ("Foundation Medicine",        "foundationmedicine"),
-    ("Moderna",                    "modernatx"),
-    ("Genentech",                  "genentech"),
-    ("Insitro",                    "insitro"),
     ("Relay Therapeutics",         "relaytherapeutics"),
     ("Blueprint Medicines",        "blueprintmedicines"),
-    ("Guardant Health",            "guardanthealth"),
     ("Flatiron Health",            "flatironhealth"),
-    ("Pacific Biosciences",        "pacificbiosciences"),
     ("Twist Bioscience",           "twistbioscience"),
     ("Chan Zuckerberg Initiative", "chanzuckerberginitiative"),
-    ("Allen Institute",            "alleninstitute"),
-    ("Jackson Laboratory",         "jacksonlaboratory"),
-    ("New York Genome Center",     "newyorkgenomecenter"),
+    ("Altos Labs",                 "altoslabs"),
+    ("Prime Medicine",             "primemedicine"),
+    ("Beam Therapeutics",          "beamtherapeutics"),
+    ("Absci",                      "absci"),
 ]
 
 LEVER_COMPANIES = [
@@ -55,57 +50,32 @@ LEVER_COMPANIES = [
     ("Natera",           "natera"),
     ("Veracyte",         "veracyte"),
     ("Absci",            "absci"),
+    ("Enveda Biosciences","enveda"),
+    ("Synthego",         "synthego"),
 ]
 
 # ── KEYWORDS ──────────────────────────────────────────────────────────────────
 KEYWORDS = [
-    # core bioinformatics
     "bioinformatics","bioinformatician","computational biology","computational biologist",
     "genomics","genomicist","NGS","next generation sequencing","sequencing",
     "metagenomics","transcriptomics","proteomics","metabolomics","epigenomics",
-    "biostatistics","systems biology","cheminformatics",
+    "structural biology","biostatistics","systems biology","cheminformatics",
     "single cell","scRNA","spatial transcriptomics","spatial genomics",
     "CRISPR","phylogenetics","population genetics","GWAS","polygenic",
     "variant calling","genome assembly","genome annotation","pangenomics",
     "RNA-seq","WGS","WES","ChIP-seq","ATAC-seq","multi-omics","nanopore","long read","PacBio",
-    # structural biology & biophysics (Instruct-ERIC)
-    "structural biology","cryo-EM","cryoEM","cryo-ET","cryoET",
-    "X-ray crystallography","NMR spectroscopy","structural bioinformatics",
-    "protein structure prediction","protein modelling","protein folding",
-    "AlphaFold","RoseTTAFold","molecular dynamics","MD simulation",
-    "intrinsically disordered","integrative structural biology",
-    "single-particle analysis","subtomogram averaging","electron microscopy",
-    "structural genomics","structure-based drug design","SAXS","HDX-MS",
-    # antibody & immunology computational
-    "antibody discovery","nanobody","antibody engineering",
-    "immune repertoire","repertoire analysis","BCR sequencing","TCR sequencing",
-    "immunoinformatics","antibody-antigen","epitope prediction",
-    "nanobody-antigen","VHH","single-domain antibody",
-    # data science in life sciences
     "data scientist life science","data scientist biology","data scientist biotech",
     "machine learning biology","machine learning genomics","deep learning biology",
     "AI drug discovery","computational drug discovery","biomedical data","biological data","omics data",
     "drug discovery","target identification","protein structure",
-    # clinical & informatics
     "clinical bioinformatics","clinical genomics","clinical sequencing",
     "laboratory informatics","LIMS","biological database","sequence analysis",
-    # engineering & software
     "pipeline developer","pipeline engineer","bioinformatics pipeline",
     "genomics engineer","scientific programmer","research software engineer",
     "bioinformatics tools","bioinformatics platform","scientific software",
-    # pharma & precision medicine
     "life science data","life sciences data","pharma data scientist",
     "precision medicine","personalized medicine","medical genomics",
     "translational bioinformatics","biomedical informatics",
-    # broader roles
-    "computational scientist","postdoc computational","postdoc bioinformatics",
-    "postdoc genomics","postdoc structural","research engineer biology",
-    # methods & tools
-    "cancer genomics","tumor sequencing","liquid biopsy","cfDNA",
-    "microbiome","16S rRNA","resistome","population genomics",
-    "in silico","virtual screening","molecular docking","biomarker",
-    "AlphaFold2","protein language model","ESMFold",
-    "graph neural network","knowledge graph biology",
 ]
 
 POLAND_KW  = ["poland","polska","warsaw","wroclaw","krakow","gdansk","poznan","lodz","katowice"]
@@ -118,6 +88,75 @@ EUROPE_KW  = ["germany","france","spain","italy","netherlands","sweden","denmark
               "paris","berlin","amsterdam","barcelona","zurich","oxford","edinburgh","munich"]
 
 # ── HELPERS ───────────────────────────────────────────────────────────────────
+# ── EXCLUDE — non-scientific/non-technical roles ──────────────────────────────
+EXCLUDE_TITLE_KEYWORDS = [
+    "account manager", "account executive", "sales manager", "sales director",
+    "sales executive", "sales specialist", "sales representative",
+    "district sales", "inside sales", "field sales",
+    "area business manager", "corporate account director", "national account",
+    "director of sales", "director, sales",
+    "marketing manager", "marketing director", "content marketing",
+    "digital marketing", "hcp marketing", "patient marketing",
+    "global marketing", "product marketing", "media relations", "brand manager",
+    "accountant", "accounting manager", "revenue accounting",
+    "payroll", "collections analyst", "staff accountant",
+    "fp&a", "fpa manager", "compensation analyst",
+    "human resources", "hr business partner", "people and culture",
+    "executive assistant", "admin project coordinator", "senior executive assistant",
+    "vendor management", "supply chain", "logistics",
+    "warehouse", "manufacturing associate", "senior manufacturing", "strategic sourcing",
+    "animal care", "veterinarian", "iacuc", "senior technician, instrumentation",
+    "laboratory operations associate",
+    "counsel", "exempt organizations", "privacy and compliance",
+    "regulatory affairs", "ip and strategic", "labeling and promotion", "cmc regulatory",
+    "medical affairs", "medical science liaison", "medical information",
+    "clinical project manager", "clinical trial manager", "clinical research coordinator",
+    "drug product process development", "dmpk", "safety assessment", "toxicology",
+    "it support", "end user support", "workday analyst", "procurement",
+    "network operations analyst", "senior buyer",
+    "investor relations", "public relations", "talent acquisition", "recruiter",
+    "general job application", "talent community", "join our",
+    "senior director, project team leader", "executive director, asset project",
+    "vice president, head of strategy", "head of clinical operations",
+    "corporate communications", "product designer",
+    "quality assurance manager", "quality control raw", "quality control automation",
+    "product quality assurance", "quality control technical",
+    "committee member", "communications & events", "health and wellness benefits",
+    "solutions manager", "ngs service lab associate",
+    "investigative pathologist", "discovery pharmacology", "formulation development",
+    "in vivo genomics", "molecular and cell biology",
+    "manager, antibody characterization", "project manager, custom antibodies",
+    "staff product manager - protein", "commodity business manager",
+    "qc associate, data digitalization", "technical lead, instrument software",
+    "analytical research and development", "primary pharmacology",
+    "communications manager", "enterprise systems analyst, finance",
+    "information security, central tech", "cybersecurity engineer",
+    "technical program manager, product security", "business systems, central technology",
+    "web project manager, digital technology", "director, clinical pharmacology",
+    "senior manager, drug product", "associate director, clinical data management",
+    "staff engineer, identity & access", "staff mechanical engineer",
+    "sr director, customer relationship", "senior manager, supply planning",
+    "vice president, compliance", "staff engineer, ai security",
+    "director, operations and r&d finance", "director, insights & analytics",
+    "field service engineer", "precision medicine executive",
+    "scientist, biological sciences", "vice president, business systems",
+    "senior technical program manager", "clinical laboratory scientist",
+    "staff data scientist, sales analytics", "senior product manager, revenue",
+    "associate research scientist, knowledge management",
+    "senior research associate, functional genomics & cell biology",
+    "sr. program manager", "senior npi mechanical",
+    "vp/sr. director, global marketing", "sr global product marketing",
+    "research associate ii", "research associate, primary",
+    "research scientist, immunology", "scientist, formulation",
+    "scientist, in vivo", "scientist i, molecular",
+    "senior scientist, discovery", "specialist ii, product quality",
+]
+
+def is_excluded(title):
+    t = title.lower()
+    return any(kw in t for kw in EXCLUDE_TITLE_KEYWORDS)
+
+
 def detect_geo(title, location, description):
     text = (title+" "+location+" "+description).lower()
     if any(k in text for k in REMOTE_KW): return "Remote"
@@ -167,17 +206,38 @@ def fetch_rss(seen, headers):
     for f in RSS_FEEDS:
         print(f"  → {f['name']} ...", end=" ", flush=True)
         try:
-            resp = requests.get(f["url"], headers=headers, timeout=15)
-            print(f"HTTP {resp.status_code}", end=" ", flush=True)
-            feed = feedparser.parse(resp.content)
-            total = len(feed.entries)
+            # Paginate for feeds that support it (e.g. JobRxiv WordPress)
+            all_entries = []
+            if f.get("paginate"):
+                for page in range(1, 21):  # max 20 pages = 2000 entries
+                    paged_url = f["url"] + f"&paged={page}"
+                    resp = requests.get(paged_url, headers=headers, timeout=15)
+                    if resp.status_code != 200:
+                        break
+                    feed_page = feedparser.parse(resp.content)
+                    if not feed_page.entries:
+                        break
+                    new_entries = [e for e in feed_page.entries if e.get("link") not in {x.get("link") for x in all_entries}]
+                    if not new_entries:
+                        break
+                    all_entries.extend(new_entries)
+                resp_status = 200
+            else:
+                resp = requests.get(f["url"], headers=headers, timeout=15)
+                resp_status = resp.status_code
+                feed_obj = feedparser.parse(resp.content)
+                all_entries = feed_obj.entries
+
+            print(f"HTTP {resp_status if not f.get('paginate') else 200}", end=" ", flush=True)
+            total = len(all_entries)
             print(f"({total} entries)", end=" ", flush=True)
             added = 0
-            for e in feed.entries:
+            for e in all_entries:
                 title = strip_html(e.get("title",""))
                 desc  = strip_html(e.get("summary","") or e.get("description",""))
                 link  = e.get("link","#")
                 loc   = strip_html(e.get("location","")) or extract_location(desc)
+                if is_excluded(title): continue
                 if not is_relevant(title, desc): continue
                 uid = job_id(title, f["name"])
                 if uid in seen: continue
@@ -196,7 +256,11 @@ def fetch_greenhouse(seen, headers):
     results = []
     for company, slug in GREENHOUSE_COMPANIES:
         try:
-            r = requests.get(f"https://boards.greenhouse.io/{slug}/jobs.json", headers=headers, timeout=12)
+            url = f"https://boards.greenhouse.io/{slug}/jobs.json"
+            r = requests.get(url, headers=headers, timeout=12)
+            if r.status_code != 200:
+                url = f"https://boards-api.greenhouse.io/v1/boards/{slug}/jobs?content=true"
+                r = requests.get(url, headers=headers, timeout=12)
             if r.status_code != 200:
                 print(f"  ⚠ {company}: HTTP {r.status_code}")
                 continue
@@ -210,6 +274,8 @@ def fetch_greenhouse(seen, headers):
                 date  = upd[:10] if upd else today()
                 depts = ", ".join(d.get("name","") for d in job.get("departments",[]))
                 desc  = f"{depts}. {title} at {company}.".strip(". ")
+                if is_excluded(title): continue
+                if not is_relevant(title, desc): continue
                 uid = job_id(title, company)
                 if uid in seen: continue
                 seen.add(uid)
@@ -236,6 +302,8 @@ def fetch_lever(seen, headers):
                 link  = job.get("hostedUrl","#")
                 desc  = strip_html(job.get("description",""))[:800]
                 if not is_relevant(title, desc): continue
+                if is_excluded(title): continue
+                if not is_relevant(title, desc): continue
                 uid = job_id(title, company)
                 if uid in seen: continue
                 seen.add(uid)
@@ -250,76 +318,6 @@ def fetch_lever(seen, headers):
     return results
 
 # ── MAIN ──────────────────────────────────────────────────────────────────────
-
-def fetch_instruct_eric(seen, headers):
-    """Scrape jobs from instruct-eric.org/jobs — structural biology & related."""
-    results = []
-    base = "https://instruct-eric.org"
-    try:
-        r = requests.get(f"{base}/jobs/", headers=headers, timeout=15)
-        # Extract job links and basic info from listing page
-        links = re.findall(r'href="(/jobs/[^"]+/)"', r.text)
-        links = list(dict.fromkeys(links))  # deduplicate
-        links = [l for l in links if l != "/jobs/"]
-        print(f"  Instruct-ERIC: {len(links)} listings found")
-        added = 0
-        for path in links[:40]:  # max 40 per run
-            url = base + path
-            uid = hashlib.md5(url.encode()).hexdigest()[:10]
-            if uid in seen: continue
-            try:
-                page = requests.get(url, headers=headers, timeout=12)
-                text = page.text
-                # Title
-                title_m = re.search(r'<h2[^>]*>([^<]+)</h2>', text)
-                if not title_m: continue
-                title = title_m.group(1).strip()
-                # Company + location + deadline from h4
-                meta_m = re.search(r'<h4[^>]*>([^<]+)</h4>', text)
-                company, location, deadline = "", "", None
-                if meta_m:
-                    meta = meta_m.group(1).strip()
-                    # Format: "Company, City, Country Application deadline: DD Mon YYYY"
-                    dl_m = re.search(r'Application deadline:\s*(\d{1,2}\s+\w+\s+\d{4})', meta)
-                    if dl_m:
-                        try:
-                            from datetime import datetime as dt
-                            deadline = dt.strptime(dl_m.group(1), "%d %b %Y").strftime("%Y-%m-%d")
-                        except: pass
-                        meta = meta[:dl_m.start()].strip().rstrip(",")
-                    parts = [p.strip() for p in meta.split(",")]
-                    if parts:
-                        company = parts[0]
-                        location = ", ".join(parts[1:]) if len(parts) > 1 else ""
-                # Description — first few paragraphs of body text
-                desc_parts = re.findall(r'<p[^>]*>([^<]{40,})</p>', text)
-                desc = " ".join(desc_parts[:4])
-                desc = re.sub(r'<[^>]+>', ' ', desc).strip()[:800]
-                if not is_relevant(title, desc): continue
-                seen.add(uid)
-                results.append({
-                    "id": uid,
-                    "title": title,
-                    "company": company or "Instruct-ERIC",
-                    "location": location or "See listing",
-                    "source": "Instruct-ERIC",
-                    "date": today(),
-                    "url": url,
-                    "description": desc,
-                    "geo": detect_geo(title, location, desc),
-                    "tags": [],
-                    "category": "Academia",
-                    "summary": None,
-                    "deadline": deadline,
-                })
-                added += 1
-            except Exception as e:
-                pass
-        print(f"  → {added} relevant")
-    except Exception as e:
-        print(f"  ERROR: {e}")
-    return results
-
 def main():
     print(f"\n🧬 BioInfoJobs Fetcher — {datetime.now(timezone.utc).isoformat()}\n")
     seen = set()
@@ -337,10 +335,7 @@ def main():
     print("\n🔧 Lever APIs:")
     lv = fetch_lever(seen, headers)
 
-    print("\n🏛 Instruct-ERIC:")
-    ie = fetch_instruct_eric(seen, headers)
-
-    all_jobs = sorted(rss + gh + lv + ie, key=lambda j: j["date"], reverse=True)
+    all_jobs = sorted(rss + gh + lv, key=lambda j: j["date"], reverse=True)
 
     # Drop jobs older than 60 days
     cutoff = (datetime.now(timezone.utc) - timedelta(days=60)).strftime("%Y-%m-%d")
@@ -373,7 +368,7 @@ def main():
     out.write_text(json.dumps({
         "updated": datetime.now(timezone.utc).isoformat(),
         "count": len(all_jobs),
-        "sources": {"rss": len(rss), "greenhouse": len(gh), "lever": len(lv), "instruct_eric": len(ie), "manual": len(existing_manual)},
+        "sources": {"rss": len(rss), "greenhouse": len(gh), "lever": len(lv), "manual": len(existing_manual)},
         "jobs": all_jobs,
     }, ensure_ascii=False, indent=2), encoding="utf-8")
 
