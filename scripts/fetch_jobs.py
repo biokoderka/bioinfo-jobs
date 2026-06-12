@@ -165,8 +165,6 @@ def detect_geo(title, location, description):
 
 def detect_seniority(title):
     t = title.lower()
-    if any(k in t for k in ["phd", "ph.d", "doctoral", "doctorate"]):
-        return "PostDoc" if any(k in t for k in ["postdoc","post-doc","post doc","fellow"]) else "PostDoc"
     if any(k in t for k in ["postdoc","post-doc","post doc","postdoctoral","research fellow"]):
         return "PostDoc"
     if any(k in t for k in ["phd student","phd position","phd candidate","phd fellowship",
@@ -179,13 +177,13 @@ def detect_seniority(title):
     if any(k in t for k in ["principal","staff scientist","staff engineer","distinguished",
                              "vp ","vice president","chief","head of","director"]):
         return "PI/Lead"
-    if any(k in t for k in ["senior","sr.","sr ","lead","principal","staff","associate director",
+    if any(k in t for k in ["senior","sr.","sr ","lead","associate director",
                              "associate professor","assistant professor","professor"]):
         return "Senior"
     if any(k in t for k in ["associate","scientist ii","scientist 2","engineer ii","engineer 2",
-                             "analyst ii","analyst 2","mid-level"]):
+                             "analyst ii","analyst 2"]):
         return "Mid"
-    return "Mid"  # default for unclassified scientist/engineer roles
+    return "Mid"
 
 
 def is_relevant(title, description):
@@ -262,6 +260,17 @@ def fetch_rss(seen, headers):
                 loc   = strip_html(e.get("location","")) or extract_location(desc)
                 if is_excluded(title): continue
                 if not is_relevant(title, desc): continue
+                # JobRxiv — scrape location from job page
+                # Pattern: <span class="location"><a href=".../job-region/xxx/">CountryName</a>
+                if f["name"] == "JobRxiv" and not loc and link != "#":
+                    try:
+                        rp = requests.get(link, headers=headers, timeout=8)
+                        if rp.status_code == 200:
+                            m = re.search(r'class="location"\s*>\s*<a[^>]*job-region/[^"]*"[^>]*>([^<]+)</a>', rp.text)
+                            if m:
+                                loc = m.group(1).strip()
+                    except:
+                        pass
                 uid = job_id(title, f["name"])
                 if uid in seen: continue
                 seen.add(uid)
@@ -365,7 +374,7 @@ def main():
 
     # Drop jobs older than 60 days
     cutoff = (datetime.now(timezone.utc) - timedelta(days=60)).strftime("%Y-%m-%d")
-    all_jobs = [j for j in all_jobs if j.get("date","0000-00-00") >= cutoff]
+    all_jobs = [j for j in all_jobs if j.get("date","0000-00-00") >= cutoff or j.get("manually_added")]
 
     # Load existing jobs to preserve manually approved ones
     out = Path(__file__).parent.parent / "docs" / "jobs.json"
