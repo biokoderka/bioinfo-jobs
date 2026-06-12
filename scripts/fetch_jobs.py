@@ -186,6 +186,23 @@ def detect_seniority(title):
     return "Mid"
 
 
+def detect_category(title, company, description=""):
+    t = (title + " " + company + " " + description).lower()
+    if any(k in t for k in ["university","institute","phd","postdoc","post-doc","professor",
+                             "faculty","fellow","laboratory of","department of","academic",
+                             "research fellow","doctoral"]):
+        return "Academia"
+    if any(k in t for k in ["nhs","government","ministry","national institute","public health",
+                             "agency","federal","ec.europa","euraxess"]):
+        return "Government/Public"
+    if any(k in t for k in ["clinical","cro ","biostatistic","clinical trial","pharmacovigilance",
+                             "regulatory","gmp","gcp","quality assurance"]):
+        return "Clinical"
+    if any(k in t for k in ["startup","seed funding","series a","series b","ai-native","stealth"]):
+        return "Startup"
+    return "Pharma/Biotech"
+
+
 def is_relevant(title, description):
     text = (title+" "+description).lower()
     return any(kw.lower() in text for kw in KEYWORDS)
@@ -259,9 +276,9 @@ def fetch_rss(seen, headers):
                 link  = e.get("link","#")
                 loc   = strip_html(e.get("location","")) or extract_location(desc)
                 if is_excluded(title): continue
+                if is_excluded(title): continue
                 if not is_relevant(title, desc): continue
                 # JobRxiv — scrape location from job page
-                # Pattern: <span class="location"><a href=".../job-region/xxx/">CountryName</a>
                 if f["name"] == "JobRxiv" and not loc and link != "#":
                     try:
                         rp = requests.get(link, headers=headers, timeout=8)
@@ -277,7 +294,8 @@ def fetch_rss(seen, headers):
                 results.append({"id":uid,"title":title,"company":f["name"],
                     "location":loc or "See listing","source":f["name"],
                     "date":parse_date(e),"url":link,"description":desc[:800],
-                    "geo":detect_geo(title,loc,desc),"tags":[],"category":None,
+                    "geo":detect_geo(title,loc,desc),"tags":[],
+                    "category":detect_category(title,f["name"],desc),
                     "seniority":detect_seniority(title),"summary":None})
                 added += 1
             print(f"→ {added} relevant")
@@ -315,7 +333,8 @@ def fetch_greenhouse(seen, headers):
                 results.append({"id":uid,"title":title,"company":company,
                     "location":loc or "See listing","source":f"{company} (Greenhouse)",
                     "date":date,"url":link,"description":desc,
-                    "geo":detect_geo(title,loc,desc),"tags":[],"category":None,
+                    "geo":detect_geo(title,loc,desc),"tags":[],
+                    "category":detect_category(title,company,desc),
                     "seniority":detect_seniority(title),"summary":None})
                 added += 1
             if added: print(f"  ✓ {company}: {added} jobs")
@@ -335,7 +354,6 @@ def fetch_lever(seen, headers):
                 loc   = job.get("categories",{}).get("location","")
                 link  = job.get("hostedUrl","#")
                 desc  = strip_html(job.get("description",""))[:800]
-                if not is_relevant(title, desc): continue
                 if is_excluded(title): continue
                 if not is_relevant(title, desc): continue
                 uid = job_id(title, company)
@@ -344,7 +362,8 @@ def fetch_lever(seen, headers):
                 results.append({"id":uid,"title":title,"company":company,
                     "location":loc or "See listing","source":f"{company} (Lever)",
                     "date":today(),"url":link,"description":desc,
-                    "geo":detect_geo(title,loc,desc),"tags":[],"category":None,
+                    "geo":detect_geo(title,loc,desc),"tags":[],
+                    "category":detect_category(title,company,desc),
                     "seniority":detect_seniority(title),"summary":None})
                 added += 1
             if added: print(f"  ✓ {company}: {added} jobs")
