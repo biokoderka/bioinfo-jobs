@@ -163,46 +163,6 @@ def detect_geo(title, location, description):
     if any(k in text for k in EUROPE_KW): return "Europe"
     return "Other"
 
-def detect_seniority(title):
-    t = title.lower()
-    if any(k in t for k in ["postdoc","post-doc","post doc","postdoctoral","research fellow"]):
-        return "PostDoc"
-    if any(k in t for k in ["phd student","phd position","phd candidate","phd fellowship",
-                             "phd thesis","doctoral student","doctorate student"]):
-        return "PostDoc"
-    if any(k in t for k in ["intern","internship","trainee","praktyk","staz","staż"]):
-        return "Intern"
-    if any(k in t for k in ["junior","entry level","entry-level","graduate","jr."]):
-        return "Junior"
-    if any(k in t for k in ["principal","staff scientist","staff engineer","distinguished",
-                             "vp ","vice president","chief","head of","director"]):
-        return "PI/Lead"
-    if any(k in t for k in ["senior","sr.","sr ","lead","associate director",
-                             "associate professor","assistant professor","professor"]):
-        return "Senior"
-    if any(k in t for k in ["associate","scientist ii","scientist 2","engineer ii","engineer 2",
-                             "analyst ii","analyst 2"]):
-        return "Mid"
-    return "Mid"
-
-
-def detect_category(title, company, description=""):
-    t = (title + " " + company + " " + description).lower()
-    if any(k in t for k in ["university","institute","phd","postdoc","post-doc","professor",
-                             "faculty","fellow","laboratory of","department of","academic",
-                             "research fellow","doctoral"]):
-        return "Academia"
-    if any(k in t for k in ["nhs","government","ministry","national institute","public health",
-                             "agency","federal","ec.europa","euraxess"]):
-        return "Government/Public"
-    if any(k in t for k in ["clinical","cro ","biostatistic","clinical trial","pharmacovigilance",
-                             "regulatory","gmp","gcp","quality assurance"]):
-        return "Clinical"
-    if any(k in t for k in ["startup","seed funding","series a","series b","ai-native","stealth"]):
-        return "Startup"
-    return "Pharma/Biotech"
-
-
 def is_relevant(title, description):
     text = (title+" "+description).lower()
     return any(kw.lower() in text for kw in KEYWORDS)
@@ -276,27 +236,14 @@ def fetch_rss(seen, headers):
                 link  = e.get("link","#")
                 loc   = strip_html(e.get("location","")) or extract_location(desc)
                 if is_excluded(title): continue
-                if is_excluded(title): continue
                 if not is_relevant(title, desc): continue
-                # JobRxiv — scrape location from job page
-                if f["name"] == "JobRxiv" and not loc and link != "#":
-                    try:
-                        rp = requests.get(link, headers=headers, timeout=8)
-                        if rp.status_code == 200:
-                            m = re.search(r'class="location"\s*>\s*<a[^>]*job-region/[^"]*"[^>]*>([^<]+)</a>', rp.text)
-                            if m:
-                                loc = m.group(1).strip()
-                    except:
-                        pass
                 uid = job_id(title, f["name"])
                 if uid in seen: continue
                 seen.add(uid)
                 results.append({"id":uid,"title":title,"company":f["name"],
                     "location":loc or "See listing","source":f["name"],
                     "date":parse_date(e),"url":link,"description":desc[:800],
-                    "geo":detect_geo(title,loc,desc),"tags":[],
-                    "category":detect_category(title,f["name"],desc),
-                    "seniority":detect_seniority(title),"summary":None})
+                    "geo":detect_geo(title,loc,desc),"tags":[],"category":None,"summary":None})
                 added += 1
             print(f"→ {added} relevant")
         except Exception as e:
@@ -333,9 +280,7 @@ def fetch_greenhouse(seen, headers):
                 results.append({"id":uid,"title":title,"company":company,
                     "location":loc or "See listing","source":f"{company} (Greenhouse)",
                     "date":date,"url":link,"description":desc,
-                    "geo":detect_geo(title,loc,desc),"tags":[],
-                    "category":detect_category(title,company,desc),
-                    "seniority":detect_seniority(title),"summary":None})
+                    "geo":detect_geo(title,loc,desc),"tags":[],"category":None,"summary":None})
                 added += 1
             if added: print(f"  ✓ {company}: {added} jobs")
         except Exception as e:
@@ -354,6 +299,7 @@ def fetch_lever(seen, headers):
                 loc   = job.get("categories",{}).get("location","")
                 link  = job.get("hostedUrl","#")
                 desc  = strip_html(job.get("description",""))[:800]
+                if not is_relevant(title, desc): continue
                 if is_excluded(title): continue
                 if not is_relevant(title, desc): continue
                 uid = job_id(title, company)
@@ -362,9 +308,7 @@ def fetch_lever(seen, headers):
                 results.append({"id":uid,"title":title,"company":company,
                     "location":loc or "See listing","source":f"{company} (Lever)",
                     "date":today(),"url":link,"description":desc,
-                    "geo":detect_geo(title,loc,desc),"tags":[],
-                    "category":detect_category(title,company,desc),
-                    "seniority":detect_seniority(title),"summary":None})
+                    "geo":detect_geo(title,loc,desc),"tags":[],"category":None,"summary":None})
                 added += 1
             if added: print(f"  ✓ {company}: {added} jobs")
         except Exception as e:
@@ -372,6 +316,59 @@ def fetch_lever(seen, headers):
     return results
 
 # ── MAIN ──────────────────────────────────────────────────────────────────────
+
+def fetch_hire_omics(seen, headers):
+    """Scrape jobs from hire-omics.com — Webflow job board for bioinformatics/genomics."""
+    results = []
+    base = "https://hire-omics.com"
+    try:
+        r = requests.get(f"{base}/jobs", headers=headers, timeout=15)
+        if r.status_code != 200:
+            print(f"  ⚠ HTTP {r.status_code}")
+            return results
+        html = r.text
+        # Each job is a link: /job-posting/SLUG with title and meta in surrounding text
+        # Pattern: <a href="/job-posting/SLUG" ...>...Company...Title...Location...</a>
+        links = re.findall(r'href="(/job-posting/[^"]+)"', html)
+        links = list(dict.fromkeys(links))
+        added = 0
+        for path in links[:200]:
+            url = base + path
+            uid = job_id(path, "HireOmics")
+            if uid in seen:
+                continue
+            try:
+                page = requests.get(url, headers=headers, timeout=12)
+                if page.status_code != 200:
+                    continue
+                ptext = page.text
+                title_m = re.search(r'<h1[^>]*>([^<]+)</h1>', ptext)
+                title = title_m.group(1).strip() if title_m else path.split('/')[-1].replace('-',' ').title()
+                if is_excluded(title): continue
+                if not is_relevant(title, ptext[:2000]): continue
+                # Company name often in a heading near top
+                comp_m = re.search(r'<h2[^>]*>([^<]{2,60})</h2>', ptext)
+                company = comp_m.group(1).strip() if comp_m else "See listing"
+                # Location — look for common patterns
+                loc_m = re.search(r'(Remote|Hybrid|Onsite)[,\s]*([A-Za-z,.\s]{0,40})?', ptext)
+                loc = loc_m.group(0).strip() if loc_m else ""
+                desc_m = re.findall(r'<p[^>]*>(.{40,}?)</p>', ptext, re.DOTALL)
+                desc = " ".join(re.sub(r'<[^>]+>',' ',p).strip() for p in desc_m[:3])[:800]
+                seen.add(uid)
+                results.append({"id":uid,"title":title,"company":company,
+                    "location":loc or "See listing","source":"Hire Omics",
+                    "date":today(),"url":url,"description":desc,
+                    "geo":detect_geo(title,loc,desc),"tags":[],
+                    "category":detect_category(title,company,desc),
+                    "seniority":detect_seniority(title),"summary":None})
+                added += 1
+            except Exception:
+                continue
+        print(f"  → {added} relevant")
+    except Exception as e:
+        print(f"  ERROR: {e}")
+    return results
+
 def main():
     print(f"\n🧬 BioInfoJobs Fetcher — {datetime.now(timezone.utc).isoformat()}\n")
     seen = set()
@@ -389,45 +386,71 @@ def main():
     print("\n🔧 Lever APIs:")
     lv = fetch_lever(seen, headers)
 
-    all_jobs = sorted(rss + gh + lv, key=lambda j: j["date"], reverse=True)
+    print("\n💼 Hire Omics:")
+    ho = fetch_hire_omics(seen, headers)
+
+    all_jobs = sorted(rss + gh + lv + ho, key=lambda j: j["date"], reverse=True)
 
     # Drop jobs older than 60 days
     cutoff = (datetime.now(timezone.utc) - timedelta(days=60)).strftime("%Y-%m-%d")
-    all_jobs = [j for j in all_jobs if j.get("date","0000-00-00") >= cutoff or j.get("manually_added")]
+    all_jobs = [j for j in all_jobs if j.get("date","0000-00-00") >= cutoff]
 
-    # Load existing jobs to preserve manually approved ones
+    # Load existing jobs.json so nothing freshly fetched gets silently deleted.
+    # Anything present before but missing from this run's results is kept
+    # and flagged as "archived" instead of being dropped.
     out = Path(__file__).parent.parent / "docs" / "jobs.json"
-    existing_manual = []
+    existing_jobs = []
     if out.exists():
         try:
             existing = json.loads(out.read_text())
-            existing_manual = [j for j in existing.get("jobs",[]) if j.get("manually_added")]
-            if existing_manual:
-                print(f"\n✓ Preserving {len(existing_manual)} manually approved jobs")
+            existing_jobs = existing.get("jobs", [])
         except: pass
 
-    # Merge — manual jobs first, then auto-fetched
-    seen_ids = {j["id"] for j in all_jobs}
-    for j in existing_manual:
-        if j["id"] not in seen_ids:
-            all_jobs.append(j)
+    if not all_jobs and not existing_jobs:
+        print("No jobs fetched and no existing jobs.json - nothing to write")
+        return
+
+    fresh_ids = {j["id"] for j in all_jobs}
+    archived_count = 0
+    unarchived_count = 0
+
+    for j in existing_jobs:
+        if j["id"] in fresh_ids:
+            if j.get("archived"):
+                unarchived_count += 1
+            continue
+        if not j.get("archived"):
+            archived_count += 1
+        j["archived"] = True
+        j.setdefault("archived_date", today())
+        all_jobs.append(j)
+
+    if archived_count:
+        print(f"\nArchived {archived_count} jobs no longer found by scraper (kept, not deleted)")
+    if unarchived_count:
+        print(f"{unarchived_count} previously archived jobs are active again")
+
+    manual_count = sum(1 for j in all_jobs if j.get("manually_added"))
+    if manual_count:
+        print(f"{manual_count} manually added jobs present")
 
     if not all_jobs:
-        print("⚠ No jobs fetched — keeping existing jobs.json unchanged")
+        print("No jobs fetched - keeping existing jobs.json unchanged")
         return
 
     all_jobs.sort(key=lambda j: j["date"], reverse=True)
+    all_jobs.sort(key=lambda j: j.get("archived", False))
 
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps({
         "updated": datetime.now(timezone.utc).isoformat(),
         "count": len(all_jobs),
-        "sources": {"rss": len(rss), "greenhouse": len(gh), "lever": len(lv), "manual": len(existing_manual)},
+        "sources": {"rss": len(rss), "greenhouse": len(gh), "lever": len(lv), "hire_omics": len(ho), "manual": manual_count, "archived": archived_count},
         "jobs": all_jobs,
     }, ensure_ascii=False, indent=2), encoding="utf-8")
 
     print(f"\n✅ {len(all_jobs)} jobs saved → {out}")
-    print(f"   RSS: {len(rss)} · Greenhouse: {len(gh)} · Lever: {len(lv)} · Manual: {len(existing_manual)}")
+    print(f"   RSS: {len(rss)} · Greenhouse: {len(gh)} · Lever: {len(lv)} · Manual: {manual_count} · Archived: {archived_count}")
 
 if __name__ == "__main__":
     main()
