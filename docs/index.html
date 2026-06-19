@@ -57,7 +57,7 @@ body {
 #logo-text span { background: linear-gradient(90deg, var(--magenta), var(--violet)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 #logo small { display: block; font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text-mute); font-weight: 400; margin-top: 1px; }
 .header-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-#last-updated { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text-mute); }
+#last-updated { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text-dim); }
 
 /* ── BUTTONS ── */
 .btn {
@@ -93,26 +93,56 @@ body {
   display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
   position: sticky; top: 57px; z-index: 99;
 }
+/* mobile: compact top row + collapsible panel */
+#filters-top-row {
+  display: flex; align-items: center; gap: 8px; width: 100%;
+}
 #search {
   background: var(--bg3); border: 1px solid var(--border2);
   color: var(--text); padding: 7px 12px; border-radius: 8px;
   font-family: 'DM Mono', monospace; font-size: 12px; width: 200px;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s; flex-shrink: 0;
 }
 #search:focus { outline: none; border-color: var(--violet); box-shadow: 0 0 10px var(--glow-v); }
-#search::placeholder { color: var(--text-mute); }
+#search::placeholder { color: var(--text-dim); }
+#filters-toggle {
+  display: none; /* desktop: hidden */
+  cursor: pointer; border: 1px solid var(--border2); border-radius: 8px;
+  background: var(--bg3); color: var(--text-dim);
+  padding: 7px 11px; font-size: 14px; line-height: 1; transition: all 0.15s; flex-shrink: 0;
+}
+#filters-toggle:hover { border-color: var(--violet); color: var(--violet); }
+#filters-toggle.active { border-color: var(--magenta); color: var(--magenta); background: rgba(255,45,155,0.08); }
+#filters-panel {
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: center; width: 100%;
+}
 .filter-group { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
-.filter-label { font-size: 9px; color: var(--text-mute); font-family: 'DM Mono', monospace; letter-spacing: 0.5px; text-transform: uppercase; margin-right: 2px; }
+.filter-label { font-size: 9px; color: var(--text-dim); font-family: 'DM Mono', monospace; letter-spacing: 0.5px; text-transform: uppercase; margin-right: 2px; }
 .flt-btn {
   cursor: pointer; border: 1px solid var(--border); border-radius: 20px;
   font-size: 11px; font-weight: 600; padding: 4px 11px;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  background: transparent; color: var(--text-mute); transition: all 0.15s; white-space: nowrap;
+  background: transparent; color: var(--text-dim); transition: all 0.15s; white-space: nowrap;
 }
 .flt-btn:hover { border-color: var(--border2); color: var(--text-dim); }
 .flt-btn.active-magenta { background: linear-gradient(135deg,var(--magenta),var(--violet)); color: #fff; border-color: transparent; box-shadow: 0 0 10px var(--glow-m); }
 .flt-btn.active-geo { color: #fff; border-color: transparent; }
-#results-count { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-mute); margin-left: auto; white-space: nowrap; }
+/* clear filters button */
+#btn-clear-filters {
+  display: none; cursor: pointer; border: 1px solid rgba(255,45,155,0.35); border-radius: 20px;
+  font-size: 11px; font-weight: 600; padding: 4px 11px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: rgba(255,45,155,0.08); color: var(--magenta); transition: all 0.15s; white-space: nowrap;
+}
+#btn-clear-filters:hover { background: rgba(255,45,155,0.16); border-color: var(--magenta); }
+#results-count { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dim); margin-left: auto; white-space: nowrap; }
+/* updated badge */
+#updated-badge {
+  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim);
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 8px;
+  padding: 4px 10px; white-space: nowrap;
+}
+#updated-badge span { color: var(--violet); font-weight: 600; }
 
 /* ── GRID ── */
 #job-grid { padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 14px; }
@@ -133,10 +163,10 @@ body {
 }
 .job-card:hover { border-color: var(--violet-dim); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(180,79,255,0.12); }
 .job-card:hover::before { opacity: 1; }
-.jc-source { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text-mute); display: flex; justify-content: space-between; align-items: center; position: relative; }
+.jc-source { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text-dim); display: flex; justify-content: space-between; align-items: center; position: relative; }
 .jc-title { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.4; position: relative; }
 .jc-company { font-size: 12px; color: var(--text-dim); position: relative; }
-.jc-location { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-mute); position: relative; }
+.jc-location { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dim); position: relative; }
 .jc-footer { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; position: relative; align-items: center; }
 .tag { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; }
 .geo-tag { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; }
@@ -149,15 +179,21 @@ body {
   background: var(--bg2);
   border: 1px solid var(--border2);
   border-radius: 18px; width: 100%; max-width: 680px; max-height: 90vh;
-  overflow-y: auto; padding: 28px; position: relative;
+  overflow-y: auto; padding: 28px 28px 84px; position: relative;
   animation: fadeUp 0.22s ease;
   box-shadow: 0 24px 80px rgba(180,79,255,0.15);
+}
+#modal-sticky-apply {
+  position: sticky; bottom: 0;
+  background: linear-gradient(0deg, var(--bg2) 75%, transparent);
+  margin: 0 -28px -84px; padding: 16px 28px 20px;
+  display: none;
 }
 #modal-close { position: absolute; top: 16px; right: 16px; background: var(--bg3); border: 1px solid var(--border); color: var(--text-dim); border-radius: 8px; padding: 6px 10px; cursor: pointer; font-size: 13px; transition: all 0.15s; }
 #modal-close:hover { border-color: var(--magenta); color: var(--magenta); }
 #modal-title { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 6px; padding-right: 44px; line-height: 1.3; }
 #modal-meta { font-size: 13px; color: var(--text-dim); margin-bottom: 4px; }
-#modal-source { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-mute); margin-bottom: 14px; }
+#modal-source { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dim); margin-bottom: 14px; }
 #modal-badges { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 14px; }
 #modal-actions { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
 
@@ -172,18 +208,18 @@ body {
 #ai-tags-box { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px; }
 
 #desc-box { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
-#desc-label { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text-mute); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+#desc-label { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text-dim); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
 #desc-text { font-size: 13px; color: #8070a0; line-height: 1.85; }
 
 /* ── EMPTY ── */
-#empty { display: none; padding: 60px 20px; text-align: center; color: var(--text-mute); }
+#empty { display: none; padding: 60px 20px; text-align: center; color: var(--text-dim); }
 #empty .icon { font-size: 48px; margin-bottom: 14px; }
-#empty h3 { font-size: 16px; font-weight: 700; color: var(--text-mute); }
+#empty h3 { font-size: 16px; font-weight: 700; color: var(--text-dim); }
 
 /* ── FOOTER ── */
 #footer {
   border-top: 1px solid var(--border); padding: 20px;
-  text-align: center; font-size: 11px; color: var(--text-mute); line-height: 2;
+  text-align: center; font-size: 11px; color: var(--text-dim); line-height: 2;
   background: linear-gradient(0deg, rgba(180,79,255,0.04), transparent);
 }
 #footer a { color: var(--violet-dim); text-decoration: none; }
@@ -195,11 +231,17 @@ body {
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.25} }
 @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   #job-grid { grid-template-columns: 1fr; padding: 12px; gap: 10px; }
-  #search { width: 100%; }
-  #filters-bar { flex-direction: column; align-items: flex-start; gap: 8px; top: 53px; }
+  #filters-bar { flex-direction: column; align-items: stretch; gap: 0; padding: 10px 14px; top: 53px; }
+  #filters-top-row { gap: 8px; }
+  #search { width: auto; flex: 1; min-width: 0; }
+  #filters-toggle { display: flex; align-items: center; }
+  #filters-panel { display: none; flex-direction: column; align-items: flex-start; gap: 8px; padding-top: 10px; border-top: 1px solid var(--border); margin-top: 10px; }
+  #filters-panel.open { display: flex; }
   #results-count { margin-left: 0; }
+  #sort-select { width: 100%; }
+  #updated-badge { font-size: 10px; }
 }
 </style>
 <!-- Umami Analytics — privacy-friendly, no cookies, GDPR compliant -->
@@ -230,33 +272,55 @@ body {
 <div id="status-bar"></div>
 
 <div id="filters-bar">
-  <input id="search" type="text" placeholder="🔍 Search jobs...">
-  <div class="filter-group">
-    <span class="filter-label">📍 Region</span>
-    <button class="flt-btn active-magenta" data-geo="All">All</button>
-    <button class="flt-btn" data-geo="Poland" style="--gc:#e63946">🇵🇱 Poland</button>
-    <button class="flt-btn" data-geo="Europe" style="--gc:#b44fff">🇪🇺 Europe</button>
-    <button class="flt-btn" data-geo="USA" style="--gc:#ff2d9b">🇺🇸 USA</button>
-    <button class="flt-btn" data-geo="Remote" style="--gc:#ff85c8">🌐 Remote</button>
+  <!-- Top row: always visible -->
+  <div id="filters-top-row">
+    <input id="search" type="text" placeholder="🔍 Try: Python, remote, postdoc...">
+    <button id="filters-toggle" title="Toggle filters">⚙ Filters</button>
+    <span id="results-count"></span>
+    <span id="updated-badge" style="display:none">Updated <span id="updated-when"></span></span>
+    <select id="sort-select" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text-dim);padding:5px 10px;border-radius:8px;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;">
+      <option value="newest">↓ Newest</option>
+      <option value="oldest">↑ Oldest</option>
+    </select>
   </div>
-  <div class="filter-group">
-    <span class="filter-label">🏢 Sector</span>
-    <button class="flt-btn active-magenta" data-cat="All">All</button>
-    <button class="flt-btn" data-cat="Academia">Academia</button>
-    <button class="flt-btn" data-cat="Pharma/Biotech">Pharma</button>
-    <button class="flt-btn" data-cat="Clinical">Clinical</button>
-    <button class="flt-btn" data-cat="Startup">Startup</button>
+  <!-- Collapsible panel: filters + clear -->
+  <div id="filters-panel">
+    <div class="filter-group">
+      <span class="filter-label">📍 Region</span>
+      <button class="flt-btn active-magenta" data-geo="All">All</button>
+      <button class="flt-btn" data-geo="Poland">🇵🇱 Poland</button>
+      <button class="flt-btn" data-geo="Europe">🇪🇺 Europe</button>
+      <button class="flt-btn" data-geo="USA">🇺🇸 USA</button>
+      <button class="flt-btn" data-geo="Remote">🌐 Remote</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">🏢 Sector</span>
+      <button class="flt-btn active-magenta" data-cat="All">All</button>
+      <button class="flt-btn" data-cat="Academia">Academia</button>
+      <button class="flt-btn" data-cat="Pharma/Biotech">Pharma</button>
+      <button class="flt-btn" data-cat="Clinical">Clinical</button>
+      <button class="flt-btn" data-cat="Startup">Startup</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">🎓 Level</span>
+      <button class="flt-btn active-magenta" data-sen="All">All</button>
+      <button class="flt-btn" data-sen="Junior">Junior</button>
+      <button class="flt-btn" data-sen="Mid">Mid</button>
+      <button class="flt-btn" data-sen="Senior">Senior</button>
+      <button class="flt-btn" data-sen="PostDoc">PostDoc</button>
+      <button class="flt-btn" data-sen="PI/Lead">PI/Lead</button>
+    </div>
+    <button id="btn-clear-filters">✕ Clear filters</button>
   </div>
-  <span id="results-count"></span>
 </div>
 
 <div id="job-grid"></div>
 <div id="empty">
   <div class="icon">🧬</div>
-  <h3 id="empty-title">First refresh in progress...</h3>
-  <p id="empty-msg" style="font-size:12px;margin-top:8px;color:var(--text-mute)">
-    Go to <a href="https://github.com/Biokoderka/bioinfo-jobs/actions" target="_blank" style="color:var(--magenta)">GitHub Actions → Weekly Job Refresh → Run workflow</a><br>
-    to load real job listings for the first time.
+  <h3 id="empty-title">No jobs match your filters</h3>
+  <p id="empty-msg" style="font-size:12px;margin-top:8px;color:var(--text-dim);line-height:1.8">
+    Try adjusting the filters above, or<br>
+    <a href="archive.html" style="color:var(--magenta)">📦 browse the archive</a> — older listings may still be relevant.
   </p>
 </div>
 
@@ -279,6 +343,7 @@ body {
       <div id="desc-label">◆ JOB DESCRIPTION</div>
       <div id="desc-text"></div>
     </div>
+    <div id="modal-sticky-apply"></div>
   </div>
 </div>
 
@@ -325,8 +390,8 @@ body {
   <a href="privacy.html">Privacy &amp; Terms</a> ·
   Sources: Nature Careers · EuroScienceJobs · jobs.ac.uk · EMBL · Science Careers · Euraxess · Bioinformatics.org · JobRxiv
   <br><br>
-  <span style="font-size:10px;color:var(--text-mute);opacity:0.7;max-width:700px;display:inline-block;line-height:1.6;">
-    <strong style="color:var(--text-mute)">Disclaimer:</strong>
+  <span style="font-size:10px;color:var(--text-dim);opacity:0.7;max-width:700px;display:inline-block;line-height:1.6;">
+    <strong style="color:var(--text-dim)">Disclaimer:</strong>
     BioInfoJobs is an independent job aggregator and does not own, create, or endorse any of the job listings displayed on this site.
     All listings are sourced from publicly available job boards and company career pages, or submitted by the community.
     We are not affiliated with any of the employers listed. Clicking "Apply" will redirect you to the original job posting on the employer's website.
@@ -456,6 +521,8 @@ let jobs = []; // populated from jobs.json via GitHub Actions
 let selectedJob = null;
 let geoFilter = "All";
 let catFilter = "All";
+let senFilter = "All";
+let sortOrder = "newest";
 let searchQ   = "";
 
 // ── HELPERS ──────────────────────────────────────────────────────────────────
@@ -473,21 +540,38 @@ function setStatus(msg) {
 function getFiltered() {
   const today = new Date().toISOString().split("T")[0];
   const cutoff = new Date(Date.now() - 60 * 86400000).toISOString().split("T")[0];
-  return jobs.filter(j => {
+  let filtered = jobs.filter(j => {
+    if (j.archived) return false;
     if (j.deadline && j.deadline < today) return false;
     if (j.date && j.date < cutoff) return false;
     const matchGeo = geoFilter === "All" || j.geo === geoFilter;
     const matchCat = catFilter === "All" || j.category === catFilter;
+    const matchSen = senFilter === "All" || j.seniority === senFilter;
     const q = searchQ.toLowerCase();
-    const matchQ = !q || (j.title+" "+j.company+" "+j.location+" "+j.tags.join(" ")).toLowerCase().includes(q);
-    return matchGeo && matchCat && matchQ;
+    const matchQ = !q || (j.title+" "+j.company+" "+j.location+" "+(j.tags||[]).join(" ")+" "+(j.description||"")).toLowerCase().includes(q);
+    return matchGeo && matchCat && matchSen && matchQ;
   });
+  filtered.sort((a,b) => a.date < b.date ? 1 : -1);
+  if (sortOrder === "oldest") filtered.reverse();
+  return filtered;
 }
 
 // ── RENDER ───────────────────────────────────────────────────────────────────
 function render() {
   const filtered = getFiltered();
-  document.getElementById("results-count").textContent = `${filtered.length} job${filtered.length!==1?"s":""}`;
+  const activeTotal = jobs.filter(j => !j.archived).length;
+  const archivedTotal = jobs.filter(j => j.archived).length;
+  const isFiltered = geoFilter!=="All" || catFilter!=="All" || senFilter!=="All" || searchQ;
+  const countEl = document.getElementById("results-count");
+  if (isFiltered) {
+    countEl.textContent = `${filtered.length} result${filtered.length!==1?"s":""}`;
+  } else {
+    countEl.innerHTML = `<strong style="color:var(--text)">${activeTotal}</strong> active`;
+    if (archivedTotal) countEl.innerHTML += ` · <a href="archive.html" style="color:var(--text-dim);text-decoration:none">${archivedTotal} archived</a>`;
+  }
+  // show/hide clear button
+  const hasFilters = geoFilter!=="All" || catFilter!=="All" || senFilter!=="All" || searchQ.trim();
+  document.getElementById("btn-clear-filters").style.display = hasFilters ? "inline-block" : "none";
   const grid = document.getElementById("job-grid");
   const empty = document.getElementById("empty");
 
@@ -520,7 +604,8 @@ function render() {
       <div class="jc-footer">
         <span class="geo-tag" style="background:${gc}22;color:${gc};border:1px solid ${gc}44">${gf} ${j.geo}</span>
         ${cc ? `<span class="tag" style="background:${cc}18;color:${cc};border:1px solid ${cc}33">${j.category}</span>` : ""}
-        ${j.tags.slice(0,2).map(t=>`<span class="tag" style="background:rgba(180,79,255,0.1);color:#9060c0;border:1px solid #3d1860">${t}</span>`).join("")}
+        ${j.seniority ? `<span class="tag" style="background:rgba(180,79,255,0.12);color:#c090ff;border:1px solid #3d1860">${j.seniority}</span>` : ""}
+        ${j.tags.slice(0,1).map(t=>`<span class="tag" style="background:rgba(180,79,255,0.08);color:#9060c0;border:1px solid #2a1040">${t}</span>`).join("")}
         ${applyLink}
       </div>
     </div>`;
@@ -552,9 +637,15 @@ function openModal(id) {
     j.seniority ? `<span class="tag" style="background:rgba(180,79,255,0.12);color:#b44fff;border:1px solid #3d1860;padding:3px 10px">${j.seniority}</span>` : ""
   ].join("");
 
-  document.getElementById("modal-actions").innerHTML = j.url && j.url !== "#"
+  const applyBtnHTML = j.url && j.url !== "#"
     ? `<a href="${j.url}" target="_blank" rel="noopener" class="btn btn-ai" style="text-decoration:none">🔗 Apply / View listing ↗</a>`
     : "";
+  document.getElementById("modal-actions").innerHTML = applyBtnHTML;
+  const stickyApply = document.getElementById("modal-sticky-apply");
+  if (j.url && j.url !== "#") {
+    stickyApply.style.display = "block";
+    stickyApply.innerHTML = `<a href="${j.url}" target="_blank" rel="noopener" class="btn btn-ai" style="text-decoration:none;width:100%;display:block;text-align:center;font-size:14px;padding:13px">🔗 Apply / View listing ↗</a>`;
+  } else { stickyApply.style.display = "none"; }
 
   // Tags panel (replaces AI box)
   const aiBox = document.getElementById("ai-box");
@@ -649,7 +740,9 @@ function loadFromStorage() {
 }
 
 // ── EVENTS ───────────────────────────────────────────────────────────────────
-document.getElementById("search").addEventListener("input", e => { searchQ = e.target.value; render(); });
+let _sd;
+document.getElementById("search").addEventListener("input", e => { clearTimeout(_sd); _sd = setTimeout(() => { searchQ = e.target.value; render(); }, 280); });
+document.getElementById("sort-select").addEventListener("change", e => { sortOrder = e.target.value; render(); });
 document.getElementById("btn-refresh")?.addEventListener("click", fetchFeeds);
 document.getElementById("modal-close").addEventListener("click", closeModal);
 document.getElementById("modal-overlay").addEventListener("click", e => { if(e.target===e.currentTarget) closeModal(); });
@@ -679,6 +772,40 @@ document.querySelectorAll(".flt-btn[data-cat]").forEach(btn => {
   });
 });
 
+document.querySelectorAll(".flt-btn[data-sen]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    senFilter = btn.dataset.sen;
+    document.querySelectorAll(".flt-btn[data-sen]").forEach(b => {
+      b.classList.remove("active-magenta"); b.style.background=""; b.style.color=""; b.style.borderColor=""; b.style.boxShadow="";
+    });
+    btn.classList.add("active-magenta");
+    render();
+  });
+});
+
+// ── CLEAR FILTERS ─────────────────────────────────────────────────────────────
+document.getElementById("btn-clear-filters").addEventListener("click", () => {
+  geoFilter = "All"; catFilter = "All"; senFilter = "All"; sortOrder = "newest"; searchQ = "";
+  document.getElementById("search").value = "";
+  document.getElementById("sort-select").value = "newest";
+  document.querySelectorAll(".flt-btn[data-geo],.flt-btn[data-cat],.flt-btn[data-sen]").forEach(b => {
+    b.classList.remove("active-magenta"); b.style.background=""; b.style.color=""; b.style.borderColor=""; b.style.boxShadow="";
+  });
+  document.querySelector(".flt-btn[data-geo='All']").classList.add("active-magenta");
+  document.querySelector(".flt-btn[data-cat='All']").classList.add("active-magenta");
+  document.querySelector(".flt-btn[data-sen='All']").classList.add("active-magenta");
+  render();
+});
+
+// ── MOBILE FILTERS TOGGLE ─────────────────────────────────────────────────────
+document.getElementById("filters-toggle").addEventListener("click", () => {
+  const panel = document.getElementById("filters-panel");
+  const toggle = document.getElementById("filters-toggle");
+  const open = panel.classList.toggle("open");
+  toggle.classList.toggle("active", open);
+  toggle.textContent = open ? "✕ Close" : "⚙ Filters";
+});
+
 // ── INIT ──────────────────────────────────────────────────────────────────────
 async function init() {
   // 1. Try to load jobs.json (GitHub Pages / auto-refresh)
@@ -688,7 +815,18 @@ async function init() {
       const data = await res.json();
       if (data.jobs && data.jobs.length > 0) {
         jobs = data.jobs;
+        // last-updated (header, tiny)
         document.getElementById("last-updated").textContent = "Updated: " + new Date(data.updated).toLocaleDateString();
+        // updated-badge (filters bar, visible)
+        const updEl = document.getElementById("updated-badge");
+        const updWhen = document.getElementById("updated-when");
+        if (updEl && updWhen) {
+          const d = new Date(data.updated);
+          const daysAgoN = Math.floor((Date.now()-d)/86400000);
+          updWhen.textContent = daysAgoN===0 ? "today" : daysAgoN===1 ? "yesterday" : `${daysAgoN}d ago`;
+          updEl.style.display = "block";
+          updEl.title = d.toLocaleString();
+        }
         setStatus(`✅ Loaded ${data.jobs.length} jobs from weekly refresh · ${new Date(data.updated).toLocaleString()}`);
         render();
         return;
