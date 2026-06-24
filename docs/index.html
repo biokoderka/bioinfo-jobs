@@ -172,6 +172,25 @@ body {
 .geo-tag { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; }
 .score-badge { font-family: 'DM Mono', monospace; font-size: 10px; margin-left: auto; }
 
+/* ── SALARY ── */
+.salary-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 600;
+  padding: 2px 8px; border-radius: 20px;
+  background: rgba(6,214,160,0.10); color: #06d6a0;
+  border: 1px solid rgba(6,214,160,0.25); white-space: nowrap;
+}
+.modal-salary {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(6,214,160,0.08); border: 1px solid rgba(6,214,160,0.2);
+  border-radius: 10px; padding: 12px 16px; margin: 8px 0;
+}
+.modal-salary-amount {
+  font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 700; color: #06d6a0;
+}
+.modal-salary-meta { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); }
+.modal-salary-disclaimer { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-mute); margin-top: 2px; }
+
 /* ── MODAL ── */
 #modal-overlay { display: none; position: fixed; inset: 0; background: rgba(5,0,10,0.8); backdrop-filter: blur(6px); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
 #modal-overlay.open { display: flex; }
@@ -331,6 +350,7 @@ body {
     <div id="modal-title"></div>
     <div id="modal-meta"></div>
     <div id="modal-source"></div>
+    <div id="modal-salary"></div>
     <div id="modal-badges"></div>
     <div id="modal-actions"></div>
     <div id="ai-box">
@@ -605,6 +625,7 @@ function render() {
         <span class="geo-tag" style="background:${gc}22;color:${gc};border:1px solid ${gc}44">${gf} ${j.geo}</span>
         ${cc ? `<span class="tag" style="background:${cc}18;color:${cc};border:1px solid ${cc}33">${j.category}</span>` : ""}
         ${j.seniority ? `<span class="tag" style="background:rgba(180,79,255,0.12);color:#c090ff;border:1px solid #3d1860">${j.seniority}</span>` : ""}
+        ${j.salary_text ? `<span class="salary-pill">💰 ${j.salary_text}</span>` : ""}
         ${j.tags.slice(0,1).map(t=>`<span class="tag" style="background:rgba(180,79,255,0.08);color:#9060c0;border:1px solid #2a1040">${t}</span>`).join("")}
         ${applyLink}
       </div>
@@ -630,6 +651,25 @@ function openModal(id) {
   const age = daysAgo(j.date);
   const ageStr = age === null ? j.date : age === 0 ? "added today" : age === 1 ? "added yesterday" : `added ${age} days ago`;
   document.getElementById("modal-source").textContent = `${j.source} · ${ageStr} (${j.date})`;
+
+  // Salary block
+  const salEl = document.getElementById("modal-salary");
+  if (j.salary_text) {
+    const periodLabel = {annual:"/year", monthly:"/month", daily:"/day", hourly:"/hour"}[j.salary_period] || "";
+    const currLabel = {USD:"USD", EUR:"EUR", GBP:"GBP", PLN:"PLN"}[j.salary_currency] || j.salary_currency;
+    salEl.innerHTML = `<div class="modal-salary">
+      <span style="font-size:20px">💰</span>
+      <div>
+        <div class="modal-salary-amount">${j.salary_text}</div>
+        <div class="modal-salary-meta">${currLabel}${periodLabel ? " · " + periodLabel : ""} · extracted automatically</div>
+        <div class="modal-salary-disclaimer">Verify salary details directly with the employer — figures extracted from job description.</div>
+      </div>
+    </div>`;
+    salEl.style.display = "block";
+  } else {
+    salEl.innerHTML = "";
+    salEl.style.display = "none";
+  }
 
   document.getElementById("modal-badges").innerHTML = [
     `<span class="geo-tag" style="background:${gc}22;color:${gc};border:1px solid ${gc}44">${gf} ${j.geo}</span>`,

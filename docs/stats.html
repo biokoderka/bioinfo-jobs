@@ -97,6 +97,31 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans
 /* TIMELINE */
 .timeline-wrap{overflow-x:auto;padding-bottom:4px;padding-top:20px;}
 
+/* SALARY STATS */
+.salary-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:22px;
+  grid-column:1/-1;}
+.salary-header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+.salary-disclaimer{font-family:'DM Mono',monospace;font-size:10px;color:var(--text-mute);
+  background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 10px;margin-bottom:16px;}
+.salary-group{margin-bottom:20px;}
+.salary-group-label{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:10px;padding-bottom:4px;
+  border-bottom:1px solid var(--border);}
+.salary-row{display:flex;align-items:center;gap:10px;margin-bottom:7px;}
+.salary-row-label{font-size:12px;color:var(--text);font-weight:600;min-width:110px;flex-shrink:0;}
+.salary-bar-wrap{flex:1;background:var(--bg3);border-radius:4px;height:20px;position:relative;overflow:visible;}
+.salary-bar{height:100%;border-radius:4px;position:absolute;left:0;top:0;
+  background:linear-gradient(90deg,var(--magenta),var(--violet));opacity:0.7;transition:width 0.4s;}
+.salary-bar-range{position:absolute;left:0;top:0;height:100%;border-radius:4px;opacity:0.25;}
+.salary-val{font-family:'DM Mono',monospace;font-size:10px;color:#06d6a0;white-space:nowrap;min-width:120px;flex-shrink:0;}
+.salary-n{font-family:'DM Mono',monospace;font-size:9px;color:var(--text-mute);min-width:30px;text-align:right;flex-shrink:0;}
+.salary-no-data{color:var(--text-dim);font-size:12px;font-family:'DM Mono',monospace;padding:20px 0;}
+.salary-currency-toggle{display:flex;gap:6px;flex-wrap:wrap;}
+.sal-cur-btn{cursor:pointer;border:1px solid var(--border);border-radius:20px;font-size:11px;
+  font-weight:600;padding:3px 10px;font-family:'Plus Jakarta Sans',sans-serif;
+  background:transparent;color:var(--text-dim);transition:all 0.15s;}
+.sal-cur-btn.active{background:linear-gradient(135deg,var(--magenta),var(--violet));color:#fff;border-color:transparent;}
+
 /* ALL TECH SKILLS SECTION */
 .tech-full-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:22px;
   grid-column:1/-1;}
@@ -423,6 +448,105 @@ function timeline(data) {
 }
 
 // ── RENDER STATS ──────────────────────────────────────────────────────────────
+// ── SALARY STATS ──────────────────────────────────────────────────────────────
+let activeSalaryCurrency = "PLN";
+
+function normalizeSalaryToMonthly(j) {
+  const min = j.salary_min, max = j.salary_max, p = j.salary_period;
+  if (!min) return null;
+  const mid = max ? (min + max) / 2 : min;
+  if (p === "annual")  return { min: min/12, max: max ? max/12 : null, mid: mid/12 };
+  if (p === "monthly") return { min, max, mid };
+  if (p === "daily")   return { min: min*20, max: max ? max*20 : null, mid: mid*20 };
+  if (p === "hourly")  return { min: min*160, max: max ? max*160 : null, mid: mid*160 };
+  return { min, max, mid };
+}
+
+function salaryStats(jobs, currency) {
+  const withSalary = jobs.filter(j => j.salary_text && j.salary_currency === currency);
+  if (!withSalary.length) return null;
+
+  function groupStats(groupFn, labelFn, allGroups) {
+    const groups = {};
+    for (const j of withSalary) {
+      const key = groupFn(j);
+      if (!key) continue;
+      if (!groups[key]) groups[key] = [];
+      const norm = normalizeSalaryToMonthly(j);
+      if (norm) groups[key].push(norm);
+    }
+    return allGroups
+      .map(k => ({ label: labelFn(k), key: k, items: groups[k] || [] }))
+      .filter(g => g.items.length > 0);
+  }
+
+  const fmtK = (v, cur) => {
+    if (!v) return "—";
+    if (cur === "PLN") return `${Math.round(v/1000*10)/10}k PLN`;
+    const s = {USD:"$",EUR:"€",GBP:"£"}[cur] || cur;
+    return `${s}${Math.round(v/1000*10)/10}k`;
+  };
+
+  const byGeo      = groupStats(j=>j.geo,      k=>k, ["Poland","Europe","USA","Remote","Other"]);
+  const byCat      = groupStats(j=>j.category, k=>k, ["Academia","Pharma/Biotech","Clinical","Startup","Government/Public"]);
+  const bySen      = groupStats(j=>j.seniority,k=>k, ["Intern","Junior","Mid","Senior","PI/Lead","PostDoc"]);
+
+  function renderGroup(groups, title, colors) {
+    if (!groups.length) return "";
+    const allMids = groups.flatMap(g => g.items.map(i=>i.mid));
+    const maxMid = Math.max(...allMids);
+
+    const rows = groups.map(g => {
+      const mids = g.items.map(i=>i.mid);
+      const avg = mids.reduce((a,b)=>a+b,0)/mids.length;
+      const mins = g.items.map(i=>i.min);
+      const maxs = g.items.filter(i=>i.max).map(i=>i.max);
+      const avgMin = mins.reduce((a,b)=>a+b,0)/mins.length;
+      const avgMax = maxs.length ? maxs.reduce((a,b)=>a+b,0)/maxs.length : avg;
+      const pct = Math.round((avg/maxMid)*100);
+      const pctMin = Math.round((avgMin/maxMid)*100);
+      const pctMax = Math.round((avgMax/maxMid)*100);
+      const color = colors[g.key] || "var(--violet)";
+      const rangeStr = avgMax > avgMin ? `${fmtK(avgMin,currency)} – ${fmtK(avgMax,currency)}/mo` : `${fmtK(avg,currency)}/mo`;
+      return `<div class="salary-row">
+        <div class="salary-row-label">${g.label}</div>
+        <div class="salary-bar-wrap">
+          <div class="salary-bar-range" style="left:${pctMin}%;width:${pctMax-pctMin}%;background:${color};"></div>
+          <div class="salary-bar" style="width:${pct}%;background:${color};opacity:0.9;"></div>
+        </div>
+        <div class="salary-val">${rangeStr}</div>
+        <div class="salary-n">n=${g.items.length}</div>
+      </div>`;
+    }).join("");
+    return `<div class="salary-group"><div class="salary-group-label">${title}</div>${rows}</div>`;
+  }
+
+  const curSym = {USD:"$",EUR:"€",GBP:"£",PLN:""}[currency]||"";
+  const n = withSalary.length;
+  const allMids = withSalary.map(j=>normalizeSalaryToMonthly(j)?.mid||0).filter(Boolean);
+  const medianMid = allMids.sort((a,b)=>a-b)[Math.floor(allMids.length/2)];
+
+  return `
+    <div class="salary-disclaimer">
+      ⚠ Salary data is extracted automatically from job descriptions and may be incomplete or inaccurate.
+      Always verify compensation directly with the employer. Figures are normalized to monthly equivalent.
+      Based on <strong>${n}</strong> listing${n!==1?"s":""} with ${currency} salary data.
+      Median: <strong>${fmtK(medianMid, currency)}/mo</strong>.
+    </div>
+    ${renderGroup(bySen, "By Seniority Level", SEN_COLORS)}
+    ${renderGroup(byCat, "By Sector", CAT_COLORS)}
+    ${renderGroup(byGeo, "By Region", GEO_COLORS)}
+  `;
+}
+
+function renderSalaryCard() {
+  const el = document.getElementById("salary-full-body");
+  if (!el) return;
+  const jobs = getScopedJobs();
+  const result = salaryStats(jobs, activeSalaryCurrency);
+  el.innerHTML = result || `<div class="salary-no-data">No ${activeSalaryCurrency} salary data in current scope.</div>`;
+}
+
 function renderStats() {
   const jobs = getScopedJobs();
   const container = document.getElementById("stats-container");
@@ -457,6 +581,7 @@ function renderStats() {
       <div class="kpi"><div class="kpi-num">${uniqueTechs}</div><div class="kpi-label">Unique tech skills</div></div>
       <div class="kpi"><div class="kpi-num" style="font-size:18px;padding-top:6px">${topTech}</div><div class="kpi-label">Most demanded skill</div></div>
       <div class="kpi"><div class="kpi-num" style="font-size:18px;padding-top:6px">${topGeo}</div><div class="kpi-label">Top region</div></div>
+      <div class="kpi"><div class="kpi-num" style="color:#06d6a0">${jobs.filter(j=>j.salary_text).length}</div><div class="kpi-label">💰 With salary</div></div>
     </div>
 
     <!-- Region donut -->
@@ -501,6 +626,23 @@ function renderStats() {
       ${timeline(moData)}
     </div>
 
+    <!-- Salary Stats -->
+    <div class="salary-card">
+      <div class="salary-header">
+        <div>
+          <div class="chart-title">💰 Salary Statistics</div>
+          <div class="chart-subtitle" style="margin-top:4px">monthly equivalent · by seniority, sector and region · auto-extracted from descriptions</div>
+        </div>
+        <div class="salary-currency-toggle" id="salary-cur-toggle">
+          <button class="sal-cur-btn active" data-cur="PLN">PLN</button>
+          <button class="sal-cur-btn" data-cur="USD">USD</button>
+          <button class="sal-cur-btn" data-cur="EUR">EUR</button>
+          <button class="sal-cur-btn" data-cur="GBP">GBP</button>
+        </div>
+      </div>
+      <div id="salary-full-body"></div>
+    </div>
+
     <!-- All Tech Skills -->
     <div class="tech-full-card">
       <div class="tech-full-header">
@@ -523,6 +665,17 @@ function renderStats() {
 
   document.getElementById("tech-search").addEventListener("input", e => {
     renderAllTech(e.target.value);
+  });
+
+  // Salary stats
+  renderSalaryCard();
+  document.getElementById("salary-cur-toggle").querySelectorAll(".sal-cur-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      activeSalaryCurrency = btn.dataset.cur;
+      document.querySelectorAll(".sal-cur-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderSalaryCard();
+    });
   });
 }
 

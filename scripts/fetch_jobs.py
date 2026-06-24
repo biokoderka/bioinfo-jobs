@@ -197,6 +197,128 @@ def detect_seniority(title):
     return "Mid"
 
 
+def extract_salary(text):
+    """
+    Parse salary/compensation info from free text.
+    Returns dict: {salary_min, salary_max, salary_currency, salary_text} or all None.
+    Handles: $120k-$150k, $120,000-$150,000, €50,000-€70,000, 12,000-18,000 PLN, £45k-£55k,
+             single values, per-month PLN (gross/netto), and Lever HTML salary blocks.
+    """
+    if not text:
+        return {"salary_min": None, "salary_max": None, "salary_currency": None, "salary_text": None}
+
+    t = re.sub(r'&nbsp;', ' ', text)
+    t = re.sub(r'<[^>]+>', ' ', t)  # strip HTML
+
+    def parse_num(s):
+        """Turn '340,000' or '340k' or '340' into float."""
+        s = s.replace(',', '').replace(' ', '').lower()
+        if s.endswith('k'):
+            return float(s[:-1]) * 1000
+        try:
+            return float(s)
+        except ValueError:
+            return None
+
+    PATTERNS = [
+        # $120,000 – $150,000  or  $120k–$150k
+        (r'\$\s*([\d,]+(?:\.\d+)?k?)\s*[-–—]\s*\$?\s*([\d,]+(?:\.\d+)?k?)', 'USD'),
+        # €50,000 – €70,000
+        (r'€\s*([\d,]+(?:\.\d+)?k?)\s*[-–—]\s*€?\s*([\d,]+(?:\.\d+)?k?)', 'EUR'),
+        # £45,000 – £55,000
+        (r'£\s*([\d,]+(?:\.\d+)?k?)\s*[-–—]\s*£?\s*([\d,]+(?:\.\d+)?k?)', 'GBP'),
+        # 12 000 – 18 000 PLN  or  12,000-18,000 PLN/zł
+        (r'(\d[\d\s,.]{2,9})\s*[-–—]\s*(\d[\d\s,.]{2,9})\s*(?:PLN|zł|pln|zl)\b', 'PLN'),
+        # PLN 12,000 – 18,000
+        (r'(?:PLN|zł)\s*(\d[\d\s,.]{2,9})\s*[-–—]\s*(\d[\d\s,.]{2,9})', 'PLN'),
+        # 8 000 zł brutto/netto
+        (r'(\d[\d\s,.]{2,9})\s*(?:zł|PLN)\s*(?:brutto|netto|gross|net)\b', 'PLN'),
+        # Single values: $120,000 or $150k
+        (r'\$\s*([\d,]+(?:\.\d+)?k?)', 'USD'),
+        (r'€\s*([\d,]+(?:\.\d+)?k?)', 'EUR'),
+        (r'£\s*([\d,]+(?:\.\d+)?k?)', 'GBP'),
+    ]
+
+    for pat, currency in PATTERNS:
+        m = re.search(pat, t, re.IGNORECASE)
+        if not m:
+            continue
+        g = m.groups()
+        v1 = parse_num(g[0])
+        v2 = parse_num(g[1]) if len(g) > 1 else None
+
+        if v1 is None:
+            continue
+
+        # Sanity check: skip implausibly small or large numbers
+        for v in [v1, v2]:
+            if v and (v < 1000 or v > 5_000_000):
+                v1 = v2 = None
+                break
+        if v1 is None:
+            continue
+
+        # Normalize: if both values, min < max
+        if v2 and v2 < v1:
+            v1, v2 = v2, v1
+
+        # Build human-readable salary_text
+        def fmt(v, cur):
+            if cur == 'PLN':
+                return f"{int(v):,} PLN".replace(',', ' ')
+            syms = {'USD': '$', 'EUR': '€', 'GBP': '£'}
+            s = syms.get(cur, cur)
+            if v >= 1000:
+                return f"{s}{int(v):,}"
+            return f"{s}{v:.0f}"
+
+        if v2:
+            salary_text = f"{fmt(v1, currency)} – {fmt(v2, currency)}"
+        else:
+            salary_text = fmt(v1, currency)
+
+        # Detect period: look only 40 chars immediately after the salary match
+        ctx_after = t[m.end():m.end()+40].lower()
+        # Also check 20 chars before (e.g. "B2B 1000-1100 PLN/dzień")
+        ctx_before = t[max(0, m.start()-20):m.start()].lower()
+        ctx = ctx_before + ctx_after
+
+        has_month = any(k in ctx for k in ["/month", "/miesiąc", "/mies", "miesięcznie", "monthly", "gross/month", "net/month", "/mo"])
+        has_year  = any(k in ctx for k in ["/year", "/yr", "/rok", "rocznie", "annual", "per year"])
+        has_day   = any(k in ctx for k in ["/dzień", "netto/day", "dziennie", "/day", "per day"]) and not has_month
+        has_hour  = any(k in ctx for k in ["/h,", "/h.", " /h", "pln/h"]) and not has_month
+
+        if has_month:
+            period = "monthly"
+        elif has_year:
+            period = "annual"
+        elif has_day:
+            period = "daily"
+        elif has_hour:
+            period = "hourly"
+        else:
+            # Infer from magnitude
+            if currency == "PLN" and v1 < 3000:
+                period = "daily"
+            elif currency in ("USD", "EUR", "GBP") and v1 > 20000:
+                period = "annual"
+            else:
+                period = "monthly" if currency == "PLN" else "annual"
+
+        period_label = {"annual": "/yr", "monthly": "/mo", "daily": "/day", "hourly": "/hr"}.get(period, "")
+        salary_text_full = salary_text + period_label
+
+        return {
+            "salary_min": int(v1),
+            "salary_max": int(v2) if v2 else None,
+            "salary_currency": currency,
+            "salary_period": period,
+            "salary_text": salary_text_full,
+        }
+
+    return {"salary_min": None, "salary_max": None, "salary_currency": None, "salary_text": None}
+
+
 def is_relevant(title, description):
     text = (title+" "+description).lower()
     return any(kw.lower() in text for kw in KEYWORDS)
@@ -284,12 +406,16 @@ def fetch_rss(seen, headers):
                 uid = job_id(title, f["name"])
                 if uid in seen: continue
                 seen.add(uid)
+                sal = extract_salary(desc)
                 results.append({"id":uid,"title":title,"company":f["name"],
                     "location":loc or "See listing","source":f["name"],
                     "date":parse_date(e),"url":link,"description":desc[:800],
                     "geo":detect_geo(title,loc,desc),"tags":[],
                     "category":detect_category(title,f["name"],desc),
-                    "seniority":detect_seniority(title),"summary":None})
+                    "seniority":detect_seniority(title),
+                    "salary_min":sal["salary_min"],"salary_max":sal["salary_max"],
+                    "salary_currency":sal["salary_currency"],"salary_text":sal["salary_text"],
+                    "summary":None})
                 added += 1
             print(f"→ {added} relevant")
         except Exception as e:
@@ -323,12 +449,16 @@ def fetch_greenhouse(seen, headers):
                 uid = job_id(title, company)
                 if uid in seen: continue
                 seen.add(uid)
+                sal = extract_salary(desc)
                 results.append({"id":uid,"title":title,"company":company,
                     "location":loc or "See listing","source":f"{company} (Greenhouse)",
                     "date":date,"url":link,"description":desc,
                     "geo":detect_geo(title,loc,desc),"tags":[],
                     "category":detect_category(title,company,desc),
-                    "seniority":detect_seniority(title),"summary":None})
+                    "seniority":detect_seniority(title),
+                    "salary_min":sal["salary_min"],"salary_max":sal["salary_max"],
+                    "salary_currency":sal["salary_currency"],"salary_text":sal["salary_text"],
+                    "summary":None})
                 added += 1
             if added: print(f"  ✓ {company}: {added} jobs")
         except Exception as e:
@@ -353,12 +483,17 @@ def fetch_lever(seen, headers):
                 uid = job_id(title, company)
                 if uid in seen: continue
                 seen.add(uid)
+                # Lever: salary often in raw description HTML before stripping
+                sal = extract_salary(job.get("description",""))
                 results.append({"id":uid,"title":title,"company":company,
                     "location":loc or "See listing","source":f"{company} (Lever)",
                     "date":today(),"url":link,"description":desc,
                     "geo":detect_geo(title,loc,desc),"tags":[],
                     "category":detect_category(title,company,desc),
-                    "seniority":detect_seniority(title),"summary":None})
+                    "seniority":detect_seniority(title),
+                    "salary_min":sal["salary_min"],"salary_max":sal["salary_max"],
+                    "salary_currency":sal["salary_currency"],"salary_text":sal["salary_text"],
+                    "summary":None})
                 added += 1
             if added: print(f"  ✓ {company}: {added} jobs")
         except Exception as e:
@@ -405,12 +540,16 @@ def fetch_hire_omics(seen, headers):
                 desc_m = re.findall(r'<p[^>]*>(.{40,}?)</p>', ptext, re.DOTALL)
                 desc = " ".join(re.sub(r'<[^>]+>',' ',p).strip() for p in desc_m[:3])[:800]
                 seen.add(uid)
+                sal = extract_salary(ptext)  # full page text has better salary context
                 results.append({"id":uid,"title":title,"company":company,
                     "location":loc or "See listing","source":"Hire Omics",
                     "date":today(),"url":url,"description":desc,
                     "geo":detect_geo(title,loc,desc),"tags":[],
                     "category":detect_category(title,company,desc),
-                    "seniority":detect_seniority(title),"summary":None})
+                    "seniority":detect_seniority(title),
+                    "salary_min":sal["salary_min"],"salary_max":sal["salary_max"],
+                    "salary_currency":sal["salary_currency"],"salary_text":sal["salary_text"],
+                    "summary":None})
                 added += 1
             except Exception:
                 continue

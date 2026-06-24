@@ -147,6 +147,26 @@ select option{background:#150020;color:var(--text);}
       </div>
     </div>
 
+    <div class="field-row">
+      <div class="field">
+        <label>Seniority level</label>
+        <select id="f-seniority">
+          <option value="">— select —</option>
+          <option value="Intern">Intern</option>
+          <option value="Junior">Junior</option>
+          <option value="Mid">Mid</option>
+          <option value="Senior">Senior</option>
+          <option value="PI/Lead">PI / Lead</option>
+          <option value="PostDoc">PostDoc</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Application deadline <span style="color:var(--text-mute);font-weight:400">(optional)</span></label>
+        <input type="date" id="f-deadline">
+        <div class="hint">Leave blank if no fixed deadline.</div>
+      </div>
+    </div>
+
     <div class="field">
       <label>Link to original listing <span>*</span></label>
       <input type="url" id="f-url" placeholder="https://...">
@@ -157,12 +177,6 @@ select option{background:#150020;color:var(--text);}
       <label>Short description <span>*</span></label>
       <textarea id="f-desc" placeholder="Paste or write a brief description of the role (2–5 sentences). Key responsibilities, required skills, contract type..." maxlength="800"></textarea>
       <div class="hint">Max 800 characters · <span id="char-count">0</span>/800</div>
-    </div>
-
-    <div class="field">
-      <label>Deadline <span>*</span></label>
-      <input type="date" id="f-deadline">
-      <div class="hint">Offers past their deadline are automatically hidden from the board.</div>
     </div>
 
     <div class="field-row">
@@ -181,6 +195,7 @@ select option{background:#150020;color:var(--text);}
     <div id="error-box"></div>
 
     <button class="btn-submit" id="btn-submit">✦ Submit for review</button>
+    <p style="text-align:center;font-size:11px;color:var(--text-dim);margin-top:10px;font-family:'DM Mono',monospace;">Or email <a href="mailto:biokoderka@gmail.com" style="color:var(--violet-dim)">biokoderka@gmail.com</a> or DM <a href="https://instagram.com/biokoderka" target="_blank" style="color:var(--violet-dim)">@biokoderka</a></p>
   </div>
 
   <div id="success-box">
@@ -220,6 +235,7 @@ document.getElementById("btn-submit").addEventListener("click", async () => {
   const url       = document.getElementById("f-url").value.trim();
   const desc      = document.getElementById("f-desc").value.trim();
   const deadline  = document.getElementById("f-deadline").value;
+  const seniority = document.getElementById("f-seniority").value;
   const submitter = document.getElementById("f-submitter").value.trim() || "anonymous";
   const email     = document.getElementById("f-email").value.trim();
 
@@ -233,7 +249,6 @@ document.getElementById("btn-submit").addEventListener("click", async () => {
   if (!geo)      missing.push("Region");
   if (!url)      missing.push("Link to listing");
   if (!desc)     missing.push("Description");
-  if (!deadline) missing.push("Deadline");
   if (!email)    missing.push("E-mail");
 
   if (missing.length) {
@@ -248,8 +263,8 @@ document.getElementById("btn-submit").addEventListener("click", async () => {
     errBox.textContent = "⚠ Please enter a valid e-mail address.";
     errBox.style.display = "block"; return;
   }
-  if (new Date(deadline) <= new Date()) {
-    errBox.textContent = "⚠ Deadline must be a future date.";
+  if (deadline && new Date(deadline) <= new Date()) {
+    errBox.textContent = "⚠ Deadline must be a future date (or leave blank).";
     errBox.style.display = "block"; return;
   }
 
@@ -263,7 +278,9 @@ document.getElementById("btn-submit").addEventListener("click", async () => {
       body: JSON.stringify({
         _subject: `[BioInfoJobs] New submission: ${title} @ ${company}`,
         title, company, location, region: geo, sector: category || "not specified",
-        deadline, listing_url: url, description: desc,
+        seniority: seniority || "not specified",
+        deadline: deadline || "no deadline",
+        listing_url: url, description: desc,
         submitted_by: submitter, contact_email: email,
         submitted_on: new Date().toISOString().split("T")[0]
       })

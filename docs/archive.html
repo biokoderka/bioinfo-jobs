@@ -206,6 +206,7 @@ function daysAgo(d) {
 }
 
 function isArchived(j) {
+  if (j.archived === true) return true;
   const today = new Date().toISOString().split("T")[0];
   const cutoff = new Date(Date.now()-60*86400000).toISOString().split("T")[0];
   if (j.deadline && j.deadline < today) return true;
@@ -319,7 +320,11 @@ document.getElementById("modal-overlay").addEventListener("click",e=>{
   if(e.target===e.currentTarget){document.getElementById("modal-overlay").classList.remove("open");document.body.style.overflow="";}
 });
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){document.getElementById("modal-overlay").classList.remove("open");document.body.style.overflow="";}});
-document.getElementById("search").addEventListener("input",e=>{searchQ=e.target.value;render();});
+let searchDebounce;
+document.getElementById("search").addEventListener("input",e=>{
+  clearTimeout(searchDebounce);
+  searchDebounce=setTimeout(()=>{searchQ=e.target.value;render();},280);
+});
 document.querySelectorAll(".flt-btn[data-geo]").forEach(btn=>{
   btn.addEventListener("click",()=>{
     geoFilter=btn.dataset.geo;
