@@ -351,11 +351,20 @@ def parse_date(entry):
 def job_id(title, company):
     return hashlib.md5(f"{title}{company}".encode()).hexdigest()[:10]
 
+def url_key(url):
+    """Normalize URL for deduplication — strip tracking params and trailing slashes."""
+    if not url or url == "#":
+        return None
+    url = re.sub(r'[?&](utm_[^&]+|ref=[^&]+|gh_src=[^&]+|lever-origin=[^&]+)', '', url)
+    url = url.rstrip("/").lower().split("#")[0]
+    return url or None
+
 def today():
     return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
 # ── FETCHERS ──────────────────────────────────────────────────────────────────
-def fetch_rss(seen, headers):
+def fetch_rss(seen, headers, seen_urls=None):
+    if seen_urls is None: seen_urls = set()
     results = []
     for f in RSS_FEEDS:
         print(f"  → {f['name']} ...", end=" ", flush=True)
@@ -405,7 +414,10 @@ def fetch_rss(seen, headers):
                 if not is_relevant(title, desc): continue
                 uid = job_id(title, f["name"])
                 if uid in seen: continue
+                ukey = url_key(link)
+                if ukey and ukey in seen_urls: continue
                 seen.add(uid)
+                if ukey: seen_urls.add(ukey)
                 sal = extract_salary(desc)
                 results.append({"id":uid,"title":title,"company":f["name"],
                     "location":loc or "See listing","source":f["name"],
@@ -422,7 +434,8 @@ def fetch_rss(seen, headers):
             print(f"ERROR: {e}")
     return results
 
-def fetch_greenhouse(seen, headers):
+def fetch_greenhouse(seen, headers, seen_urls=None):
+    if seen_urls is None: seen_urls = set()
     results = []
     for company, slug in GREENHOUSE_COMPANIES:
         try:
@@ -448,7 +461,10 @@ def fetch_greenhouse(seen, headers):
                 if not is_relevant(title, desc): continue
                 uid = job_id(title, company)
                 if uid in seen: continue
+                ukey = url_key(link)
+                if ukey and ukey in seen_urls: continue
                 seen.add(uid)
+                if ukey: seen_urls.add(ukey)
                 sal = extract_salary(desc)
                 results.append({"id":uid,"title":title,"company":company,
                     "location":loc or "See listing","source":f"{company} (Greenhouse)",
@@ -465,7 +481,8 @@ def fetch_greenhouse(seen, headers):
             print(f"  ⚠ {company}: {e}")
     return results
 
-def fetch_lever(seen, headers):
+def fetch_lever(seen, headers, seen_urls=None):
+    if seen_urls is None: seen_urls = set()
     results = []
     for company, slug in LEVER_COMPANIES:
         try:
@@ -482,7 +499,10 @@ def fetch_lever(seen, headers):
                 if not is_relevant(title, desc): continue
                 uid = job_id(title, company)
                 if uid in seen: continue
+                ukey = url_key(link)
+                if ukey and ukey in seen_urls: continue
                 seen.add(uid)
+                if ukey: seen_urls.add(ukey)
                 # Lever: salary often in raw description HTML before stripping
                 sal = extract_salary(job.get("description",""))
                 results.append({"id":uid,"title":title,"company":company,
@@ -502,7 +522,8 @@ def fetch_lever(seen, headers):
 
 # ── MAIN ──────────────────────────────────────────────────────────────────────
 
-def fetch_hire_omics(seen, headers):
+def fetch_hire_omics(seen, headers, seen_urls=None):
+    if seen_urls is None: seen_urls = set()
     """Scrape jobs from hire-omics.com — Webflow job board for bioinformatics/genomics."""
     results = []
     base = "https://hire-omics.com"
@@ -539,7 +560,10 @@ def fetch_hire_omics(seen, headers):
                 loc = loc_m.group(0).strip() if loc_m else ""
                 desc_m = re.findall(r'<p[^>]*>(.{40,}?)</p>', ptext, re.DOTALL)
                 desc = " ".join(re.sub(r'<[^>]+>',' ',p).strip() for p in desc_m[:3])[:800]
+                ukey = url_key(url)
+                if ukey and ukey in seen_urls: continue
                 seen.add(uid)
+                if ukey: seen_urls.add(ukey)
                 sal = extract_salary(ptext)  # full page text has better salary context
                 results.append({"id":uid,"title":title,"company":company,
                     "location":loc or "See listing","source":"Hire Omics",
@@ -560,23 +584,24 @@ def fetch_hire_omics(seen, headers):
 
 def main():
     print(f"\n🧬 BioInfoJobs Fetcher — {datetime.now(timezone.utc).isoformat()}\n")
-    seen = set()
+    seen = set()       # tracks job IDs (title+company hash)
+    seen_urls = set()  # tracks canonical URLs for cross-source dedup
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
         "Accept": "application/rss+xml, application/xml, text/xml, */*",
     }
 
     print("📡 RSS feeds:")
-    rss = fetch_rss(seen, headers)
+    rss = fetch_rss(seen, headers, seen_urls)
 
     print("\n🏢 Greenhouse APIs:")
-    gh = fetch_greenhouse(seen, headers)
+    gh = fetch_greenhouse(seen, headers, seen_urls)
 
     print("\n🔧 Lever APIs:")
-    lv = fetch_lever(seen, headers)
+    lv = fetch_lever(seen, headers, seen_urls)
 
     print("\n💼 Hire Omics:")
-    ho = fetch_hire_omics(seen, headers)
+    ho = fetch_hire_omics(seen, headers, seen_urls)
 
     all_jobs = sorted(rss + gh + lv + ho, key=lambda j: j["date"], reverse=True)
 
