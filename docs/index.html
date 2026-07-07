@@ -36,6 +36,31 @@ body {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: #3d1860; border-radius: 2px; }
 
+/* ── TOP ANNOUNCEMENT BANNER ── */
+#top-banner {
+  background: linear-gradient(90deg, #833ab4, #fd1d1d, #fcb045);
+  padding: 9px 20px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  flex-wrap: wrap; text-align: center;
+  position: sticky; top: 0; z-index: 101;
+}
+#top-banner a {
+  color: #fff; text-decoration: none; font-size: 13px; font-weight: 700;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;
+}
+#top-banner a:hover { text-decoration: underline; }
+#top-banner .tb-tag {
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 600;
+  background: rgba(255,255,255,0.2); border-radius: 20px; padding: 2px 8px;
+  white-space: nowrap;
+}
+#top-banner .tb-close {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: rgba(255,255,255,0.7);
+  font-size: 16px; cursor: pointer; line-height: 1; padding: 2px 6px;
+}
+#top-banner .tb-close:hover { color: #fff; }
+
 /* ── HEADER ── */
 #header {
   background: rgba(10,0,16,0.92);
@@ -44,7 +69,7 @@ body {
   padding: 12px 20px;
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 10px;
-  position: sticky; top: 0; z-index: 100;
+  position: sticky; top: 38px; z-index: 100;
 }
 #logo { display: flex; align-items: center; gap: 10px; }
 #logo-icon {
@@ -91,7 +116,7 @@ body {
   border-bottom: 1px solid var(--border);
   padding: 10px 20px;
   display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
-  position: sticky; top: 57px; z-index: 99;
+  position: sticky; top: 95px; z-index: 99;
 }
 /* mobile: compact top row + collapsible panel */
 #filters-top-row {
@@ -172,25 +197,6 @@ body {
 .geo-tag { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; }
 .score-badge { font-family: 'DM Mono', monospace; font-size: 10px; margin-left: auto; }
 
-/* ── SALARY ── */
-.salary-pill {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 600;
-  padding: 2px 8px; border-radius: 20px;
-  background: rgba(6,214,160,0.10); color: #06d6a0;
-  border: 1px solid rgba(6,214,160,0.25); white-space: nowrap;
-}
-.modal-salary {
-  display: flex; align-items: center; gap: 10px;
-  background: rgba(6,214,160,0.08); border: 1px solid rgba(6,214,160,0.2);
-  border-radius: 10px; padding: 12px 16px; margin: 8px 0;
-}
-.modal-salary-amount {
-  font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 700; color: #06d6a0;
-}
-.modal-salary-meta { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); }
-.modal-salary-disclaimer { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-mute); margin-top: 2px; }
-
 /* ── MODAL ── */
 #modal-overlay { display: none; position: fixed; inset: 0; background: rgba(5,0,10,0.8); backdrop-filter: blur(6px); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
 #modal-overlay.open { display: flex; }
@@ -252,7 +258,7 @@ body {
 
 @media (max-width: 700px) {
   #job-grid { grid-template-columns: 1fr; padding: 12px; gap: 10px; }
-  #filters-bar { flex-direction: column; align-items: stretch; gap: 0; padding: 10px 14px; top: 53px; }
+  #filters-bar { flex-direction: column; align-items: stretch; gap: 0; padding: 10px 14px; top: 91px; }
   #filters-top-row { gap: 8px; }
   #search { width: auto; flex: 1; min-width: 0; }
   #filters-toggle { display: flex; align-items: center; }
@@ -269,6 +275,15 @@ body {
 <script defer src="https://umami-rose-alpha.vercel.app/script.js" data-website-id="0f8a4bbd-7790-437c-912f-15149106ebab"></script>
 </head>
 <body>
+
+<div id="top-banner">
+  <a href="https://www.instagram.com/biokoderka" target="_blank" rel="noopener">
+    <span class="tb-tag">📢 FREE</span>
+    <span>Fresh premium LinkedIn jobs — posted weekly on the <strong>@biokoderka</strong> broadcast channel on Instagram</span>
+    <span class="tb-tag">Follow →</span>
+  </a>
+  <button class="tb-close" onclick="this.parentElement.style.display='none';document.getElementById('header').style.top='0';var fb=document.getElementById('filters-bar');if(fb)fb.style.top='57px';" title="Close">✕</button>
+</div>
 
 <div id="header">
   <div id="logo">
@@ -350,7 +365,6 @@ body {
     <div id="modal-title"></div>
     <div id="modal-meta"></div>
     <div id="modal-source"></div>
-    <div id="modal-salary"></div>
     <div id="modal-badges"></div>
     <div id="modal-actions"></div>
     <div id="ai-box">
@@ -625,7 +639,6 @@ function render() {
         <span class="geo-tag" style="background:${gc}22;color:${gc};border:1px solid ${gc}44">${gf} ${j.geo}</span>
         ${cc ? `<span class="tag" style="background:${cc}18;color:${cc};border:1px solid ${cc}33">${j.category}</span>` : ""}
         ${j.seniority ? `<span class="tag" style="background:rgba(180,79,255,0.12);color:#c090ff;border:1px solid #3d1860">${j.seniority}</span>` : ""}
-        ${j.salary_text ? `<span class="salary-pill">💰 ${j.salary_text}</span>` : ""}
         ${j.tags.slice(0,1).map(t=>`<span class="tag" style="background:rgba(180,79,255,0.08);color:#9060c0;border:1px solid #2a1040">${t}</span>`).join("")}
         ${applyLink}
       </div>
@@ -651,25 +664,6 @@ function openModal(id) {
   const age = daysAgo(j.date);
   const ageStr = age === null ? j.date : age === 0 ? "added today" : age === 1 ? "added yesterday" : `added ${age} days ago`;
   document.getElementById("modal-source").textContent = `${j.source} · ${ageStr} (${j.date})`;
-
-  // Salary block
-  const salEl = document.getElementById("modal-salary");
-  if (j.salary_text) {
-    const periodLabel = {annual:"/year", monthly:"/month", daily:"/day", hourly:"/hour"}[j.salary_period] || "";
-    const currLabel = {USD:"USD", EUR:"EUR", GBP:"GBP", PLN:"PLN"}[j.salary_currency] || j.salary_currency;
-    salEl.innerHTML = `<div class="modal-salary">
-      <span style="font-size:20px">💰</span>
-      <div>
-        <div class="modal-salary-amount">${j.salary_text}</div>
-        <div class="modal-salary-meta">${currLabel}${periodLabel ? " · " + periodLabel : ""} · extracted automatically</div>
-        <div class="modal-salary-disclaimer">Verify salary details directly with the employer — figures extracted from job description.</div>
-      </div>
-    </div>`;
-    salEl.style.display = "block";
-  } else {
-    salEl.innerHTML = "";
-    salEl.style.display = "none";
-  }
 
   document.getElementById("modal-badges").innerHTML = [
     `<span class="geo-tag" style="background:${gc}22;color:${gc};border:1px solid ${gc}44">${gf} ${j.geo}</span>`,
