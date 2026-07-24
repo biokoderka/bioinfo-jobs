@@ -5,11 +5,53 @@ Sources: RSS feeds + Greenhouse JSON API + Lever JSON API
 Run locally: python3 scripts/fetch_jobs.py
 """
 
-import json, re, hashlib
+import json, re, hashlib, subprocess, sys
 from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 import feedparser, requests
+
+
+def check_git_up_to_date():
+    """
+    Bail out if the local branch is behind origin/main. This repo is updated
+    by two GitHub Actions (weekly refresh + job approvals) that commit and
+    push straight to GitHub, bypassing local checkouts. Running this script
+    against a stale local docs/jobs.json silently drops manually-added and
+    archived jobs. Skips the check quietly if this isn't a git repo (e.g.
+    running inside CI, where checkout is always fresh) or git/network isn't
+    available.
+    """
+    repo_dir = Path(__file__).parent.parent
+    try:
+        subprocess.run(
+            ["git", "rev-parse", "--is-inside-work-tree"],
+            cwd=repo_dir, capture_output=True, check=True, timeout=5,
+        )
+    except Exception:
+        return  # not a git repo (or git unavailable) - nothing to check
+
+    try:
+        subprocess.run(["git", "fetch", "origin"], cwd=repo_dir,
+                        capture_output=True, check=True, timeout=20)
+        behind = subprocess.run(
+            ["git", "log", "HEAD..origin/main", "--oneline"],
+            cwd=repo_dir, capture_output=True, text=True, check=True, timeout=5,
+        ).stdout.strip()
+    except Exception as e:
+        print(f"⚠️  Could not check git status against origin/main ({e}) — proceeding anyway.")
+        return
+
+    if behind:
+        print("🛑 Your local branch is behind origin/main:\n")
+        print(behind)
+        print(
+            "\nRunning fetch_jobs.py now would merge fresh listings on top of an "
+            "outdated docs/jobs.json and could silently drop manually-added or "
+            "archived jobs that only exist on GitHub.\n"
+            "Run `git pull origin main` first, then re-run this script."
+        )
+        sys.exit(1)
 
 # ── RSS FEEDS ─────────────────────────────────────────────────────────────────
 RSS_FEEDS = [
@@ -584,6 +626,7 @@ def fetch_hire_omics(seen, headers, seen_urls=None):
 
 def main():
     print(f"\n🧬 BioInfoJobs Fetcher — {datetime.now(timezone.utc).isoformat()}\n")
+    check_git_up_to_date()
     seen = set()       # tracks job IDs (title+company hash)
     seen_urls = set()  # tracks canonical URLs for cross-source dedup
     headers = {
