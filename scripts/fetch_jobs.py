@@ -239,6 +239,102 @@ def detect_seniority(title):
     return "Mid"
 
 
+# ── TECH / DOMAIN TAG EXTRACTION ────────────────────────────────────────────────
+# Canonical tag -> regex (matched case-insensitively against title+description,
+# except "R" which is handled separately below because it's a single letter and
+# needs case-sensitive, word-bounded matching to avoid false positives).
+TECH_TAG_PATTERNS = [
+    ("Python",                   r"\bpython\b"),
+    ("SQL",                      r"\bsql\b"),
+    ("AWS",                      r"\baws\b"),
+    ("GCP",                      r"\bgcp\b"),
+    ("Docker",                   r"\bdocker\b"),
+    ("Nextflow",                 r"\bnextflow\b"),
+    ("Snakemake",                r"\bsnakemake\b"),
+    ("Git",                      r"\bgit\b"),
+    ("PyTorch",                  r"\bpytorch\b"),
+    ("HPC",                      r"\bhpc\b|\bhigh[- ]performance computing\b"),
+    ("machine learning",         r"\bmachine learning\b"),
+    ("deep learning",            r"\bdeep learning\b"),
+    ("GenAI",                    r"\bgenai\b|\bgenerative ai\b"),
+    ("AI",                       r"\bartificial intelligence\b|\bai\b"),
+    ("drug discovery",           r"\bdrug discovery\b"),
+    ("biostatistics",            r"\bbiostatistic\w*\b"),
+    ("NGS",                      r"\bngs\b|\bnext[- ]generation sequencing\b"),
+    ("clinical genomics",        r"\bclinical genomics\b"),
+    ("proteomics",               r"\bproteomics\b"),
+    ("single cell",              r"\bsingle[- ]cell\b|\bscrna\b"),
+    ("WES",                      r"\bwes\b|\bwhole[- ]exome\b"),
+    ("WGS",                      r"\bwgs\b|\bwhole[- ]genome sequencing\b"),
+    ("RNA-seq",                  r"\brna[- ]?seq\b"),
+    ("variant calling",          r"\bvariant calling\b"),
+    ("multi-omics",              r"\bmulti[- ]omics\b"),
+    ("AlphaFold",                r"\balphafold\b"),
+    ("LIMS",                     r"\blims\b"),
+    ("biological database",      r"\bbiological database\w*\b"),
+    ("biomedical data",          r"\bbiomedical data\b"),
+    ("biological data",          r"\bbiological data\b"),
+    ("metagenomics",             r"\bmetagenomics\b"),
+    ("CRISPR",                   r"\bcrispr\b"),
+    ("spatial transcriptomics",  r"\bspatial transcriptomics\b"),
+    ("transcriptomics",          r"\btranscriptomics\b"),
+    ("metabolomics",             r"\bmetabolomics\b"),
+    ("structural biology",       r"\bstructural biology\b"),
+    ("bioinformatics pipeline",  r"\bbioinformatics pipelin\w*\b"),
+    # broader domain/role tags — intentionally added after the narrow set above.
+    # Each is checked against real job data before inclusion to stay reasonably
+    # discriminating (see conversation history / commit message for the counts).
+    ("genomics",                 r"\bgenomics\b"),
+    ("oncology",                 r"\boncology\b"),
+    ("software engineering",     r"\bsoftware engineer\w*\b"),
+    ("immunology",               r"\bimmunology\b"),
+    ("omics",                    r"\bomics\b"),
+    ("microbiome",               r"\bmicrobiome\b|\bmicrobiota\b"),
+    ("epigenomics",              r"\bepigenomics\b"),
+    ("lipidomics",               r"\blipidomics\b"),
+    ("glycomics",                r"\bglycomics\b"),
+    ("phenomics",                r"\bphenomics\b"),
+    ("pharmacogenomics",         r"\bpharmacogenomics\b"),
+    ("connectomics",             r"\bconnectomics\b"),
+    ("chemogenomics",            r"\bchemogenomics\b"),
+    ("population genetics",      r"\bpopulation genetics\b"),
+    ("phylogenetics",            r"\bphylogenetics\b"),
+    ("developmental biology",    r"\bdevelopmental biology\b"),
+    ("synthetic biology",        r"\bsynthetic biology\b"),
+    ("systems biology",          r"\bsystems biology\b"),
+    ("cheminformatics",          r"\bcheminformatics\b"),
+    ("cell biology",             r"\bcell biology\b"),
+    ("neurobiology",             r"\bneurobiology\b|\bneuroscience\b"),
+    ("virology",                 r"\bvirology\b"),
+    ("microbiology",             r"\bmicrobiology\b"),
+    ("epidemiology",             r"\bepidemiology\b"),
+]
+
+def extract_tech_tags(text):
+    """
+    Scan free text (title + description) for known tech/domain keywords and
+    return a de-duplicated list of matched tags.
+
+    Used by both fetch_jobs.py (new listings) and backfill_tech_tags.py
+    (existing listings with tags == []), so keep this as the single source
+    of truth for tagging logic - never duplicate the keyword list elsewhere.
+    """
+    if not text:
+        return []
+    tags = []
+    for tag, pattern in TECH_TAG_PATTERNS:
+        if re.search(pattern, text, re.IGNORECASE):
+            tags.append(tag)
+    # "R" the language: single-letter, so match case-sensitively on the
+    # ORIGINAL (not lowercased) text, bounded by non-letters on both sides,
+    # to avoid matching the pronoun "r" or letters inside other words.
+    # Also exclude an adjacent "&" so "R&D" / "R&amp;D" (extremely common in
+    # job postings) doesn't get mistaken for the R language.
+    if re.search(r"(?<![A-Za-z&])R(?![A-Za-z&])", text):
+        tags.append("R")
+    return tags
+
+
 def extract_salary(text):
     """
     Parse salary/compensation info from free text.
@@ -464,7 +560,7 @@ def fetch_rss(seen, headers, seen_urls=None):
                 results.append({"id":uid,"title":title,"company":f["name"],
                     "location":loc or "See listing","source":f["name"],
                     "date":parse_date(e),"url":link,"description":desc[:800],
-                    "geo":detect_geo(title,loc,desc),"tags":[],
+                    "geo":detect_geo(title,loc,desc),"tags":extract_tech_tags(f"{title} {desc}"),
                     "category":detect_category(title,f["name"],desc),
                     "seniority":detect_seniority(title),
                     "salary_min":sal["salary_min"],"salary_max":sal["salary_max"],
@@ -511,7 +607,7 @@ def fetch_greenhouse(seen, headers, seen_urls=None):
                 results.append({"id":uid,"title":title,"company":company,
                     "location":loc or "See listing","source":f"{company} (Greenhouse)",
                     "date":date,"url":link,"description":desc,
-                    "geo":detect_geo(title,loc,desc),"tags":[],
+                    "geo":detect_geo(title,loc,desc),"tags":extract_tech_tags(f"{title} {desc}"),
                     "category":detect_category(title,company,desc),
                     "seniority":detect_seniority(title),
                     "salary_min":sal["salary_min"],"salary_max":sal["salary_max"],
@@ -550,7 +646,7 @@ def fetch_lever(seen, headers, seen_urls=None):
                 results.append({"id":uid,"title":title,"company":company,
                     "location":loc or "See listing","source":f"{company} (Lever)",
                     "date":today(),"url":link,"description":desc,
-                    "geo":detect_geo(title,loc,desc),"tags":[],
+                    "geo":detect_geo(title,loc,desc),"tags":extract_tech_tags(f"{title} {desc}"),
                     "category":detect_category(title,company,desc),
                     "seniority":detect_seniority(title),
                     "salary_min":sal["salary_min"],"salary_max":sal["salary_max"],
@@ -610,7 +706,7 @@ def fetch_hire_omics(seen, headers, seen_urls=None):
                 results.append({"id":uid,"title":title,"company":company,
                     "location":loc or "See listing","source":"Hire Omics",
                     "date":today(),"url":url,"description":desc,
-                    "geo":detect_geo(title,loc,desc),"tags":[],
+                    "geo":detect_geo(title,loc,desc),"tags":extract_tech_tags(f"{title} {desc}"),
                     "category":detect_category(title,company,desc),
                     "seniority":detect_seniority(title),
                     "salary_min":sal["salary_min"],"salary_max":sal["salary_max"],
