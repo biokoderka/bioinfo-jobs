@@ -67,6 +67,8 @@ body {
 .btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
 .btn-outline { background: transparent; color: var(--violet); border: 1px solid var(--violet-dim); text-decoration: none; }
 .btn-outline:hover { background: rgba(180,79,255,0.1); border-color: var(--violet); box-shadow: 0 0 12px var(--glow-v); }
+.btn-dim { background: var(--bg3); color: var(--text-dim); border: 1px solid var(--border); }
+.btn-dim:hover { border-color: var(--border2); color: var(--text); }
 .btn-ai {
   background: linear-gradient(135deg, var(--magenta), var(--violet));
   color: #fff; font-weight: 700; text-decoration: none;
@@ -107,9 +109,9 @@ body {
 }
 .q-hint { font-size: 11px; color: var(--text-mute); margin-top: 10px; }
 
-#btn-submit {
-  width: 100%; padding: 15px; font-size: 14px; border-radius: 10px; margin-top: 4px;
-}
+#quiz-actions { display: flex; gap: 8px; margin-top: 4px; }
+#btn-submit { flex: 1; padding: 15px; font-size: 14px; border-radius: 10px; }
+#btn-clear { padding: 15px 18px; font-size: 13px; border-radius: 10px; }
 
 /* ── RESULTS ── */
 #results { display: none; max-width: 960px; margin: 0 auto; padding: 0 20px 60px; }
@@ -126,12 +128,21 @@ body {
 #advice-text { font-size: 14px; color: var(--text); line-height: 1.8; }
 #results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
 #results-count { font-size: 13px; color: var(--text-dim); font-family: 'DM Mono', monospace; }
-#btn-restart {
-  background: var(--bg3); color: var(--text-dim); border: 1px solid var(--border);
-}
-#btn-restart:hover { border-color: var(--border2); color: var(--text); }
+#results-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
-#result-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.section-heading {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 700; color: var(--text-dim);
+  margin: 26px 0 12px; text-transform: uppercase; letter-spacing: 0.5px;
+  font-family: 'DM Mono', monospace; font-size: 11px;
+}
+.section-heading .count-pill {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 20px;
+  padding: 2px 9px; font-size: 10px; color: var(--text-dim);
+}
+#archived-note { font-size: 11px; color: var(--text-mute); margin-bottom: 12px; line-height: 1.6; }
+
+#result-grid, #archived-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
 .job-card {
   background: linear-gradient(145deg, var(--bg2), var(--bg3));
   border: 1px solid var(--border);
@@ -139,6 +150,15 @@ body {
   display: flex; flex-direction: column; gap: 7px;
   position: relative; overflow: hidden;
 }
+.job-card.is-archived { opacity: 0.72; }
+.job-card.is-archived::after {
+  content: 'ARCHIVED'; position: absolute; top: 10px; right: 10px;
+  font-size: 8px; font-weight: 800; letter-spacing: 1.5px; font-family: 'DM Mono', monospace;
+  color: var(--text-dim); border: 1px solid var(--border2); border-radius: 4px; padding: 2px 6px;
+}
+.job-card.is-archived .jc-title,
+.job-card.is-archived .jc-company,
+.job-card.is-archived .jc-location { color: var(--text-dim); }
 .jc-source { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text-dim); display: flex; justify-content: space-between; align-items: center; }
 .jc-title { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.4; }
 .jc-company { font-size: 12px; color: var(--text-dim); }
@@ -172,7 +192,7 @@ body {
 #footer a:hover { color: var(--magenta); }
 
 @media (max-width: 700px) {
-  #result-grid { grid-template-columns: 1fr; }
+  #result-grid, #archived-grid { grid-template-columns: 1fr; }
   #consult-banner { flex-direction: column; align-items: flex-start; }
 }
 </style>
@@ -194,15 +214,16 @@ body {
 
 <div id="hero">
   <h1>Find the roles that actually <span>fit you</span></h1>
-  <p>Answer a few quick questions about your skills and interests. We'll match you against BioInfoJobs' live listings and tell you exactly what's worth learning next.</p>
+  <p>Answer a few quick questions about your skills and interests. We'll match you against BioInfoJobs' listings and tell you exactly what's worth learning next. Every question is optional — search as broad or as specific as you like.</p>
 </div>
 
 <div id="quiz-wrap">
 
   <div class="q-card">
-    <div class="q-label">Step 1</div>
+    <div class="q-label">Step 1 · Optional</div>
     <div class="q-title">What's your experience level?</div>
     <div class="chip-row" data-group="seniority" data-mode="single">
+      <div class="chip selected" data-value="Any">Any</div>
       <div class="chip" data-value="Junior">Junior</div>
       <div class="chip" data-value="Mid">Mid</div>
       <div class="chip" data-value="Senior">Senior</div>
@@ -212,7 +233,7 @@ body {
   </div>
 
   <div class="q-card">
-    <div class="q-label">Step 2</div>
+    <div class="q-label">Step 2 · Optional</div>
     <div class="q-title">Which technologies do you know?</div>
     <div class="chip-row" data-group="tech" data-mode="multi">
       <div class="chip" data-value="Python">Python</div>
@@ -233,7 +254,7 @@ body {
   </div>
 
   <div class="q-card">
-    <div class="q-label">Step 3</div>
+    <div class="q-label">Step 3 · Optional</div>
     <div class="q-title">What areas interest you most?</div>
     <div class="chip-row" data-group="interest" data-mode="multi">
       <div class="chip" data-value="NGS">NGS</div>
@@ -245,15 +266,18 @@ body {
       <div class="chip" data-value="clinical genomics">Clinical Genomics</div>
       <div class="chip" data-value="CRISPR">CRISPR</div>
       <div class="chip" data-value="metagenomics">Metagenomics</div>
+      <div class="chip" data-value="microbiome">Microbiome</div>
       <div class="chip" data-value="spatial transcriptomics">Spatial Transcriptomics</div>
       <div class="chip" data-value="biostatistics">Biostatistics</div>
       <div class="chip" data-value="variant calling">Variant Calling</div>
+      <div class="chip" data-value="oncology">Oncology</div>
+      <div class="chip" data-value="immunology">Immunology</div>
     </div>
     <div class="q-hint">Pick 1–4 areas for the best match.</div>
   </div>
 
   <div class="q-card">
-    <div class="q-label">Step 4</div>
+    <div class="q-label">Step 4 · Optional</div>
     <div class="q-title">Preferred region?</div>
     <div class="chip-row" data-group="geo" data-mode="single">
       <div class="chip selected" data-value="Any">Any</div>
@@ -264,7 +288,10 @@ body {
     </div>
   </div>
 
-  <button id="btn-submit" class="btn btn-ai">🎯 Find my matches</button>
+  <div id="quiz-actions">
+    <button id="btn-submit" class="btn btn-ai">🎯 Find my matches</button>
+    <button id="btn-clear" class="btn btn-dim">✕ Clear</button>
+  </div>
   <div id="quiz-error" style="color:var(--pink-soft);font-size:12px;margin-top:8px;text-align:center;display:none;"></div>
 </div>
 
@@ -276,18 +303,30 @@ body {
 
   <div id="results-header">
     <span id="results-count"></span>
-    <button id="btn-restart" class="btn">↺ Start over</button>
+    <div id="results-actions">
+      <button id="btn-download" class="btn btn-outline">⬇ Download my results</button>
+      <button id="btn-restart" class="btn btn-dim">↺ Start over</button>
+    </div>
   </div>
-
-  <div id="result-grid"></div>
 
   <div id="empty-results">
     <div class="icon">🧬</div>
-    <div style="font-weight:700;color:var(--text-dim)">No close matches in the current active listings</div>
+    <div style="font-weight:700;color:var(--text-dim)">No matches found — active or archived</div>
     <p style="font-size:12px;margin-top:8px;color:var(--text-dim);line-height:1.8">
       Try selecting "Any" region, or broaden your tech/interest picks.<br>
       New jobs are added every Monday — worth checking back.
     </p>
+  </div>
+
+  <div id="active-section" style="display:none">
+    <div class="section-heading">🟢 Active listings <span id="active-count" class="count-pill"></span></div>
+    <div id="result-grid"></div>
+  </div>
+
+  <div id="archived-section" style="display:none">
+    <div class="section-heading">📦 Archived listings <span id="archived-count" class="count-pill"></span></div>
+    <div id="archived-note">Older than 60 days or past their deadline — for reference only. Links may no longer be active.</div>
+    <div id="archived-grid"></div>
   </div>
 
   <div id="consult-banner">
@@ -310,16 +349,40 @@ body {
 <script>
 // ── STATE ────────────────────────────────────────────────────────────────────
 let jobs = [];
-const selections = { seniority: null, tech: [], interest: [], geo: "Any" };
+const defaultSelections = { seniority: "Any", tech: [], interest: [], geo: "Any" };
+let selections = { ...defaultSelections, tech: [], interest: [] };
+let lastResults = null; // { active, archived } — filled after a search, used by download
 
 const GEO_COLORS = { "Poland":"#e63946", "Europe":"#b44fff", "USA":"#ff2d9b", "Remote":"#ff85c8", "Other":"#5a3878" };
 const GEO_FLAGS  = { "Poland":"🇵🇱", "Europe":"🇪🇺", "USA":"🇺🇸", "Remote":"🌐", "Other":"🌍" };
 const CAT_COLORS = { "Academia":"#b44fff","Pharma/Biotech":"#ff2d9b","Clinical":"#ff85c8","Startup":"#e63946","Government/Public":"#7a30b8" };
 
-// ── LIGHTWEIGHT EVENT TRACKING (free, no backend) ─────────────────────────────
-// Uses window.plausible if you add it to the site later; always logs to
-// localStorage too, so you can eyeball validation signal via devtools:
-//   JSON.parse(localStorage.getItem('jobmatch_events'))
+// ── ANONYMOUS SEARCH LOGGING ──────────────────────────────────────────────────
+// To see aggregate search stats (what people search for, and when), set this
+// to a Google Apps Script Web App URL (see retag/deployment notes for the
+// ready-to-paste Apps Script code). Left empty, logging is local-only.
+const SEARCH_LOG_ENDPOINT = ""; // e.g. "https://script.google.com/macros/s/XXXX/exec"
+
+function logSearch(payload) {
+  try {
+    const log = JSON.parse(localStorage.getItem('jobmatch_searches') || '[]');
+    log.push(payload);
+    localStorage.setItem('jobmatch_searches', JSON.stringify(log.slice(-500)));
+  } catch (e) {}
+
+  if (SEARCH_LOG_ENDPOINT) {
+    try {
+      fetch(SEARCH_LOG_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors', // fire-and-forget; anonymous, no response needed
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload),
+      });
+    } catch (e) {}
+  }
+}
+
+// generic lightweight event tracker (kept from earlier version, for click-throughs etc.)
 function track(eventName, props) {
   try {
     if (window.plausible) window.plausible(eventName, { props });
@@ -330,23 +393,36 @@ function track(eventName, props) {
 }
 
 // ── CHIP SELECTION ────────────────────────────────────────────────────────────
-document.querySelectorAll('.chip-row').forEach(row => {
-  const group = row.dataset.group;
-  const mode = row.dataset.mode;
-  row.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      const val = chip.dataset.value;
-      if (mode === 'single') {
-        row.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-        chip.classList.add('selected');
-        selections[group] = val;
-      } else {
-        chip.classList.toggle('selected');
-        selections[group] = Array.from(row.querySelectorAll('.chip.selected')).map(c => c.dataset.value);
-      }
+function wireChips() {
+  document.querySelectorAll('.chip-row').forEach(row => {
+    const group = row.dataset.group;
+    const mode = row.dataset.mode;
+    row.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const val = chip.dataset.value;
+        if (mode === 'single') {
+          row.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+          chip.classList.add('selected');
+          selections[group] = val;
+        } else {
+          chip.classList.toggle('selected');
+          selections[group] = Array.from(row.querySelectorAll('.chip.selected')).map(c => c.dataset.value);
+        }
+      });
     });
   });
-});
+}
+wireChips();
+
+function resetQuizUI() {
+  selections = { seniority: "Any", tech: [], interest: [], geo: "Any" };
+  document.querySelectorAll('.chip-row').forEach(row => {
+    row.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+    const anyChip = row.querySelector('.chip[data-value="Any"]');
+    if (anyChip) anyChip.classList.add('selected');
+  });
+  document.getElementById('quiz-error').style.display = "none";
+}
 
 // ── MATCH ENGINE ──────────────────────────────────────────────────────────────
 function textHas(haystack, needle) {
@@ -358,6 +434,7 @@ function scoreJob(job, sel) {
   const desc = job.description || "";
   const tags = job.tags || [];
   let score = 0;
+  let qualifies = false; // job must actually match at least one selected criterion to appear at all
   const matchedKeywords = [];
 
   const allKeywords = [...sel.tech, ...sel.interest];
@@ -366,12 +443,16 @@ function scoreJob(job, sel) {
     if (tags.some(t => t.toLowerCase() === kw.toLowerCase())) { score += 14; hit = true; }
     if (textHas(title, kw)) { score += 10; hit = true; }
     else if (textHas(desc, kw)) { score += 3; hit = true; }
-    if (hit) matchedKeywords.push(kw);
+    if (hit) { matchedKeywords.push(kw); qualifies = true; }
   });
 
-  if (sel.seniority) {
-    if (job.seniority === sel.seniority) score += 15;
-    else {
+  if (sel.seniority && sel.seniority !== "Any") {
+    if (job.seniority === sel.seniority) {
+      score += 15;
+      qualifies = true;
+    } else {
+      // adjacent-level bonus only sweetens an already-qualifying match
+      // (via tech/interest/geo) — it never qualifies a job on its own.
       const order = ["Intern","Junior","Mid","Senior","PI/Lead"];
       const a = order.indexOf(job.seniority), b = order.indexOf(sel.seniority);
       if (a >= 0 && b >= 0 && Math.abs(a - b) === 1) score += 6;
@@ -379,37 +460,48 @@ function scoreJob(job, sel) {
     }
   }
 
-  if (sel.geo && sel.geo !== "Any" && job.geo === sel.geo) score += 8;
+  if (sel.geo && sel.geo !== "Any" && job.geo === sel.geo) {
+    score += 8;
+    qualifies = true;
+  }
 
-  return { score, matchedKeywords };
+  return { score, qualifies, matchedKeywords };
+}
+
+function scorePool(pool, sel) {
+  return pool
+    .map(j => ({ job: j, ...scoreJob(j, sel) }))
+    .filter(r => r.qualifies)
+    .sort((a, b) => b.score - a.score);
 }
 
 function runMatch() {
-  const active = jobs.filter(j => !j.archived);
-  const scored = active
-    .map(j => ({ job: j, ...scoreJob(j, selections) }))
-    .filter(r => r.score > 0)
-    .sort((a, b) => b.score - a.score);
+  const activePool = jobs.filter(j => !j.archived);
+  const archivedPool = jobs.filter(j => j.archived);
 
-  let results = scored;
+  let activeResults = scorePool(activePool, selections);
   // if region filter is too restrictive, relax it automatically rather than showing nothing
-  if (results.length < 3 && selections.geo !== "Any") {
+  if (activeResults.length < 3 && selections.geo !== "Any") {
     const relaxedSel = { ...selections, geo: "Any" };
-    results = active
-      .map(j => ({ job: j, ...scoreJob(j, relaxedSel) }))
-      .filter(r => r.score > 0)
-      .sort((a, b) => b.score - a.score);
+    activeResults = scorePool(activePool, relaxedSel);
   }
 
-  return results.slice(0, 15);
+  const archivedResults = scorePool(archivedPool, selections);
+
+  return {
+    active: activeResults.slice(0, 15),
+    archived: archivedResults.slice(0, 8),
+  };
 }
 
-function generateAdvice(matched) {
+function generateAdvice(active, archived) {
+  const matched = active.length ? active : archived;
   const known = new Set([...selections.tech, ...selections.interest].map(s => s.toLowerCase()));
   const ALL_SKILLS = ["Python","R","SQL","machine learning","deep learning","AWS","GCP","Docker",
     "Nextflow","Snakemake","Git","PyTorch","HPC","NGS","single cell","structural biology",
     "drug discovery","proteomics","multi-omics","clinical genomics","CRISPR","metagenomics",
-    "spatial transcriptomics","biostatistics","variant calling"];
+    "microbiome","spatial transcriptomics","biostatistics","variant calling","genomics",
+    "oncology","immunology","software engineering"];
 
   const missingCounts = {};
   ALL_SKILLS.forEach(skill => {
@@ -426,11 +518,11 @@ function generateAdvice(matched) {
   const total = matched.length || 1;
 
   if (!matched.length) {
-    return "Nie znaleźliśmy jeszcze mocnych dopasowań w aktywnych ofertach — spróbuj wybrać szerszy zestaw technologii/obszarów, albo sprawdź ponownie po kolejnym cotygodniowym odświeżeniu bazy.";
+    return "We couldn't find strong matches yet — try a broader set of technologies or interest areas, or check back after next Monday's refresh.";
   }
 
   if (!ranked.length) {
-    return `Twój profil dobrze pokrywa wymagania rynku w wybranym obszarze — wśród ${total} dopasowanych ofert nie widzimy wyraźnej luki kompetencyjnej. To dobry moment, żeby zacząć aplikować.`;
+    return `Your profile already covers the market well in this area — among ${total} matched jobs, we don't see a clear skill gap. This looks like a good time to start applying.`;
   }
 
   const [topSkill, topCount] = ranked[0];
@@ -439,10 +531,10 @@ function generateAdvice(matched) {
   if (ranked[1]) {
     const [skill2, count2] = ranked[1];
     const pct2 = Math.round((count2 / total) * 100);
-    extra = ` Drugim wartym uwagi obszarem jest <strong>${skill2}</strong> (${pct2}% dopasowanych ofert).`;
+    extra = ` A second area worth watching is <strong>${skill2}</strong> (${pct2}% of matched jobs).`;
   }
 
-  return `Przy Twoim profilu warto rozważyć naukę <strong>${topSkill}</strong> — pojawia się w ${pct}% dopasowanych do Ciebie ofert, a nie ma go na Twojej liście.${extra}`;
+  return `Based on your profile, it's worth learning <strong>${topSkill}</strong> — it shows up in ${pct}% of your matched jobs and isn't on your list yet.${extra}`;
 }
 
 // ── RENDER ────────────────────────────────────────────────────────────────────
@@ -453,83 +545,168 @@ function daysAgo(dateStr) {
   return Math.floor((Date.now() - d) / 86400000);
 }
 
-function renderResults(results) {
-  const grid = document.getElementById('result-grid');
+function jobCardHTML(j, score, isArchived) {
+  const gc = GEO_COLORS[j.geo] || "#5a3878";
+  const gf = GEO_FLAGS[j.geo] || "🌍";
+  const cc = j.category ? CAT_COLORS[j.category] : null;
+  const age = daysAgo(j.date);
+  const ageLabel = age === null ? j.date : age === 0 ? "today" : age === 1 ? "yesterday" : `${age}d ago`;
+  const applyLink = j.url && j.url !== "#"
+    ? `<a href="${j.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="margin-left:auto;flex-shrink:0;font-size:10px;font-weight:700;color:var(--magenta);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,45,155,0.3);border-radius:20px;background:rgba(255,45,155,0.08)">Apply ↗</a>`
+    : "";
+  return `<div class="job-card ${isArchived ? 'is-archived' : ''}">
+    <div class="jc-source"><span>${j.source}</span><span>${ageLabel}</span></div>
+    <div class="jc-title">${j.title}</div>
+    <div class="jc-company">${j.company}</div>
+    <div class="jc-location">📍 ${j.location}</div>
+    <div class="jc-footer">
+      <span class="geo-tag" style="background:${gc}22;color:${gc};border:1px solid ${gc}44">${gf} ${j.geo}</span>
+      ${cc ? `<span class="tag" style="background:${cc}18;color:${cc};border:1px solid ${cc}33">${j.category}</span>` : ""}
+      ${j.seniority ? `<span class="tag" style="background:rgba(180,79,255,0.12);color:#c090ff;border:1px solid #3d1860">${j.seniority}</span>` : ""}
+      <span class="score-badge">${score}pt</span>
+      ${applyLink}
+    </div>
+  </div>`;
+}
+
+function renderResults(active, archived) {
+  const activeSection = document.getElementById('active-section');
+  const archivedSection = document.getElementById('archived-section');
   const empty = document.getElementById('empty-results');
   const countEl = document.getElementById('results-count');
 
-  if (!results.length) {
-    grid.innerHTML = "";
+  if (!active.length && !archived.length) {
+    activeSection.style.display = "none";
+    archivedSection.style.display = "none";
     empty.style.display = "block";
     countEl.textContent = "0 matches";
     return;
   }
   empty.style.display = "none";
-  countEl.textContent = `${results.length} matched job${results.length !== 1 ? 's' : ''}`;
+  countEl.textContent = `${active.length} active · ${archived.length} archived`;
 
-  grid.innerHTML = results.map(({ job: j, score }) => {
-    const gc = GEO_COLORS[j.geo] || "#5a3878";
-    const gf = GEO_FLAGS[j.geo] || "🌍";
-    const cc = j.category ? CAT_COLORS[j.category] : null;
-    const age = daysAgo(j.date);
-    const ageLabel = age === null ? j.date : age === 0 ? "today" : age === 1 ? "yesterday" : `${age}d ago`;
-    const applyLink = j.url && j.url !== "#"
-      ? `<a href="${j.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="margin-left:auto;flex-shrink:0;font-size:10px;font-weight:700;color:var(--magenta);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,45,155,0.3);border-radius:20px;background:rgba(255,45,155,0.08)">Apply ↗</a>`
-      : "";
-    return `<div class="job-card">
-      <div class="jc-source"><span>${j.source}</span><span>${ageLabel}</span></div>
-      <div class="jc-title">${j.title}</div>
-      <div class="jc-company">${j.company}</div>
-      <div class="jc-location">📍 ${j.location}</div>
-      <div class="jc-footer">
-        <span class="geo-tag" style="background:${gc}22;color:${gc};border:1px solid ${gc}44">${gf} ${j.geo}</span>
-        ${cc ? `<span class="tag" style="background:${cc}18;color:${cc};border:1px solid ${cc}33">${j.category}</span>` : ""}
-        ${j.seniority ? `<span class="tag" style="background:rgba(180,79,255,0.12);color:#c090ff;border:1px solid #3d1860">${j.seniority}</span>` : ""}
-        <span class="score-badge">${score}pt</span>
-        ${applyLink}
-      </div>
-    </div>`;
-  }).join("");
+  if (active.length) {
+    activeSection.style.display = "block";
+    document.getElementById('active-count').textContent = active.length;
+    document.getElementById('result-grid').innerHTML =
+      active.map(({ job: j, score }) => jobCardHTML(j, score, false)).join("");
+  } else {
+    activeSection.style.display = "none";
+  }
+
+  if (archived.length) {
+    archivedSection.style.display = "block";
+    document.getElementById('archived-count').textContent = archived.length;
+    document.getElementById('archived-grid').innerHTML =
+      archived.map(({ job: j, score }) => jobCardHTML(j, score, true)).join("");
+  } else {
+    archivedSection.style.display = "none";
+  }
 }
 
-// ── SUBMIT ────────────────────────────────────────────────────────────────────
+// ── DOWNLOAD RESULTS ──────────────────────────────────────────────────────────
+function buildResultsText() {
+  if (!lastResults) return "";
+  const { active, archived } = lastResults;
+  const lines = [];
+  lines.push("BioInfoJobs — Job Match results");
+  lines.push(new Date().toISOString().slice(0,10));
+  lines.push("");
+  lines.push("Search criteria:");
+  lines.push(`  Experience level: ${selections.seniority}`);
+  lines.push(`  Technologies: ${selections.tech.length ? selections.tech.join(", ") : "(any)"}`);
+  lines.push(`  Interest areas: ${selections.interest.length ? selections.interest.join(", ") : "(any)"}`);
+  lines.push(`  Region: ${selections.geo}`);
+  lines.push("");
+  lines.push("Advice:");
+  lines.push("  " + document.getElementById('advice-text').innerText);
+  lines.push("");
+  lines.push(`ACTIVE LISTINGS (${active.length})`);
+  lines.push("─".repeat(40));
+  active.forEach(({ job: j, score }) => {
+    lines.push(`${j.title} — ${j.company}`);
+    lines.push(`  ${j.location} · ${j.geo} · ${j.seniority || ""} · ${score}pt`);
+    if (j.url && j.url !== "#") lines.push(`  ${j.url}`);
+    lines.push("");
+  });
+  if (archived.length) {
+    lines.push(`ARCHIVED LISTINGS (${archived.length}) — for reference only`);
+    lines.push("─".repeat(40));
+    archived.forEach(({ job: j, score }) => {
+      lines.push(`${j.title} — ${j.company}`);
+      lines.push(`  ${j.location} · ${j.geo} · ${j.seniority || ""} · ${score}pt`);
+      if (j.url && j.url !== "#") lines.push(`  ${j.url}`);
+      lines.push("");
+    });
+  }
+  lines.push("Generated by BioInfoJobs Job Match — https://biokoderka.github.io/bioinfo-jobs/match.html");
+  return lines.join("\n");
+}
+
+document.getElementById('btn-download').addEventListener('click', () => {
+  const text = buildResultsText();
+  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `bioinfojobs-match-${new Date().toISOString().slice(0,10)}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  track('results_downloaded', {});
+});
+
+// ── SUBMIT / CLEAR ────────────────────────────────────────────────────────────
 document.getElementById('btn-submit').addEventListener('click', () => {
   const err = document.getElementById('quiz-error');
-  if (!selections.seniority) {
-    err.textContent = "Please select your experience level (Step 1).";
-    err.style.display = "block";
-    return;
-  }
-  if (selections.tech.length === 0 && selections.interest.length === 0) {
-    err.textContent = "Please select at least one technology or interest area (Step 2 or 3).";
+  const hasAnyFilter = selections.tech.length > 0 || selections.interest.length > 0 ||
+    (selections.seniority && selections.seniority !== "Any") ||
+    (selections.geo && selections.geo !== "Any");
+
+  if (!hasAnyFilter) {
+    err.textContent = "Please select at least one option — a level, a technology, an interest area, or a region.";
     err.style.display = "block";
     return;
   }
   err.style.display = "none";
 
-  track('quiz_completed', { seniority: selections.seniority, techCount: selections.tech.length, interestCount: selections.interest.length, geo: selections.geo });
+  const { active, archived } = runMatch();
+  lastResults = { active, archived };
 
-  const results = runMatch();
-  document.getElementById('advice-text').innerHTML = generateAdvice(results);
-  renderResults(results);
+  logSearch({
+    timestamp: new Date().toISOString(),
+    seniority: selections.seniority,
+    tech: selections.tech,
+    interest: selections.interest,
+    geo: selections.geo,
+    activeCount: active.length,
+    archivedCount: archived.length,
+  });
+
+  document.getElementById('advice-text').innerHTML = generateAdvice(active, archived);
+  renderResults(active, archived);
 
   document.getElementById('quiz-wrap').style.display = "none";
   document.getElementById('results').style.display = "block";
   window.scrollTo({ top: 0, behavior: 'smooth' });
+});
 
-  track('results_shown', { count: results.length });
+document.getElementById('btn-clear').addEventListener('click', () => {
+  resetQuizUI();
 });
 
 document.getElementById('btn-restart').addEventListener('click', () => {
+  resetQuizUI();
   document.getElementById('results').style.display = "none";
   document.getElementById('quiz-wrap').style.display = "block";
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
 // track outbound clicks on matched job cards (event delegation)
-document.getElementById('result-grid').addEventListener('click', (e) => {
+document.getElementById('results').addEventListener('click', (e) => {
   const link = e.target.closest('a');
-  if (link) track('job_clicked_from_match', { url: link.href });
+  if (link && link.target === '_blank') track('job_clicked_from_match', { url: link.href });
 });
 
 // ── INIT: load same jobs.json the main site uses ──────────────────────────────
