@@ -5,6 +5,10 @@ on:
     - cron: '0 8 * * 1'
   workflow_dispatch:
 
+concurrency:
+  group: jobs-json
+  cancel-in-progress: false
+
 jobs:
   refresh-jobs:
     runs-on: ubuntu-latest
@@ -23,18 +27,18 @@ jobs:
       - name: Install dependencies
         run: pip install -r scripts/requirements.txt
 
-      - name: Fetch jobs from RSS feeds
+      - name: Fetch jobs (RSS, Greenhouse, Lever, Hire Omics)
         run: python scripts/fetch_jobs.py
 
-      - name: Commit updated jobs.json
+      - name: Commit updated jobs.json + archive.json
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/jobs.json
+          git add docs/jobs.json docs/archive.json
           if git diff --cached --quiet; then
-            echo "No changes to jobs.json — skipping commit"
+            echo "No changes — skipping commit"
             exit 0
           fi
           git commit -m "🔄 Weekly job refresh $(date +'%Y-%m-%d')"
-          git pull --rebase origin main || true
+          git pull --rebase origin main
           git push origin main

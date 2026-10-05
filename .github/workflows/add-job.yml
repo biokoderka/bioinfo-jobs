@@ -1,0 +1,81 @@
+name: Add job
+
+# Manual entry point for community submissions (they arrive by e-mail via
+# Formspree) and for offers you find yourself (LinkedIn, Polish companies...).
+# Actions → "Add job" → Run workflow. Works from the GitHub mobile app too.
+
+on:
+  workflow_dispatch:
+    inputs:
+      job_json:
+        description: "Paste the JSON block from the Formspree e-mail (leave empty to use the fields below)"
+        required: false
+      title:
+        description: "Job title"
+        required: false
+      company:
+        description: "Company / institution"
+        required: false
+      url:
+        description: "Link to the offer"
+        required: false
+      location:
+        description: "Location, e.g. Kraków, Poland / Remote"
+        required: false
+      deadline:
+        description: "Deadline YYYY-MM-DD (empty = visible for 60 days)"
+        required: false
+      description:
+        description: "Short description (optional)"
+        required: false
+      archive_id:
+        description: "…or: id of a job to take down (moves it to the archive)"
+        required: false
+
+concurrency:
+  group: jobs-json
+  cancel-in-progress: false
+
+jobs:
+  add-job:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: pip install -r scripts/requirements.txt
+
+      - name: Add or archive job
+        env:
+          JOB_JSON: ${{ inputs.job_json }}
+          TITLE: ${{ inputs.title }}
+          COMPANY: ${{ inputs.company }}
+          URL: ${{ inputs.url }}
+          LOCATION: ${{ inputs.location }}
+          DEADLINE: ${{ inputs.deadline }}
+          DESCRIPTION: ${{ inputs.description }}
+          ARCHIVE_ID: ${{ inputs.archive_id }}
+        run: |
+          if [ -n "$ARCHIVE_ID" ]; then
+            python scripts/add_job.py --archive "$ARCHIVE_ID"
+          elif [ -n "$JOB_JSON" ]; then
+            python scripts/add_job.py --json "$JOB_JSON"
+          else
+            python scripts/add_job.py --title "$TITLE" --company "$COMPANY" --url "$URL" \
+              --location "$LOCATION" --deadline "$DEADLINE" --description "$DESCRIPTION"
+          fi
+
+      - name: Commit
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/jobs.json docs/archive.json
+          git diff --cached --quiet && exit 0
+          git commit -m "➕ Manual job update"
+          git pull --rebase origin main
+          git push origin main
