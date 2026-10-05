@@ -5,6 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Job Match — BioInfoJobs by @biokoderka</title>
 <meta name="description" content="Free bioinformatics job matcher: tell us your skills and interests, get matched job listings + personalized career advice based on real market data.">
+<link rel="canonical" href="https://biokoderka.github.io/bioinfo-jobs/match.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BioInfoJobs">
+<meta property="og:title" content="Job Match — BioInfoJobs by @biokoderka">
+<meta property="og:description" content="Free bioinformatics job matcher: tell us your skills and interests, get matched job listings + personalized career advice based on real market data.">
+<meta property="og:url" content="https://biokoderka.github.io/bioinfo-jobs/match.html">
+<meta property="og:image" content="https://biokoderka.github.io/bioinfo-jobs/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="BioInfoJobs — bioinformatics & computational biology jobs, by @biokoderka">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0a0010">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a0010'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle'%3E%F0%9F%A7%AC%3C/text%3E%3C/svg%3E">
+<script defer src="https://umami-rose-alpha.vercel.app/script.js" data-website-id="0f8a4bbd-7790-437c-912f-15149106ebab"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -338,7 +352,7 @@ body {
 
   <div id="archived-section" style="display:none">
     <div class="section-heading">📦 Archived listings</div>
-    <div id="archived-note">Older than 60 days or past their deadline — for reference only. Links may no longer be active.</div>
+    <div id="archived-note">No longer listed, older than 60 days or past their deadline — for reference only. Links may no longer be active.</div>
     <div id="archived-grid"></div>
   </div>
 
@@ -354,7 +368,7 @@ body {
 
 <div id="footer">
   🧬 <strong style="color:var(--text-dim)">BioInfoJobs</strong> — Job Match is a free tool, not a paid product<br>
-  curated by <a href="https://instagram.com/biokoderka" target="_blank">✦ @biokoderka</a> ·
+  curated by <a href="https://instagram.com/biokoderka" target="_blank">✦ @biokoderka</a> · <a href="https://biokoderka.github.io/bioinfosites/" target="_blank">🧬 BioinfoSites</a> ·
   <a href="index.html">Back to all jobs</a> ·
   <a href="privacy.html">Privacy &amp; Terms</a>
 </div>
@@ -398,7 +412,7 @@ function logSearch(payload) {
 // generic lightweight event tracker (kept from earlier version, for click-throughs etc.)
 function track(eventName, props) {
   try {
-    if (window.plausible) window.plausible(eventName, { props });
+    if (window.umami) window.umami.track(eventName, props);
     const log = JSON.parse(localStorage.getItem('jobmatch_events') || '[]');
     log.push({ event: eventName, props, t: Date.now() });
     localStorage.setItem('jobmatch_events', JSON.stringify(log.slice(-200)));
@@ -774,7 +788,7 @@ document.getElementById('results').addEventListener('click', (e) => {
   if (link && link.target === '_blank') track('job_clicked_from_match', { url: link.href });
 });
 
-// ── INIT: load same jobs.json the main site uses ──────────────────────────────
+// ── INIT: load jobs.json (active) + archive.json (fallback matches) ──────────────────────────────
 async function init() {
   try {
     const res = await fetch("jobs.json");
@@ -782,6 +796,11 @@ async function init() {
       const data = await res.json();
       if (data.jobs && data.jobs.length > 0) {
         jobs = data.jobs;
+        // archived offers are only a fallback section in the results —
+        // load them in the background, don't block the quiz
+        fetch("archive.json").then(r => r.ok ? r.json() : null).then(a => {
+          if (a && a.jobs) jobs = jobs.concat(a.jobs.map(j => ({ ...j, archived: true })));
+        }).catch(() => {});
         return;
       }
     }

@@ -4,7 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BioInfoJobs by @biokoderka</title>
-<meta name="description" content="Weekly curated bioinformatics job offers by @biokoderka: genomics, NGS, computational biology, drug discovery. Updated automatically every Monday.">
+<meta name="description" content="Weekly curated bioinformatics job offers by @biokoderka: genomics, NGS, computational biology, drug discovery. Poland, Europe, USA and remote — refreshed every Monday.">
+<link rel="canonical" href="https://biokoderka.github.io/bioinfo-jobs/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BioInfoJobs">
+<meta property="og:title" content="BioInfoJobs by @biokoderka">
+<meta property="og:description" content="Weekly curated bioinformatics job offers by @biokoderka: genomics, NGS, computational biology, drug discovery. Poland, Europe, USA and remote — refreshed every Monday.">
+<meta property="og:url" content="https://biokoderka.github.io/bioinfo-jobs/">
+<meta property="og:image" content="https://biokoderka.github.io/bioinfo-jobs/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="BioInfoJobs — bioinformatics & computational biology jobs, by @biokoderka">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0a0010">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a0010'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle'%3E%F0%9F%A7%AC%3C/text%3E%3C/svg%3E">
+<script defer src="https://umami-rose-alpha.vercel.app/script.js" data-website-id="0f8a4bbd-7790-437c-912f-15149106ebab"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -269,10 +283,7 @@ body {
   #updated-badge { font-size: 10px; }
 }
 </style>
-<!-- Umami Analytics — privacy-friendly, no cookies, GDPR compliant -->
-<!-- Replace src and data-website-id with your own from Umami dashboard -->
-<!-- <script defer src="https://YOUR-UMAMI.vercel.app/script.js" data-website-id="YOUR-WEBSITE-ID"></script> -->
-<script defer src="https://umami-rose-alpha.vercel.app/script.js" data-website-id="0f8a4bbd-7790-437c-912f-15149106ebab"></script>
+
 </head>
 <body>
 
@@ -290,7 +301,7 @@ body {
     <div id="logo-icon">🧬</div>
     <div id="logo-text">
       <span>BioInfo</span>Jobs
-      <small>by @biokoderka · weekly · AI-powered</small>
+      <small>by @biokoderka · weekly · auto-updated</small>
     </div>
   </div>
   <div class="header-right">
@@ -301,6 +312,7 @@ body {
     <a class="btn btn-outline" href="stats.html" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px">📊 Stats</a>
     <a class="btn btn-outline" href="https://biokoderka.github.io/bioinfo-news/" target="_blank" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px">📰 News</a>
     <a class="btn btn-outline" href="https://biokoderka.github.io/bioinfo-uni" target="_blank" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px">🎓 Uni</a>
+    <a class="btn btn-outline" href="https://biokoderka.github.io/bioinfosites/" target="_blank" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px">🧬 All BioInfo sites</a>
     <a class="btn btn-outline" href="submit.html" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600">✦ Submit a job</a>
   </div>
 </div>
@@ -420,7 +432,7 @@ body {
 
 <div id="footer">
   🧬 <strong style="color:var(--text-dim)">BioInfoJobs</strong> — open source bioinformatics job board<br>
-  curated by <a class="ig-link" href="https://instagram.com/biokoderka" target="_blank">✦ @biokoderka</a> · updated every Monday via GitHub Actions<br>
+  curated by <a class="ig-link" href="https://instagram.com/biokoderka" target="_blank">✦ @biokoderka</a> · <a href="https://biokoderka.github.io/bioinfosites/" target="_blank">🧬 BioinfoSites</a> · updated every Monday via GitHub Actions<br>
   <a href="submit.html">Submit a job listing</a> ·
   <a href="https://github.com/Biokoderka/bioinfo-jobs" target="_blank">View on GitHub</a> ·
   <a href="privacy.html">Privacy &amp; Terms</a> ·
@@ -440,118 +452,13 @@ body {
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────────────────────────
-const KEYWORDS = [
-  "bioinformatics","bioinformatician","computational biology","computational biologist",
-  "genomics","NGS","next generation sequencing","sequencing",
-  "metagenomics","transcriptomics","proteomics","metabolomics","epigenomics",
-  "structural biology","biostatistics","systems biology","cheminformatics",
-  "single cell","scRNA","spatial transcriptomics","spatial genomics",
-  "CRISPR","phylogenetics","population genetics","GWAS","polygenic",
-  "variant calling","genome assembly","genome annotation","pangenomics",
-  "RNA-seq","WGS","WES","ChIP-seq","ATAC-seq","multi-omics","nanopore","long read","PacBio",
-  "data scientist life science","data scientist biology","data scientist biotech",
-  "machine learning biology","machine learning genomics","deep learning biology",
-  "AI drug discovery","computational drug discovery","biomedical data","biological data","omics data",
-  "drug discovery","target identification","protein structure",
-  "clinical bioinformatics","clinical genomics","clinical sequencing",
-  "laboratory informatics","LIMS","biological database","sequence analysis",
-  "pipeline developer","pipeline engineer","bioinformatics pipeline",
-  "genomics engineer","scientific programmer","research software engineer",
-  "bioinformatics tools","bioinformatics platform","scientific software",
-  "life science data","life sciences data","pharma data scientist",
-  "precision medicine","personalized medicine","medical genomics",
-  "translational bioinformatics","biomedical informatics",
-];
-
 const GEO_COLORS = { "Poland":"#e63946", "Europe":"#b44fff", "USA":"#ff2d9b", "Remote":"#ff85c8", "Other":"#5a3878" };
 const GEO_FLAGS  = { "Poland":"🇵🇱", "Europe":"🇪🇺", "USA":"🇺🇸", "Remote":"🌐", "Other":"🌍" };
 const CAT_COLORS = { "Academia":"#b44fff","Pharma/Biotech":"#ff2d9b","Clinical":"#ff85c8","Startup":"#e63946","Government/Public":"#7a30b8" };
 
-const RSS_FEEDS = [
-  { name:"Nature Careers",          url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.nature.com/naturecareers/rss/latest") },
-  { name:"jobs.ac.uk – Bioinfo",    url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.jobs.ac.uk/search/rss?keywords=bioinformatics") },
-  { name:"jobs.ac.uk – Genomics",   url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.jobs.ac.uk/search/rss?keywords=genomics") },
-  { name:"jobs.ac.uk – Comp Bio",   url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.jobs.ac.uk/search/rss?keywords=computational+biology") },
-  { name:"EuroScienceJobs",         url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.eurosciencejobs.com/rss/all") },
-  { name:"EMBL Jobs",               url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://www.embl.org/jobs/rss") },
-  { name:"Science Careers (AAAS)",  url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://jobs.sciencecareers.org/searchjobs/?Keywords=bioinformatics&format=rss") },
-  { name:"Euraxess",                url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://euraxess.ec.europa.eu/jobs/rss") },
-  { name:"Bioinformatics.org",      url:"https://api.allorigins.win/get?url="+encodeURIComponent("https://bioinformatics.org/jobs/rss") },
-];
-
-// ── GEO DETECTION ────────────────────────────────────────────────────────────
-const POLAND_KW  = ["poland","polska","warsaw","wroclaw","krakow","gdansk","poznan","lodz","katowice","lublin","bialystok","pl,","poland,"];
-const USA_KW     = ["usa","united states"," ca,"," ny,"," ma,"," tx,"," wa,"," md,"," nc,"," il,","boston","cambridge, ma","new york","san francisco","seattle","bethesda","baltimore","houston","chicago","los angeles","san diego","denver","atlanta"];
-const REMOTE_KW  = ["remote","fully remote","100% remote","work from home","wfh","distributed team","anywhere"];
-const EUROPE_COUNTRIES = ["germany","france","spain","italy","netherlands","sweden","denmark","norway","finland","switzerland","austria","belgium","czech","hungary","portugal","uk","united kingdom","england","scotland","ireland","heidelberg","london","paris","berlin","amsterdam","barcelona","zurich","geneva","cambridge, uk","oxford","edinburgh","munich","münchen","leiden","utrecht","milan","milan","rome","madrid","stockholm","copenhagen","oslo","helsinki","vienna","wien","brussels","prague","budapest","lisbon","barcelona"];
-
-function detectGeo(title, location, description) {
-  const text = (title+" "+location+" "+description).toLowerCase();
-  if (REMOTE_KW.some(k => text.includes(k))) return "Remote";
-  if (POLAND_KW.some(k => text.includes(k))) return "Poland";
-  if (USA_KW.some(k => text.includes(k))) return "USA";
-  if (EUROPE_COUNTRIES.some(k => text.includes(k))) return "Europe";
-  return "Other";
-}
-
-// ── AUTO-PARSER (no AI needed) ────────────────────────────────────────────────
-const TECH_TAGS = [
-  "Python","R","Bash","Perl","Java","C++","Scala","Julia",
-  "RNA-seq","scRNA-seq","WGS","WES","ChIP-seq","ATAC-seq","Hi-C","16S","metagenomics",
-  "Nextflow","Snakemake","CWL","WDL","Galaxy",
-  "GATK","BWA","STAR","HISAT2","Salmon","DESeq2","edgeR","Seurat","Scanpy",
-  "AlphaFold","AlphaFold2","PyMOL","PHENIX","Rosetta","GROMACS",
-  "Docker","Singularity","Kubernetes","AWS","GCP","Azure","HPC","SLURM",
-  "machine learning","deep learning","PyTorch","TensorFlow","scikit-learn",
-  "SQL","MongoDB","PostgreSQL","Spark","Hadoop",
-  "QIIME2","HUMAnN","MetaPhlAn","Kraken","BLAST","HMMER",
-  "variant calling","genome assembly","long-read","nanopore","PacBio",
-  "single cell","spatial transcriptomics","proteomics","metabolomics","multi-omics",
-  "CRISPR","flow cytometry","cryo-EM","NMR","X-ray crystallography",
-  "biostatistics","mixed models","survival analysis","Bayesian","GWAS",
-  "Git","GitHub","CI/CD","Terraform","Linux"
-];
-
-const CATEGORY_RULES = [
-  { cat:"Clinical",       kw:["clinical","hospital","nhs","patient","diagnostic","trials","ehr","emr","fda","ema","regulatory","phase ii","phase iii","pathology","radiology"] },
-  { cat:"Pharma/Biotech", kw:["pharma","biotech","biontech","roche","novartis","pfizer","astrazeneca","genentech","illumina","10x genomics","drug discovery","therapeutics","pipeline","compound","assay","preclinical","gmp","cro"] },
-  { cat:"Startup",        kw:["startup","start-up","series a","series b","seed","venture","equity","founding","early stage"] },
-  { cat:"Government/Public", kw:["government","public health","nhs","mrc","wellcome","nih","doh","agency","ministry","council","erc","horizon"] },
-  { cat:"Academia",       kw:["university","universit","institute","postdoc","phd","professor","faculty","research group","lab","embl","mrc","sanger","broad","academic"] },
-];
-
-const SENIORITY_RULES = [
-  { level:"PostDoc",  kw:["postdoc","post-doc","post doctoral","postdoctoral"] },
-  { level:"PI/Lead",  kw:["principal investigator","group leader","pi ","head of","director","chief","vp of","vice president","staff scientist"] },
-  { level:"Junior",   kw:["junior","graduate","entry level","entry-level","0-2 years","1-2 years","fresh","trainee","intern","msc","master"] },
-  { level:"Senior",   kw:["senior","sr.","lead","principal","5+ years","6+ years","7+ years","8+ years","10+ years","experienced"] },
-  { level:"Mid",      kw:["scientist","analyst","engineer","developer","researcher","3+ years","3-5 years","2-4 years","mid-level"] },
-];
-
-function autoEnrich(job) {
-  const text = (job.title + " " + job.description + " " + job.company).toLowerCase();
-
-  // Tags — find all matching, deduplicate, take top 6
-  const tags = TECH_TAGS.filter(t => text.includes(t.toLowerCase()));
-  const dedupedTags = [...new Set(tags)].slice(0, 6);
-
-  // Category — first rule that matches wins
-  let category = null;
-  for (const rule of CATEGORY_RULES) {
-    if (rule.kw.some(k => text.includes(k))) { category = rule.cat; break; }
-  }
-
-  // Seniority — first rule that matches wins
-  let seniority = null;
-  for (const rule of SENIORITY_RULES) {
-    if (rule.kw.some(k => text.includes(k))) { seniority = rule.level; break; }
-  }
-
-  return { ...job, tags: dedupedTags, category, seniority };
-}
-
 // ── JOBS DATA ────────────────────────────────────────────────────────────────
-let jobs = []; // populated from jobs.json via GitHub Actions
+let jobs = [];          // active listings from jobs.json (refreshed weekly by GitHub Actions)
+let archivedCount = 0;  // size of archive.json, shown as a link to archive.html
 
 // ── STATE ────────────────────────────────────────────────────────────────────
 let selectedJob = null;
@@ -596,7 +503,7 @@ function getFiltered() {
 function render() {
   const filtered = getFiltered();
   const activeTotal = jobs.filter(j => !j.archived).length;
-  const archivedTotal = jobs.filter(j => j.archived).length;
+  const archivedTotal = archivedCount;
   const isFiltered = geoFilter!=="All" || catFilter!=="All" || senFilter!=="All" || searchQ;
   const countEl = document.getElementById("results-count");
   if (isFiltered) {
@@ -706,80 +613,10 @@ function closeModal() {
   document.getElementById("modal-overlay").classList.remove("open");
   document.body.style.overflow = "";
 }
-// ── RSS FETCH ────────────────────────────────────────────────────────────────
-async function fetchFeeds() {
-  const btn = document.getElementById("btn-refresh");
-  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="pulse">⟳ Fetching...</span>'; }
-  setStatus("Fetching RSS feeds...");
-
-  let newJobs = []; let id = 100;
-  const parser = new DOMParser();
-
-  for (const feed of RSS_FEEDS) {
-    try {
-      const res  = await fetch(feed.url);
-      const json = await res.json();
-      const xml  = parser.parseFromString(json.contents, "text/xml");
-      xml.querySelectorAll("item").forEach(item => {
-        const title   = item.querySelector("title")?.textContent||"";
-        const desc    = (item.querySelector("description")?.textContent||"").replace(/<[^>]+>/g,"");
-        const link    = item.querySelector("link")?.textContent||"#";
-        const pubDate = item.querySelector("pubDate")?.textContent||"";
-        const loc     = item.querySelector("location")?.textContent || extractLocation(title+" "+desc);
-        const lower   = (title+" "+desc).toLowerCase();
-        if (KEYWORDS.some(k=>lower.includes(k.toLowerCase()))) {
-          const geo = detectGeo(title, loc, desc);
-          const raw = { id:id++, title:title.trim(), company:feed.name, location:loc||"See listing",
-            source:feed.name, date:pubDate?new Date(pubDate).toISOString().split("T")[0]:"—",
-            url:link, description:desc.slice(0,600), geo };
-          newJobs.push(autoEnrich(raw));
-        }
-      });
-      setStatus(`✓ ${feed.name} — ${newJobs.length} relevant jobs so far`);
-    } catch(e) { /* silently skip failed feeds — GitHub Actions handles real fetching */ }
-  }
-
-  if (newJobs.length > 0) {
-    const seen = new Set();
-    const deduped = newJobs.filter(j => { const k=j.title+j.company; if(seen.has(k)) return false; seen.add(k); return true; });
-    jobs = [...deduped, ...jobs.filter(j=>j.id<100)].slice(0,40);
-    setStatus(`✅ Fetched ${deduped.length} new jobs · tags & categories auto-detected · ${new Date().toLocaleString()}`);
-  } else {
-    setStatus("ℹ️ Live RSS is fetched automatically every Monday. Showing current board data.");
-  }
-
-  document.getElementById("last-updated").textContent = "Updated: "+new Date().toLocaleDateString();
-  saveToStorage();
-  render();
-  if (btn) { btn.disabled = false; btn.textContent = "⟳ Refresh RSS"; }
-}
-
-function extractLocation(text) {
-  // try to pull a location hint from text
-  const match = text.match(/(?:based in|located in|location[:\s]+)([A-Za-z ,]+?)(?:\.|,|\n|$)/i);
-  return match ? match[1].trim() : "";
-}
-
-// ── LOCAL STORAGE CACHE ───────────────────────────────────────────────────────
-function saveToStorage() {
-  try { localStorage.setItem("bioinfo_jobs", JSON.stringify({ jobs, ts: Date.now() })); } catch(e){}
-}
-function loadFromStorage() {
-  try {
-    const raw = localStorage.getItem("bioinfo_jobs");
-    if (!raw) return false;
-    const { jobs: saved, ts } = JSON.parse(raw);
-    const age = (Date.now()-ts) / 1000 / 60 / 60; // hours
-    if (age < 72 && saved.length > 0) { jobs = saved; return true; }
-  } catch(e){}
-  return false;
-}
-
 // ── EVENTS ───────────────────────────────────────────────────────────────────
 let _sd;
 document.getElementById("search").addEventListener("input", e => { clearTimeout(_sd); _sd = setTimeout(() => { searchQ = e.target.value; render(); }, 280); });
 document.getElementById("sort-select").addEventListener("change", e => { sortOrder = e.target.value; render(); });
-document.getElementById("btn-refresh")?.addEventListener("click", fetchFeeds);
 document.getElementById("modal-close").addEventListener("click", closeModal);
 document.getElementById("modal-overlay").addEventListener("click", e => { if(e.target===e.currentTarget) closeModal(); });
 document.addEventListener("keydown", e => { if(e.key==="Escape") closeModal(); });
@@ -851,6 +688,7 @@ async function init() {
       const data = await res.json();
       if (data.jobs && data.jobs.length > 0) {
         jobs = data.jobs;
+        archivedCount = data.archived_count || 0;
         // last-updated (header, tiny)
         document.getElementById("last-updated").textContent = "Updated: " + new Date(data.updated).toLocaleDateString();
         // updated-badge (filters bar, visible)
@@ -863,24 +701,16 @@ async function init() {
           updEl.style.display = "block";
           updEl.title = d.toLocaleString();
         }
-        setStatus(`✅ Loaded ${data.jobs.length} jobs from weekly refresh · ${new Date(data.updated).toLocaleString()}`);
+        setStatus(`✅ ${data.jobs.length} active jobs from the weekly refresh · ${new Date(data.updated).toLocaleString()}`);
         render();
         return;
       }
     }
   } catch(e) {}
 
-  // 2. Fallback: local storage cache
-  if (loadFromStorage()) {
-    setStatus("✓ Loaded from cache · click Refresh RSS to update");
-    document.getElementById("last-updated").textContent = "Cached data";
-    render();
-    return;
-  }
-
-  // 3. No data yet — show empty state with instructions
+  // No data (network error / file missing)
   render();
-  setStatus("ℹ️ No job data yet — run GitHub Actions to load real listings.");
+  setStatus("⚠️ Couldn't load job listings — please refresh the page.");
 }
 init();
 </script>

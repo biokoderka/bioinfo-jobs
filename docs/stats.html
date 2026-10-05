@@ -4,6 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stats — BioInfoJobs by @biokoderka</title>
+<meta name="description" content="Live statistics of the bioinformatics job market: where the jobs are, which sectors hire, most-wanted skills and salary ranges — from BioInfoJobs data.">
+<link rel="canonical" href="https://biokoderka.github.io/bioinfo-jobs/stats.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BioInfoJobs">
+<meta property="og:title" content="Stats — BioInfoJobs by @biokoderka">
+<meta property="og:description" content="Live statistics of the bioinformatics job market: where the jobs are, which sectors hire, most-wanted skills and salary ranges — from BioInfoJobs data.">
+<meta property="og:url" content="https://biokoderka.github.io/bioinfo-jobs/stats.html">
+<meta property="og:image" content="https://biokoderka.github.io/bioinfo-jobs/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="BioInfoJobs — bioinformatics & computational biology jobs, by @biokoderka">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0a0010">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a0010'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle'%3E%F0%9F%A7%AC%3C/text%3E%3C/svg%3E">
+<script defer src="https://umami-rose-alpha.vercel.app/script.js" data-website-id="0f8a4bbd-7790-437c-912f-15149106ebab"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -227,7 +242,7 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans
 
 <div id="footer">
   🧬 <strong style="color:#9b80c0">BioInfoJobs</strong> — curated by
-  <a href="https://instagram.com/biokoderka" target="_blank" style="color:var(--magenta);font-weight:600">@biokoderka</a> ·
+  <a href="https://instagram.com/biokoderka" target="_blank" style="color:var(--magenta);font-weight:600">@biokoderka</a> · <a href="https://biokoderka.github.io/bioinfosites/" target="_blank">🧬 BioinfoSites</a> ·
   <a href="index.html">Active jobs</a> · <a href="archive.html">Archive</a>
 </div>
 
@@ -247,10 +262,24 @@ let scope = "active";
 
 function isActive(j) {
   const today = new Date().toISOString().split("T")[0];
-  const cutoff = new Date(Date.now()-60*86400000).toISOString().split("T")[0];
+  if (j.archived) return false;
   if (j.deadline && j.deadline < today) return false;
-  if (j.date && j.date < cutoff) return false;
   return true;
+}
+
+// archive.json is only needed for the "Archived" / "All time" scopes,
+// so it's fetched the first time one of them is clicked.
+let archiveLoaded = false;
+async function ensureArchive() {
+  if (archiveLoaded) return;
+  archiveLoaded = true;
+  try {
+    const r = await fetch("archive.json");
+    if (r.ok) {
+      const data = await r.json();
+      allJobs = allJobs.concat((data.jobs || []).map(j => ({ ...j, archived: true })));
+    }
+  } catch (e) {}
 }
 
 function getScopedJobs() {
@@ -258,26 +287,6 @@ function getScopedJobs() {
   if (scope === "archived") return allJobs.filter(j => !isActive(j));
   return allJobs;
 }
-
-// ── SEED DATA ─────────────────────────────────────────────────────────────────
-const SEED = [
-  {title:"Senior Bioinformatics Scientist",company:"Genomics UK",location:"London, UK",date:"2026-05-15",geo:"Europe",category:"Pharma/Biotech",seniority:"Senior",tags:["Python","WGS","RNA-seq","Snakemake","variant calling"]},
-  {title:"Computational Biology Postdoc",company:"EMBL",location:"Heidelberg",date:"2026-05-14",geo:"Europe",category:"Academia",seniority:"PostDoc",tags:["Python","R","Seurat","Scanpy","single cell"]},
-  {title:"Data Scientist Drug Discovery",company:"BioNTech",location:"Mainz",date:"2026-05-13",geo:"Europe",category:"Pharma/Biotech",seniority:"Mid",tags:["PyTorch","deep learning","Python","multi-omics"]},
-  {title:"Structural Bioinformatician",company:"Broad Institute",location:"Cambridge MA",date:"2026-05-12",geo:"USA",category:"Academia",seniority:"Senior",tags:["AlphaFold2","PyMOL","GROMACS","Python"]},
-  {title:"Metagenomics Analyst",company:"Microbiome Institute",location:"Warsaw",date:"2026-05-11",geo:"Poland",category:"Academia",seniority:"Mid",tags:["QIIME2","Snakemake","16S","metagenomics","Python"]},
-  {title:"Genomics Data Engineer",company:"KCL",location:"London",date:"2026-05-10",geo:"Europe",category:"Academia",seniority:"Mid",tags:["AWS","Nextflow","Python","Docker","SLURM"]},
-  {title:"Remote Bioinformatics Scientist",company:"Illumina",location:"Remote",date:"2026-05-09",geo:"Remote",category:"Pharma/Biotech",seniority:"Senior",tags:["Python","Bash","Docker","NGS","CI/CD"]},
-  {title:"Biostatistician",company:"Roche",location:"Basel",date:"2026-05-08",geo:"Europe",category:"Pharma/Biotech",seniority:"Senior",tags:["R","Bayesian","mixed models","survival analysis"]},
-  {title:"NGS Pipeline Developer",company:"Sanger",location:"Cambridge UK",date:"2026-04-20",geo:"Europe",category:"Academia",seniority:"Mid",tags:["Python","Nextflow","WES","GATK","Docker"]},
-  {title:"Bioinformatics Postdoc",company:"Oxford",location:"Oxford UK",date:"2026-04-15",geo:"Europe",category:"Academia",seniority:"PostDoc",tags:["R","Python","GWAS","population genetics"]},
-  {title:"Clinical Bioinformatician",company:"NHS",location:"London",date:"2026-04-10",geo:"Europe",category:"Clinical",seniority:"Mid",tags:["Python","variant calling","WGS","clinical"]},
-  {title:"ML Engineer Life Sciences",company:"Recursion",location:"Remote",date:"2026-04-05",geo:"Remote",category:"Startup",seniority:"Senior",tags:["PyTorch","Python","deep learning","multi-omics"]},
-  {title:"Bioinformatics Analyst",company:"Ardigen",location:"Kraków",date:"2026-03-25",geo:"Poland",category:"Pharma/Biotech",seniority:"Junior",tags:["Python","R","NGS","RNA-seq"]},
-  {title:"Genomics Research Scientist",company:"Tempus",location:"Chicago",date:"2026-03-15",geo:"USA",category:"Startup",seniority:"Senior",tags:["Python","WGS","variant calling","AWS"]},
-  {title:"Spatial Transcriptomics Postdoc",company:"Karolinska",location:"Stockholm",date:"2025-12-10",geo:"Europe",category:"Academia",seniority:"PostDoc",tags:["R","Seurat","Python","spatial transcriptomics"]},
-  {title:"Protein Structure Scientist",company:"Genentech",location:"San Francisco",date:"2025-11-20",geo:"USA",category:"Pharma/Biotech",seniority:"Senior",tags:["AlphaFold2","Python","structural biology","PyMOL"]},
-];
 
 // ── CHART HELPERS ─────────────────────────────────────────────────────────────
 function count(jobs, key) {
@@ -688,13 +697,13 @@ async function loadJobs() {
       allJobs = data.jobs || [];
     }
   } catch(e) {}
-  if (!allJobs.length) allJobs = SEED;
   renderStats();
 }
 
 document.querySelectorAll(".scope-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
+  btn.addEventListener("click", async () => {
     scope = btn.dataset.scope;
+    if (scope !== "active") await ensureArchive();
     document.querySelectorAll(".scope-btn").forEach(b => b.classList.remove("on"));
     btn.classList.add("on");
     renderStats();

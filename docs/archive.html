@@ -4,6 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Archive — BioInfoJobs by @biokoderka</title>
+<meta name="description" content="Archive of past bioinformatics job offers from BioInfoJobs — useful for seeing who hires and what they ask for.">
+<link rel="canonical" href="https://biokoderka.github.io/bioinfo-jobs/archive.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BioInfoJobs">
+<meta property="og:title" content="Archive — BioInfoJobs by @biokoderka">
+<meta property="og:description" content="Archive of past bioinformatics job offers from BioInfoJobs — useful for seeing who hires and what they ask for.">
+<meta property="og:url" content="https://biokoderka.github.io/bioinfo-jobs/archive.html">
+<meta property="og:image" content="https://biokoderka.github.io/bioinfo-jobs/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="BioInfoJobs — bioinformatics & computational biology jobs, by @biokoderka">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0a0010">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a0010'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle'%3E%F0%9F%A7%AC%3C/text%3E%3C/svg%3E">
+<script defer src="https://umami-rose-alpha.vercel.app/script.js" data-website-id="0f8a4bbd-7790-437c-912f-15149106ebab"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -158,7 +173,7 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans
 </div>
 
 <div class="archive-notice">
-  📦 <div><strong>Archived listings</strong> — offers older than 60 days or past their deadline. Links may no longer be active.</div>
+  📦 <div><strong>Archived listings</strong> — offers past their deadline, older than 60 days, or no longer listed by their source. Links may no longer be active.</div>
 </div>
 
 <div id="job-grid"></div>
@@ -187,7 +202,7 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans
 
 <div id="footer">
   🧬 <strong style="color:#9b80c0">BioInfoJobs</strong> — curated by
-  <a class="ig-link" href="https://instagram.com/biokoderka" target="_blank">@biokoderka</a> ·
+  <a class="ig-link" href="https://instagram.com/biokoderka" target="_blank">@biokoderka</a> · <a href="https://biokoderka.github.io/bioinfosites/" target="_blank">🧬 BioinfoSites</a> ·
   <a href="index.html">Active jobs</a> · <a href="stats.html">Stats</a>
 </div>
 
@@ -205,33 +220,31 @@ function daysAgo(d) {
   return Math.max(0, Math.floor((Date.now()-new Date(d))/86400000));
 }
 
-function isArchived(j) {
-  if (j.archived === true) return true;
-  const today = new Date().toISOString().split("T")[0];
-  const cutoff = new Date(Date.now()-60*86400000).toISOString().split("T")[0];
-  if (j.deadline && j.deadline < today) return true;
-  if (j.date && j.date < cutoff) return true;
-  return false;
-}
+const TODAY = new Date().toISOString().split("T")[0];
 
+// archive.json holds everything the weekly refresh archived. Jobs whose
+// deadline passed since the last refresh are still in jobs.json — add those too.
 async function loadJobs() {
-  try {
-    const r = await fetch("jobs.json");
-    if (r.ok) {
-      const data = await r.json();
-      allJobs = (data.jobs||[]).filter(j => isArchived(j));
-    }
-  } catch(e) {}
-
-  // Fallback seed data (already old)
+  const get = url => fetch(url).then(r => r.ok ? r.json() : { jobs: [] }).catch(() => ({ jobs: [] }));
+  const [arch, live] = await Promise.all([get("archive.json"), get("jobs.json")]);
+  const lapsed = (live.jobs || []).filter(j => j.deadline && j.deadline < TODAY)
+                                   .map(j => ({ ...j, archived: true, archived_reason: "deadline" }));
+  allJobs = [...lapsed, ...(arch.jobs || [])];
   if (!allJobs.length) {
-    allJobs = [
-      {id:"a1",title:"Bioinformatics Analyst",company:"Sanger Institute",location:"Cambridge, UK",source:"jobs.ac.uk",date:"2026-01-10",url:"#",description:"Analysis of large-scale genomic datasets using Python and R. Experience with variant calling pipelines required.",geo:"Europe",tags:["Python","R","variant calling"],category:"Academia",seniority:"Mid"},
-      {id:"a2",title:"NGS Data Scientist",company:"Illumina",location:"Remote",source:"Nature Careers",date:"2026-02-05",url:"#",description:"Develop and maintain NGS data processing pipelines. Strong experience with Nextflow and Snakemake.",geo:"Remote",tags:["NGS","Nextflow","Snakemake"],category:"Pharma/Biotech",seniority:"Senior"},
-      {id:"a3",title:"Genomics Postdoc",company:"EMBL-EBI",location:"Hinxton, UK",source:"EMBL Jobs",date:"2026-01-20",url:"#",description:"Postdoctoral position in population genomics and GWAS analysis. R and Python required.",geo:"Europe",tags:["GWAS","R","Python"],category:"Academia",seniority:"PostDoc"},
-    ];
+    document.getElementById("empty").querySelector("p").textContent = "Couldn't load the archive — please refresh the page.";
   }
   render();
+}
+
+const REASONS = {
+  deadline:  "⏰ deadline passed",
+  expired:   "📦 60d+ old",
+  not_found: "🔍 no longer listed",
+  manual:    "📦 taken down",
+};
+function archiveReason(j) {
+  if (REASONS[j.archived_reason]) return REASONS[j.archived_reason];
+  return j.deadline && j.deadline < TODAY ? REASONS.deadline : "📦 archived";
 }
 
 function getFiltered() {
@@ -257,8 +270,7 @@ function render() {
     const cc = j.category ? CAT_COLORS[j.category] : null;
     const age = daysAgo(j.date);
     const ageStr = age===null ? j.date : age===0 ? "today" : `${age}d ago`;
-    const expired = j.deadline && j.deadline < new Date().toISOString().split("T")[0];
-    const reason = expired ? "⏰ deadline passed" : "📦 60d+ old";
+    const reason = archiveReason(j);
     return `<div class="job-card" data-id="${j.id}">
       <div class="jc-source"><span>${j.source}</span><span>${ageStr}</span></div>
       <div class="jc-title">${j.title}</div>

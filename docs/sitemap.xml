@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://biokoderka.github.io/bioinfo-jobs/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://biokoderka.github.io/bioinfo-jobs/match.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biokoderka.github.io/bioinfo-jobs/career.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biokoderka.github.io/bioinfo-jobs/stats.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://biokoderka.github.io/bioinfo-jobs/submit.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://biokoderka.github.io/bioinfo-jobs/archive.html</loc><changefreq>weekly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://biokoderka.github.io/bioinfo-jobs/privacy.html</loc><changefreq>yearly</changefreq><priority>0.1</priority></url>
+</urlset>
