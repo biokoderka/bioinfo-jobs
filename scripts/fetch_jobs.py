@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 """
 BioInfoJobs – job fetcher
-Sources: RSS feeds + Greenhouse JSON API + Lever JSON API
+Sources: RSS feeds (JobRxiv & co.) + Greenhouse API + Lever API + Hire Omics
 Run locally: python3 scripts/fetch_jobs.py
+
+Output (both written by write_outputs()):
+  docs/jobs.json     – ACTIVE listings only (what the board, Job Match and
+                       Career Compass load on every visit)
+  docs/archive.json  – archived listings, kept forever
 """
 
-import json, re, hashlib, subprocess, sys
+import html, json, re, hashlib, subprocess, sys
 from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
 from pathlib import Path
@@ -120,7 +125,9 @@ KEYWORDS = [
     "translational bioinformatics","biomedical informatics",
 ]
 
-POLAND_KW  = ["poland","polska","warsaw","wroclaw","krakow","gdansk","poznan","lodz","katowice"]
+POLAND_KW  = ["poland","polska","warsaw","warszawa","wroclaw","wrocław","krakow","kraków","cracow",
+              "gdansk","gdańsk","gdynia","poznan","poznań","lodz","łódź","katowice","lublin",
+              "bialystok","białystok","szczecin","torun","toruń","rzeszow","rzeszów","olsztyn"]
 USA_KW     = ["usa","united states","boston","cambridge, ma","new york","san francisco",
               "seattle","bethesda","baltimore","san diego"," ca,"," ny,"," ma,"," wa,"]
 REMOTE_KW  = ["remote","fully remote","100% remote","work from home","wfh","anywhere"]
@@ -461,8 +468,49 @@ def is_relevant(title, description):
     text = (title+" "+description).lower()
     return any(kw.lower() in text for kw in KEYWORDS)
 
+WP_FOOTER = re.compile(r"\s*The post\s.{0,300}?appeared first on\s.{0,80}$", re.S | re.I)
+
 def strip_html(text):
-    return re.sub(r"<[^>]+>", " ", text or "").strip()
+    """Remove tags, decode HTML entities (&amp; &#8211; ...), drop the
+    WordPress "The post X appeared first on Y." footer, collapse whitespace."""
+    t = re.sub(r"<[^>]+>", " ", text or "")
+    t = html.unescape(html.unescape(t))   # twice: feeds sometimes double-encode
+    t = re.sub(r"<[^>]+>", " ", t)        # tags that were hidden as &lt;...&gt;
+    t = t.replace("<", "‹").replace(">", "›")  # pages render these fields as HTML
+    t = WP_FOOTER.sub("", t)
+    return re.sub(r"\s+", " ", t).strip()
+
+
+# Company career boards (Greenhouse / Lever) list EVERY role at the company,
+# and the department name ("Drug Discovery", "Sequencing") made the generic
+# keyword check pass for chemists, lab techs, in-vivo pharmacologists etc.
+# For these sources the TITLE has to look computational.
+ATS_TITLE_PATTERNS = [
+    r"\bbioinformat", r"\bcomputational\b", r"\bdata (scien|engineer|analy)",
+    r"\bmachine learning\b", r"\bdeep learning\b", r"\b(ai|ml|mlops)\b",
+    r"\bgenomic", r"omics\b", r"\bbiostatist", r"\bstatistic",
+    r"\bsoftware\b", r"\bscientific programm", r"informatics\b",
+    r"\bpipeline", r"\balgorithm", r"\bmodel+ing\b", r"\bsingle[- ]cell\b",
+    r"\bngs\b", r"\bcheminformat", r"\bprotein design", r"\bquantitative\b",
+    r"\bstructural biolog",
+    r"\btechnical staff\b", r"\bdata platform",
+]
+
+def is_relevant_ats(title):
+    t = (title or "").lower()
+    return any(re.search(p, t) for p in ATS_TITLE_PATTERNS)
+
+
+WORK_MODE_ONLY = re.compile(r"^(remote|hybrid|onsite|on-site)$", re.I)
+
+def clean_location(loc):
+    """'Onsite' / 'Hybrid' alone is a work mode, not a place."""
+    loc = re.sub(r"\s+", " ", (loc or "")).strip(" ,")
+    if not loc:
+        return "See listing"
+    if WORK_MODE_ONLY.match(loc) and loc.lower() != "remote":
+        return f"See listing · {loc.capitalize()}"
+    return loc
 
 def extract_location(text):
     patterns = [
@@ -558,7 +606,7 @@ def fetch_rss(seen, headers, seen_urls=None):
                 if ukey: seen_urls.add(ukey)
                 sal = extract_salary(desc)
                 results.append({"id":uid,"title":title,"company":f["name"],
-                    "location":loc or "See listing","source":f["name"],
+                    "location":clean_location(loc),"source":f["name"],
                     "date":parse_date(e),"url":link,"description":desc[:800],
                     "geo":detect_geo(title,loc,desc),"tags":extract_tech_tags(f"{title} {desc}"),
                     "category":detect_category(title,f["name"],desc),
@@ -587,7 +635,7 @@ def fetch_greenhouse(seen, headers, seen_urls=None):
                 continue
             added = 0
             for job in r.json().get("jobs", []):
-                title = job.get("title","")
+                title = strip_html(job.get("title",""))
                 loc_d = job.get("location",{})
                 loc   = loc_d.get("name","") if isinstance(loc_d,dict) else str(loc_d)
                 link  = job.get("absolute_url","#")
@@ -596,7 +644,7 @@ def fetch_greenhouse(seen, headers, seen_urls=None):
                 depts = ", ".join(d.get("name","") for d in job.get("departments",[]))
                 desc  = f"{depts}. {title} at {company}.".strip(". ")
                 if is_excluded(title): continue
-                if not is_relevant(title, desc): continue
+                if not is_relevant_ats(title): continue
                 uid = job_id(title, company)
                 if uid in seen: continue
                 ukey = url_key(link)
@@ -605,7 +653,7 @@ def fetch_greenhouse(seen, headers, seen_urls=None):
                 if ukey: seen_urls.add(ukey)
                 sal = extract_salary(desc)
                 results.append({"id":uid,"title":title,"company":company,
-                    "location":loc or "See listing","source":f"{company} (Greenhouse)",
+                    "location":clean_location(loc),"source":f"{company} (Greenhouse)",
                     "date":date,"url":link,"description":desc,
                     "geo":detect_geo(title,loc,desc),"tags":extract_tech_tags(f"{title} {desc}"),
                     "category":detect_category(title,company,desc),
@@ -628,13 +676,15 @@ def fetch_lever(seen, headers, seen_urls=None):
             if r.status_code != 200: continue
             added = 0
             for job in r.json():
-                title = job.get("text","")
+                title = strip_html(job.get("text",""))
                 loc   = job.get("categories",{}).get("location","")
                 link  = job.get("hostedUrl","#")
                 desc  = strip_html(job.get("description",""))[:800]
-                if not is_relevant(title, desc): continue
+                created = job.get("createdAt")
+                date  = (datetime.fromtimestamp(created/1000, timezone.utc).strftime("%Y-%m-%d")
+                         if isinstance(created, (int, float)) else today())
                 if is_excluded(title): continue
-                if not is_relevant(title, desc): continue
+                if not is_relevant_ats(title): continue
                 uid = job_id(title, company)
                 if uid in seen: continue
                 ukey = url_key(link)
@@ -644,8 +694,8 @@ def fetch_lever(seen, headers, seen_urls=None):
                 # Lever: salary often in raw description HTML before stripping
                 sal = extract_salary(job.get("description",""))
                 results.append({"id":uid,"title":title,"company":company,
-                    "location":loc or "See listing","source":f"{company} (Lever)",
-                    "date":today(),"url":link,"description":desc,
+                    "location":clean_location(loc),"source":f"{company} (Lever)",
+                    "date":date,"url":link,"description":desc,
                     "geo":detect_geo(title,loc,desc),"tags":extract_tech_tags(f"{title} {desc}"),
                     "category":detect_category(title,company,desc),
                     "seniority":detect_seniority(title),
@@ -658,7 +708,7 @@ def fetch_lever(seen, headers, seen_urls=None):
             print(f"  ⚠ {company}: {e}")
     return results
 
-# ── MAIN ──────────────────────────────────────────────────────────────────────
+# ── HIRE OMICS ────────────────────────────────────────────────────────────────
 
 def fetch_hire_omics(seen, headers, seen_urls=None):
     if seen_urls is None: seen_urls = set()
@@ -687,24 +737,26 @@ def fetch_hire_omics(seen, headers, seen_urls=None):
                     continue
                 ptext = page.text
                 title_m = re.search(r'<h1[^>]*>([^<]+)</h1>', ptext)
-                title = title_m.group(1).strip() if title_m else path.split('/')[-1].replace('-',' ').title()
+                title = strip_html(title_m.group(1)) if title_m else path.split('/')[-1].replace('-',' ').title()
                 if is_excluded(title): continue
-                if not is_relevant(title, ptext[:2000]): continue
+                # relevance on the visible page text, not the raw <head> markup
+                body_m = re.search(r'<body[^>]*>(.*)', ptext, re.S)
+                if not is_relevant(title, strip_html(body_m.group(1) if body_m else ptext)[:4000]): continue
                 # Company name often in a heading near top
                 comp_m = re.search(r'<h2[^>]*>([^<]{2,60})</h2>', ptext)
-                company = comp_m.group(1).strip() if comp_m else "See listing"
+                company = strip_html(comp_m.group(1)) if comp_m else "See listing"
                 # Location — look for common patterns
                 loc_m = re.search(r'(Remote|Hybrid|Onsite)[,\s]*([A-Za-z,.\s]{0,40})?', ptext)
                 loc = loc_m.group(0).strip() if loc_m else ""
                 desc_m = re.findall(r'<p[^>]*>(.{40,}?)</p>', ptext, re.DOTALL)
-                desc = " ".join(re.sub(r'<[^>]+>',' ',p).strip() for p in desc_m[:3])[:800]
+                desc = " ".join(strip_html(p) for p in desc_m[:3])[:800]
                 ukey = url_key(url)
                 if ukey and ukey in seen_urls: continue
                 seen.add(uid)
                 if ukey: seen_urls.add(ukey)
                 sal = extract_salary(ptext)  # full page text has better salary context
                 results.append({"id":uid,"title":title,"company":company,
-                    "location":loc or "See listing","source":"Hire Omics",
+                    "location":clean_location(loc),"source":"Hire Omics",
                     "date":today(),"url":url,"description":desc,
                     "geo":detect_geo(title,loc,desc),"tags":extract_tech_tags(f"{title} {desc}"),
                     "category":detect_category(title,company,desc),
@@ -720,6 +772,185 @@ def fetch_hire_omics(seen, headers, seen_urls=None):
         print(f"  ERROR: {e}")
     return results
 
+# ── MERGE / ARCHIVE / WRITE ───────────────────────────────────────────────────
+DOCS = Path(__file__).parent.parent / "docs"
+JOBS_PATH = DOCS / "jobs.json"
+ARCHIVE_PATH = DOCS / "archive.json"
+
+RSS_MAX_AGE_DAYS       = 60   # RSS feeds keep history -> older posts count as expired
+MANUAL_MAX_AGE_DAYS    = 60   # manual/community jobs WITHOUT a deadline
+# The archive is permanent: nothing is ever deleted from archive.json.
+
+
+def days_ago(n):
+    return (datetime.now(timezone.utc) - timedelta(days=n)).strftime("%Y-%m-%d")
+
+
+def load_existing():
+    """All previously known jobs (active + archived), from both files.
+    Also handles the old single-file format where archived jobs lived in jobs.json."""
+    jobs = []
+    for path in (JOBS_PATH, ARCHIVE_PATH):
+        if path.exists():
+            try:
+                jobs += json.loads(path.read_text(encoding="utf-8")).get("jobs", [])
+            except Exception as e:
+                print(f"⚠ Could not read {path.name}: {e}")
+    return jobs
+
+
+def archive(j, reason):
+    if not j.get("archived"):
+        j["archived"] = True
+        j["archived_date"] = today()
+    j.setdefault("archived_reason", reason)
+    return j
+
+
+def dedupe(jobs):
+    """Drop duplicates by canonical URL and by title+company. First one wins,
+    so pass jobs in priority order."""
+    seen_url, seen_tc, out = set(), set(), []
+    for j in jobs:
+        uk = url_key(j.get("url"))
+        tc = (j.get("title","").lower().strip(), j.get("company","").lower().strip())
+        if (uk and uk in seen_url) or tc in seen_tc:
+            continue
+        if uk: seen_url.add(uk)
+        seen_tc.add(tc)
+        out.append(j)
+    return out
+
+
+def source_family(j):
+    src = j.get("source", "")
+    if src.endswith("(Greenhouse)"): return "greenhouse"
+    if src.endswith("(Lever)"):      return "lever"
+    if src == "Hire Omics":          return "hire_omics"
+    return "rss"
+
+
+def merge(fresh, existing, ok_families=None):
+    """
+    fresh    – jobs the scrapers returned in this run
+    existing – everything from jobs.json + archive.json
+
+    Rules:
+    * Scraped job still listed by its source           -> active
+      (keeps its first_seen date across runs)
+    * Scraped job no longer listed                       -> archived ("not_found")
+      ...unless its whole source family returned nothing this run (feed down,
+      IP blocked) – then its jobs are left exactly as they were.
+    * RSS job older than RSS_MAX_AGE_DAYS                -> archived ("expired")
+    * Manual / community job: the scraper never "finds" these, so they are NOT
+      archived for being missing. They stay active until their deadline passes,
+      or MANUAL_MAX_AGE_DAYS after being added if there is no deadline.
+    * Any job whose deadline has passed                  -> archived ("deadline")
+    """
+    t = today()
+    if ok_families is None:
+        ok_families = {source_family(j) for j in fresh}
+    by_id = {j["id"]: j for j in existing}
+    fresh_ids = set()
+    active, archived = [], []
+
+    rss_cutoff = days_ago(RSS_MAX_AGE_DAYS)
+    for j in fresh:
+        prev = by_id.get(j["id"])
+        j["first_seen"] = (prev or {}).get("first_seen") or (prev or {}).get("date") or t
+        if j.get("source") == "Hire Omics":      # board gives no posting date
+            j["date"] = j["first_seen"]
+        if j.get("rss") and j.get("date", "") < rss_cutoff:
+            archived.append(archive(j, "expired"))
+            continue
+        j.pop("rss", None)
+        fresh_ids.add(j["id"])
+        active.append(j)
+
+    manual_cutoff = days_ago(MANUAL_MAX_AGE_DAYS)
+    for j in existing:
+        if j["id"] in fresh_ids:
+            continue
+        if j.get("manually_added"):
+            if j.get("deadline"):
+                expired = j["deadline"] < t
+            else:
+                expired = j.get("date", "") < manual_cutoff
+            if expired:
+                archived.append(archive(j, "deadline" if j.get("deadline") else "expired"))
+            elif not j.get("archived") or j.get("archived_reason") is None:
+                # never archived, or archived by the old bug (no reason recorded)
+                for k in ("archived", "archived_date", "archived_reason"):
+                    j.pop(k, None)
+                active.append(j)
+            else:
+                archived.append(j)
+            continue
+        if source_family(j) not in ok_families:
+            (archived if j.get("archived") else active).append(j)
+            continue
+        archived.append(archive(j, "not_found"))
+
+    # deadline check for everything that is still active
+    still = []
+    for j in active:
+        if j.get("deadline") and j["deadline"] < t:
+            archived.append(archive(j, "deadline"))
+        else:
+            still.append(j)
+    active = still
+
+    active.sort(key=lambda j: j.get("date", ""), reverse=True)
+    active = dedupe(active)
+    active_keys = {j["id"] for j in active}
+    archived = [j for j in archived if j["id"] not in active_keys]
+    archived.sort(key=lambda j: (j.get("archived_date", ""), j.get("date", "")), reverse=True)
+    archived = dedupe(archived)
+
+    return active, archived
+
+
+TEXT_FIELDS = ("title", "company", "location", "description", "source", "salary_text")
+
+def safe_url(u):
+    """Only http(s) links, and nothing that could break out of href="..."."""
+    u = (u or "").strip()
+    if not re.match(r"^https?://", u, re.I):
+        return "#"
+    return re.sub(r"[\"'<>\s`]", lambda m: "%{:02X}".format(ord(m.group())), u)
+
+
+def sanitize(j):
+    """Last line of defence before data reaches the pages, which insert these
+    fields with innerHTML. Applies to scraped, manual and community jobs alike."""
+    for k in TEXT_FIELDS:
+        if isinstance(j.get(k), str):
+            j[k] = j[k].replace("<", "‹").replace(">", "›").replace('"', "”") if k != "description" \
+                else j[k].replace("<", "‹").replace(">", "›")
+    j["url"] = safe_url(j.get("url"))
+    return j
+
+
+def write_outputs(active, archived, sources):
+    active = [sanitize(j) for j in active]
+    archived = [sanitize(j) for j in archived]
+    now = datetime.now(timezone.utc).isoformat()
+    DOCS.mkdir(parents=True, exist_ok=True)
+    JOBS_PATH.write_text(json.dumps({
+        "updated": now,
+        "count": len(active),
+        "archived_count": len(archived),
+        "sources": sources,
+        "jobs": active,
+    }, ensure_ascii=False, indent=1), encoding="utf-8")
+    ARCHIVE_PATH.write_text(json.dumps({
+        "updated": now,
+        "count": len(archived),
+        "jobs": archived,
+    }, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    print(f"\n✅ {len(active)} active → {JOBS_PATH.name} · {len(archived)} archived → {ARCHIVE_PATH.name}")
+
+
 def main():
     print(f"\n🧬 BioInfoJobs Fetcher — {datetime.now(timezone.utc).isoformat()}\n")
     check_git_up_to_date()
@@ -732,6 +963,8 @@ def main():
 
     print("📡 RSS feeds:")
     rss = fetch_rss(seen, headers, seen_urls)
+    for j in rss:
+        j["rss"] = True   # marker for the age cutoff in merge(); removed before writing
 
     print("\n🏢 Greenhouse APIs:")
     gh = fetch_greenhouse(seen, headers, seen_urls)
@@ -742,68 +975,26 @@ def main():
     print("\n💼 Hire Omics:")
     ho = fetch_hire_omics(seen, headers, seen_urls)
 
-    all_jobs = sorted(rss + gh + lv + ho, key=lambda j: j["date"], reverse=True)
+    fresh = rss + gh + lv + ho
+    existing = load_existing()
 
-    # Drop jobs older than 60 days
-    cutoff = (datetime.now(timezone.utc) - timedelta(days=60)).strftime("%Y-%m-%d")
-    all_jobs = [j for j in all_jobs if j.get("date","0000-00-00") >= cutoff]
-
-    # Load existing jobs.json so nothing freshly fetched gets silently deleted.
-    # Anything present before but missing from this run's results is kept
-    # and flagged as "archived" instead of being dropped.
-    out = Path(__file__).parent.parent / "docs" / "jobs.json"
-    existing_jobs = []
-    if out.exists():
-        try:
-            existing = json.loads(out.read_text())
-            existing_jobs = existing.get("jobs", [])
-        except: pass
-
-    if not all_jobs and not existing_jobs:
-        print("No jobs fetched and no existing jobs.json - nothing to write")
+    if not fresh:
+        # Every source failed (network, blocked IP...). Don't archive the whole
+        # board because of one bad run — keep the files exactly as they are.
+        print("\n⚠ No jobs fetched from any source — leaving jobs.json / archive.json unchanged")
         return
 
-    fresh_ids = {j["id"] for j in all_jobs}
-    archived_count = 0
-    unarchived_count = 0
+    active, archived = merge(fresh, existing)
+    for j in archived:
+        j.pop("rss", None)
+    sources = {
+        "rss": len(rss), "greenhouse": len(gh), "lever": len(lv), "hire_omics": len(ho),
+        "manual": sum(1 for j in active if j.get("manually_added")),
+    }
+    write_outputs(active, archived, sources)
+    print(f"   RSS: {len(rss)} · Greenhouse: {len(gh)} · Lever: {len(lv)} · "
+          f"Hire Omics: {len(ho)} · Manual active: {sources['manual']}")
 
-    for j in existing_jobs:
-        if j["id"] in fresh_ids:
-            if j.get("archived"):
-                unarchived_count += 1
-            continue
-        if not j.get("archived"):
-            archived_count += 1
-        j["archived"] = True
-        j.setdefault("archived_date", today())
-        all_jobs.append(j)
-
-    if archived_count:
-        print(f"\nArchived {archived_count} jobs no longer found by scraper (kept, not deleted)")
-    if unarchived_count:
-        print(f"{unarchived_count} previously archived jobs are active again")
-
-    manual_count = sum(1 for j in all_jobs if j.get("manually_added"))
-    if manual_count:
-        print(f"{manual_count} manually added jobs present")
-
-    if not all_jobs:
-        print("No jobs fetched - keeping existing jobs.json unchanged")
-        return
-
-    all_jobs.sort(key=lambda j: j["date"], reverse=True)
-    all_jobs.sort(key=lambda j: j.get("archived", False))
-
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({
-        "updated": datetime.now(timezone.utc).isoformat(),
-        "count": len(all_jobs),
-        "sources": {"rss": len(rss), "greenhouse": len(gh), "lever": len(lv), "hire_omics": len(ho), "manual": manual_count, "archived": archived_count},
-        "jobs": all_jobs,
-    }, ensure_ascii=False, indent=2), encoding="utf-8")
-
-    print(f"\n✅ {len(all_jobs)} jobs saved → {out}")
-    print(f"   RSS: {len(rss)} · Greenhouse: {len(gh)} · Lever: {len(lv)} · Manual: {manual_count} · Archived: {archived_count}")
 
 if __name__ == "__main__":
     main()
