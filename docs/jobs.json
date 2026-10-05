@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-05T16:07:33.313591+00:00",
+ "updated": "2026-10-05T17:32:48.140364+00:00",
  "count": 242,
  "archived_count": 770,
  "sources": {
@@ -263,29 +263,6 @@
    "first_seen": "2026-10-05"
   },
   {
-   "id": "0d548b0692",
-   "title": "Computational Biologics Design – Associate Principal Scientist",
-   "company": "JobRxiv",
-   "location": "United Kingdom (UK)",
-   "source": "JobRxiv",
-   "date": "2026-10-02",
-   "url": "https://jobrxiv.org/job/computational-biologics-design-associate-principal-scientist/",
-   "description": "Computational Biologics Design – Associate Principal Scientist Location: Cambridge Salary: Competitive Introduction to role: Are you ready to harness AI and computational structural biology to shape the next generation of...",
-   "geo": "Europe",
-   "tags": [
-    "AI",
-    "structural biology"
-   ],
-   "category": "Pharma/Biotech",
-   "seniority": "Mid",
-   "salary_min": null,
-   "salary_max": null,
-   "salary_currency": null,
-   "salary_text": null,
-   "summary": null,
-   "first_seen": "2026-10-05"
-  },
-  {
    "id": "d8cf1be1ae",
    "title": "Associate Director, Translational Data Science – Translational Medicine and Bioinformatics",
    "company": "JobRxiv",
@@ -302,6 +279,29 @@
    ],
    "category": "Pharma/Biotech",
    "seniority": "PI/Lead",
+   "salary_min": null,
+   "salary_max": null,
+   "salary_currency": null,
+   "salary_text": null,
+   "summary": null,
+   "first_seen": "2026-10-05"
+  },
+  {
+   "id": "0d548b0692",
+   "title": "Computational Biologics Design – Associate Principal Scientist",
+   "company": "JobRxiv",
+   "location": "United Kingdom (UK)",
+   "source": "JobRxiv",
+   "date": "2026-10-02",
+   "url": "https://jobrxiv.org/job/computational-biologics-design-associate-principal-scientist/",
+   "description": "Computational Biologics Design – Associate Principal Scientist Location: Cambridge Salary: Competitive Introduction to role: Are you ready to harness AI and computational structural biology to shape the next generation of...",
+   "geo": "Europe",
+   "tags": [
+    "AI",
+    "structural biology"
+   ],
+   "category": "Pharma/Biotech",
+   "seniority": "Mid",
    "salary_min": null,
    "salary_max": null,
    "salary_currency": null,
@@ -501,50 +501,6 @@
    "first_seen": "2026-08-06"
   },
   {
-   "id": "07d9b4dfa9",
-   "title": "Senior Scientist II, Computational Biology, Pharma R&D",
-   "company": "JobRxiv",
-   "location": "See listing",
-   "source": "JobRxiv",
-   "date": "2026-10-01",
-   "url": "https://jobrxiv.org/job/senior-scientist-ii-computational-biology-pharma-rd/",
-   "description": "Senior Scientist Passionate about precision medicine and advancing the healthcare industry? Recent advancements in underlying technology have finally made it possible for AI to impact clinical care in a meaningful...",
-   "geo": "Other",
-   "tags": [
-    "AI"
-   ],
-   "category": "Clinical",
-   "seniority": "Senior",
-   "salary_min": null,
-   "salary_max": null,
-   "salary_currency": null,
-   "salary_text": null,
-   "summary": null,
-   "first_seen": "2026-10-05"
-  },
-  {
-   "id": "5e3daaba97",
-   "title": "Data Scientist II, Real World Evidence, Life Sciences R&D",
-   "company": "JobRxiv",
-   "location": "See listing",
-   "source": "JobRxiv",
-   "date": "2026-10-01",
-   "url": "https://jobrxiv.org/job/data-scientist-ii-real-world-evidence-life-sciences-rd/",
-   "description": "RWE Data Scientist II Passionate about precision medicine and advancing the healthcare industry? Recent advancements in underlying technology have finally made it possible for AI to impact clinical care in...",
-   "geo": "Other",
-   "tags": [
-    "AI"
-   ],
-   "category": "Clinical",
-   "seniority": "Mid",
-   "salary_min": null,
-   "salary_max": null,
-   "salary_currency": null,
-   "salary_text": null,
-   "summary": null,
-   "first_seen": "2026-10-05"
-  },
-  {
    "id": "cd302b9a85",
    "title": "Senior Scientist I, Applied Machine Learning and Generative AI, Pharma R&D",
    "company": "JobRxiv",
@@ -561,6 +517,50 @@
    ],
    "category": "Pharma/Biotech",
    "seniority": "Senior",
+   "salary_min": null,
+   "salary_max": null,
+   "salary_currency": null,
+   "salary_text": null,
+   "summary": null,
+   "first_seen": "2026-10-05"
+  },
+  {
+   "id": "07d9b4dfa9",
+   "title": "Senior Scientist II, Computational Biology, Pharma R&D",
+   "company": "JobRxiv",
+   "location": "United States (US)",
+   "source": "JobRxiv",
+   "date": "2026-10-01",
+   "url": "https://jobrxiv.org/job/senior-scientist-ii-computational-biology-pharma-rd/",
+   "description": "Senior Scientist Passionate about precision medicine and advancing the healthcare industry? Recent advancements in underlying technology have finally made it possible for AI to impact clinical care in a meaningful...",
+   "geo": "USA",
+   "tags": [
+    "AI"
+   ],
+   "category": "Clinical",
+   "seniority": "Senior",
+   "salary_min": null,
+   "salary_max": null,
+   "salary_currency": null,
+   "salary_text": null,
+   "summary": null,
+   "first_seen": "2026-10-05"
+  },
+  {
+   "id": "5e3daaba97",
+   "title": "Data Scientist II, Real World Evidence, Life Sciences R&D",
+   "company": "JobRxiv",
+   "location": "United States (US)",
+   "source": "JobRxiv",
+   "date": "2026-10-01",
+   "url": "https://jobrxiv.org/job/data-scientist-ii-real-world-evidence-life-sciences-rd/",
+   "description": "RWE Data Scientist II Passionate about precision medicine and advancing the healthcare industry? Recent advancements in underlying technology have finally made it possible for AI to impact clinical care in...",
+   "geo": "USA",
+   "tags": [
+    "AI"
+   ],
+   "category": "Clinical",
+   "seniority": "Mid",
    "salary_min": null,
    "salary_max": null,
    "salary_currency": null,
@@ -659,12 +659,12 @@
    "id": "90c512f5d1",
    "title": "Scientist II, Computational Biology, Pharma R&D",
    "company": "JobRxiv",
-   "location": "See listing",
+   "location": "United States (US)",
    "source": "JobRxiv",
    "date": "2026-09-30",
    "url": "https://jobrxiv.org/job/scientist-ii-computational-biology-pharma-rd-5/",
    "description": "Scientist II Passionate about precision medicine and advancing the healthcare industry? Recent advancements in underlying technology have finally made it possible for AI to impact clinical care in a meaningful...",
-   "geo": "Other",
+   "geo": "USA",
    "tags": [
     "AI"
    ],
@@ -723,7 +723,7 @@
    "id": "f9d697f026",
    "title": "Bioinformatics & AI Engineer",
    "company": "JobRxiv",
-   "location": "India",
+   "location": "See listing",
    "source": "JobRxiv",
    "date": "2026-09-30",
    "url": "https://jobrxiv.org/job/bioinformatics-ai-engineer/",
@@ -787,12 +787,12 @@
    "id": "0a55c61922",
    "title": "Funded PhDs in multi-agent AI safety, security, and privacy",
    "company": "JobRxiv",
-   "location": "See listing",
+   "location": "United States (US)",
    "source": "JobRxiv",
    "date": "2026-09-29",
    "url": "https://jobrxiv.org/job/university-of-miami-27778-funded-phds-in-multi-agent-ai-safety-security-and-privacy/",
    "description": "Funded PhD openings in multi-agent AI safety, security, and privacy | University of Miami | Spring/Fall 2027PI: Guy Zyskind I’m recruiting PhD students to join my lab at the University...",
-   "geo": "Other",
+   "geo": "USA",
    "tags": [
     "AI"
    ],
@@ -873,12 +873,12 @@
    "id": "dc5bb19648",
    "title": "Research Technician II – Developmental Biology",
    "company": "JobRxiv",
-   "location": "United States (US)",
+   "location": "See listing",
    "source": "JobRxiv",
    "date": "2026-09-29",
    "url": "https://jobrxiv.org/job/research-technician-ii-developmental-biology/",
    "description": "Laboratory Research Assistant The Carter Lab investigates how evolutionary changes in our DNA gave rise to uniquely human biology. We combine human and ape stem-cell models with comparative genomics, genome...",
-   "geo": "USA",
+   "geo": "Other",
    "tags": [
     "genomics",
     "developmental biology"
@@ -2165,28 +2165,6 @@
    "first_seen": "2026-09-25"
   },
   {
-   "id": "95de3b25b3",
-   "title": "Research Software Engineer – ATLAS",
-   "company": "JobRxiv",
-   "location": "United Kingdom (UK)",
-   "source": "JobRxiv",
-   "date": "2026-09-25",
-   "url": "https://jobrxiv.org/job/research-software-engineer-atlas/",
-   "description": "Research Software Engineer The Oxford Research Software Engineering Group (OxRSE) is looking to recruit a Research Software Engineer (RSE) to join our team. We work with other research groups across...",
-   "geo": "Europe",
-   "tags": [
-    "software engineering"
-   ],
-   "category": "Pharma/Biotech",
-   "seniority": "Mid",
-   "salary_min": null,
-   "salary_max": null,
-   "salary_currency": null,
-   "salary_text": null,
-   "summary": null,
-   "first_seen": "2026-09-25"
-  },
-  {
    "id": "d14c813195",
    "title": "Senior Research Software Engineer – Breakthrough Listen",
    "company": "JobRxiv",
@@ -2209,20 +2187,20 @@
    "first_seen": "2026-09-25"
   },
   {
-   "id": "b532257f3e",
-   "title": "Staff Bioinformatics Scientist — Oncology/MRD Algorithm Development",
+   "id": "95de3b25b3",
+   "title": "Research Software Engineer – ATLAS",
    "company": "JobRxiv",
-   "location": "United States (US)",
+   "location": "United Kingdom (UK)",
    "source": "JobRxiv",
    "date": "2026-09-25",
-   "url": "https://jobrxiv.org/job/staff-bioinformatics-scientist-oncology-mrd-algorithm-development/",
-   "description": "Staff Bioinformatics Scientist What if the work you did every day could impact the lives of people you know? Or all of humanity? At Illumina, we are expanding access to...",
-   "geo": "USA",
+   "url": "https://jobrxiv.org/job/research-software-engineer-atlas/",
+   "description": "Research Software Engineer The Oxford Research Software Engineering Group (OxRSE) is looking to recruit a Research Software Engineer (RSE) to join our team. We work with other research groups across...",
+   "geo": "Europe",
    "tags": [
-    "oncology"
+    "software engineering"
    ],
    "category": "Pharma/Biotech",
-   "seniority": "Senior",
+   "seniority": "Mid",
    "salary_min": null,
    "salary_max": null,
    "salary_currency": null,
@@ -2241,6 +2219,28 @@
    "description": "Staff Bioinformatics Scientist What if the work you did every day could impact the lives of people you know? Or all of humanity? At Illumina, we are expanding access to...",
    "geo": "USA",
    "tags": [],
+   "category": "Pharma/Biotech",
+   "seniority": "Senior",
+   "salary_min": null,
+   "salary_max": null,
+   "salary_currency": null,
+   "salary_text": null,
+   "summary": null,
+   "first_seen": "2026-09-25"
+  },
+  {
+   "id": "b532257f3e",
+   "title": "Staff Bioinformatics Scientist — Oncology/MRD Algorithm Development",
+   "company": "JobRxiv",
+   "location": "United States (US)",
+   "source": "JobRxiv",
+   "date": "2026-09-25",
+   "url": "https://jobrxiv.org/job/staff-bioinformatics-scientist-oncology-mrd-algorithm-development/",
+   "description": "Staff Bioinformatics Scientist What if the work you did every day could impact the lives of people you know? Or all of humanity? At Illumina, we are expanding access to...",
+   "geo": "USA",
+   "tags": [
+    "oncology"
+   ],
    "category": "Pharma/Biotech",
    "seniority": "Senior",
    "salary_min": null,
@@ -2920,12 +2920,12 @@
    "id": "2115012ee1",
    "title": "Bioinformatician with focus on research support within image analysis",
    "company": "JobRxiv",
-   "location": "Sweden",
+   "location": "See listing",
    "source": "JobRxiv",
    "date": "2026-09-17",
    "url": "https://jobrxiv.org/?post_type=job_listing&p=153191",
    "description": "Bioinformatician With Focus On Research Support Within Image Analysis Uppsala University, Department of Information Technology The Department of Information Technology holds a leading position in both research and education at...",
-   "geo": "Europe",
+   "geo": "Other",
    "tags": [],
    "category": "Academia",
    "seniority": "Mid",
@@ -2940,12 +2940,12 @@
    "id": "1d098528b7",
    "title": "PhD in Computational Genomics and Precision Medicine",
    "company": "JobRxiv",
-   "location": "Denmark",
+   "location": "See listing",
    "source": "JobRxiv",
    "date": "2026-09-17",
    "url": "https://jobrxiv.org/?post_type=job_listing&p=152922",
    "description": "PhD Fellow Position at the Novo Nordisk Foundation Center for Basic Metabolic Research The University of Copenhagen is seeking a highly motivated and talented PhD fellow to commence January 1,...",
-   "geo": "Europe",
+   "geo": "Other",
    "tags": [
     "genomics"
    ],
@@ -3586,6 +3586,28 @@
    "first_seen": "2026-09-11"
   },
   {
+   "id": "1601920521",
+   "title": "Postdoctoral position in functional ancient microbial ecogenomics within the Ancient Environmental Genomics Initiative for Sustainability (AEGIS)",
+   "company": "JobRxiv",
+   "location": "Denmark",
+   "source": "JobRxiv",
+   "date": "2026-09-11",
+   "url": "https://jobrxiv.org/?post_type=job_listing&p=151867",
+   "description": "Postdoctoral Positions in Functional Ancient Microbial Ecology The Ancient Environmental Genomics Initiative for Sustainability (AEGIS) invites applications for three two-year postdoctoral positions in functional ancient microbial ecology, starting 1 November...",
+   "geo": "Europe",
+   "tags": [
+    "genomics"
+   ],
+   "category": "Academia",
+   "seniority": "PostDoc",
+   "salary_min": null,
+   "salary_max": null,
+   "salary_currency": null,
+   "salary_text": null,
+   "summary": null,
+   "first_seen": "2026-09-11"
+  },
+  {
    "id": "a6a709f820",
    "title": "1-2 Assistant Professor positions in Experimental Hematology",
    "company": "JobRxiv",
@@ -3616,28 +3638,6 @@
    "date": "2026-09-11",
    "url": "https://jobrxiv.org/?post_type=job_listing&p=151870",
    "description": "Postdoctoral Researcher Position We are looking for a highly motivated and dynamic postdoc for a 2-year position to commence on 15 November 2026 or as soon as possible thereafter. The...",
-   "geo": "Europe",
-   "tags": [
-    "genomics"
-   ],
-   "category": "Academia",
-   "seniority": "PostDoc",
-   "salary_min": null,
-   "salary_max": null,
-   "salary_currency": null,
-   "salary_text": null,
-   "summary": null,
-   "first_seen": "2026-09-11"
-  },
-  {
-   "id": "1601920521",
-   "title": "Postdoctoral position in functional ancient microbial ecogenomics within the Ancient Environmental Genomics Initiative for Sustainability (AEGIS)",
-   "company": "JobRxiv",
-   "location": "Denmark",
-   "source": "JobRxiv",
-   "date": "2026-09-11",
-   "url": "https://jobrxiv.org/?post_type=job_listing&p=151867",
-   "description": "Postdoctoral Positions in Functional Ancient Microbial Ecology The Ancient Environmental Genomics Initiative for Sustainability (AEGIS) invites applications for three two-year postdoctoral positions in functional ancient microbial ecology, starting 1 November...",
    "geo": "Europe",
    "tags": [
     "genomics"
@@ -4175,28 +4175,6 @@
    "first_seen": "2026-09-10"
   },
   {
-   "id": "a0acd21581",
-   "title": "Senior Scientist, Computational Biology- Oncology Translational Research",
-   "company": "JobRxiv",
-   "location": "United States (US)",
-   "source": "JobRxiv",
-   "date": "2026-09-10",
-   "url": "https://jobrxiv.org/?post_type=job_listing&p=152306",
-   "description": "Senior Scientist, Computational Biology- Oncology Translational Research At Johnson & Johnson, we believe health is everything. Our strength in healthcare innovation empowers us to build a world where complex diseases...",
-   "geo": "USA",
-   "tags": [
-    "oncology"
-   ],
-   "category": "Pharma/Biotech",
-   "seniority": "Senior",
-   "salary_min": null,
-   "salary_max": null,
-   "salary_currency": null,
-   "salary_text": null,
-   "summary": null,
-   "first_seen": "2026-09-10"
-  },
-  {
    "id": "107dff02b6",
    "title": "Principal Scientist, Computational Biology-Oncology Translational Research",
    "company": "JobRxiv",
@@ -4211,6 +4189,28 @@
    ],
    "category": "Pharma/Biotech",
    "seniority": "Mid",
+   "salary_min": null,
+   "salary_max": null,
+   "salary_currency": null,
+   "salary_text": null,
+   "summary": null,
+   "first_seen": "2026-09-10"
+  },
+  {
+   "id": "a0acd21581",
+   "title": "Senior Scientist, Computational Biology- Oncology Translational Research",
+   "company": "JobRxiv",
+   "location": "United States (US)",
+   "source": "JobRxiv",
+   "date": "2026-09-10",
+   "url": "https://jobrxiv.org/?post_type=job_listing&p=152306",
+   "description": "Senior Scientist, Computational Biology- Oncology Translational Research At Johnson & Johnson, we believe health is everything. Our strength in healthcare innovation empowers us to build a world where complex diseases...",
+   "geo": "USA",
+   "tags": [
+    "oncology"
+   ],
+   "category": "Pharma/Biotech",
+   "seniority": "Senior",
    "salary_min": null,
    "salary_max": null,
    "salary_currency": null,
@@ -4636,14 +4636,14 @@
    "first_seen": "2026-09-04"
   },
   {
-   "id": "5a5c49a036",
-   "title": "Bilingual Danish STEM Expert (PhD) — AI Safety",
+   "id": "428fa37161",
+   "title": "Bilingual French STEM Expert (PhD) — AI Safety",
    "company": "JobRxiv",
    "location": "United States (US)",
    "source": "JobRxiv",
    "date": "2026-09-04",
-   "url": "https://jobrxiv.org/?post_type=job_listing&p=150968",
-   "description": "Bilingual Danish STEM Expert (PhD) — AI Safety $61-$65 per hour Part-time position Remote — Western Europe preferred Early applicant About the role We're hiring PhD-level scientists who are proficient...",
+   "url": "https://jobrxiv.org/?post_type=job_listing&p=150958",
+   "description": "Bilingual French Stem Expert (PhD) — Ai Safety $58-$62 per hour Part-time position Remote — Western Europe preferred New opportunity Early applicant About the role We're hiring PhD-level scientists who...",
    "geo": "Remote",
    "tags": [
     "AI"
@@ -4658,14 +4658,14 @@
    "first_seen": "2026-09-04"
   },
   {
-   "id": "428fa37161",
-   "title": "Bilingual French STEM Expert (PhD) — AI Safety",
+   "id": "5a5c49a036",
+   "title": "Bilingual Danish STEM Expert (PhD) — AI Safety",
    "company": "JobRxiv",
    "location": "United States (US)",
    "source": "JobRxiv",
    "date": "2026-09-04",
-   "url": "https://jobrxiv.org/?post_type=job_listing&p=150958",
-   "description": "Bilingual French Stem Expert (PhD) — Ai Safety $58-$62 per hour Part-time position Remote — Western Europe preferred New opportunity Early applicant About the role We're hiring PhD-level scientists who...",
+   "url": "https://jobrxiv.org/?post_type=job_listing&p=150968",
+   "description": "Bilingual Danish STEM Expert (PhD) — AI Safety $61-$65 per hour Part-time position Remote — Western Europe preferred Early applicant About the role We're hiring PhD-level scientists who are proficient...",
    "geo": "Remote",
    "tags": [
     "AI"
@@ -4702,14 +4702,14 @@
    "first_seen": "2026-09-04"
   },
   {
-   "id": "fb15ea4895",
-   "title": "Bilingual Finnish STEM Expert (PhD) — AI Safety",
+   "id": "123d4dbae9",
+   "title": "Bilingual German STEM Expert (PhD) — AI Safety",
    "company": "JobRxiv",
    "location": "United States (US)",
    "source": "JobRxiv",
    "date": "2026-09-04",
-   "url": "https://jobrxiv.org/?post_type=job_listing&p=150974",
-   "description": "Bilingual Finnish Stem Expert (PhD) — Ai Safety $61-$65 per hour Part-time position Remote — Western Europe preferred Early applicant About the role We're hiring PhD-level scientists who are proficient...",
+   "url": "https://jobrxiv.org/?post_type=job_listing&p=150977",
+   "description": "Bilingual German STEM Expert (PhD) — AI Safety $58-$62 per hour Part-time position Remote — Western Europe preferred Early applicant About the role We're hiring PhD-level scientists who are proficient...",
    "geo": "Remote",
    "tags": [
     "AI"
@@ -4746,14 +4746,14 @@
    "first_seen": "2026-09-04"
   },
   {
-   "id": "123d4dbae9",
-   "title": "Bilingual German STEM Expert (PhD) — AI Safety",
+   "id": "2c074775ae",
+   "title": "Bilingual Portuguese STEM Expert (PhD) — AI Safety",
    "company": "JobRxiv",
    "location": "United States (US)",
    "source": "JobRxiv",
    "date": "2026-09-04",
-   "url": "https://jobrxiv.org/?post_type=job_listing&p=150977",
-   "description": "Bilingual German STEM Expert (PhD) — AI Safety $58-$62 per hour Part-time position Remote — Western Europe preferred Early applicant About the role We're hiring PhD-level scientists who are proficient...",
+   "url": "https://jobrxiv.org/?post_type=job_listing&p=150973",
+   "description": "Bilingual Portuguese STEM Expert (PhD) — AI Safety $50-$54 per hour Part-time position Remote — Western Europe preferred Early applicant About the role We're hiring PhD-level scientists who are proficient...",
    "geo": "Remote",
    "tags": [
     "AI"
@@ -4768,14 +4768,14 @@
    "first_seen": "2026-09-04"
   },
   {
-   "id": "2c074775ae",
-   "title": "Bilingual Portuguese STEM Expert (PhD) — AI Safety",
+   "id": "fb15ea4895",
+   "title": "Bilingual Finnish STEM Expert (PhD) — AI Safety",
    "company": "JobRxiv",
    "location": "United States (US)",
    "source": "JobRxiv",
    "date": "2026-09-04",
-   "url": "https://jobrxiv.org/?post_type=job_listing&p=150973",
-   "description": "Bilingual Portuguese STEM Expert (PhD) — AI Safety $50-$54 per hour Part-time position Remote — Western Europe preferred Early applicant About the role We're hiring PhD-level scientists who are proficient...",
+   "url": "https://jobrxiv.org/?post_type=job_listing&p=150974",
+   "description": "Bilingual Finnish Stem Expert (PhD) — Ai Safety $61-$65 per hour Part-time position Remote — Western Europe preferred Early applicant About the role We're hiring PhD-level scientists who are proficient...",
    "geo": "Remote",
    "tags": [
     "AI"
@@ -4832,28 +4832,6 @@
    "first_seen": "2026-09-03"
   },
   {
-   "id": "b94701d728",
-   "title": "Research Specialist in Psychiatric Genomics and Data Science",
-   "company": "JobRxiv",
-   "location": "Sweden",
-   "source": "JobRxiv",
-   "date": "2026-09-03",
-   "url": "https://jobrxiv.org/?post_type=job_listing&p=150683",
-   "description": "Research Specialist in Psychiatric Genomics and Data Science Do you want to contribute to high-quality medical research with the potential to improve our understanding of psychiatric disorders and outcomes? The...",
-   "geo": "Europe",
-   "tags": [
-    "genomics"
-   ],
-   "category": "Pharma/Biotech",
-   "seniority": "Mid",
-   "salary_min": null,
-   "salary_max": null,
-   "salary_currency": null,
-   "salary_text": null,
-   "summary": null,
-   "first_seen": "2026-09-03"
-  },
-  {
    "id": "0490b528a9",
    "title": "Postdoctoral scholar in single cell proteomics",
    "company": "JobRxiv",
@@ -4869,6 +4847,28 @@
    ],
    "category": "Academia",
    "seniority": "PostDoc",
+   "salary_min": null,
+   "salary_max": null,
+   "salary_currency": null,
+   "salary_text": null,
+   "summary": null,
+   "first_seen": "2026-09-03"
+  },
+  {
+   "id": "b94701d728",
+   "title": "Research Specialist in Psychiatric Genomics and Data Science",
+   "company": "JobRxiv",
+   "location": "Sweden",
+   "source": "JobRxiv",
+   "date": "2026-09-03",
+   "url": "https://jobrxiv.org/?post_type=job_listing&p=150683",
+   "description": "Research Specialist in Psychiatric Genomics and Data Science Do you want to contribute to high-quality medical research with the potential to improve our understanding of psychiatric disorders and outcomes? The...",
+   "geo": "Europe",
+   "tags": [
+    "genomics"
+   ],
+   "category": "Pharma/Biotech",
+   "seniority": "Mid",
    "salary_min": null,
    "salary_max": null,
    "salary_currency": null,
@@ -4985,26 +4985,6 @@
    "first_seen": "2026-09-02"
   },
   {
-   "id": "69272bde9a",
-   "title": "Scientist III, Protein Biology",
-   "company": "JobRxiv",
-   "location": "India",
-   "source": "JobRxiv",
-   "date": "2026-09-02",
-   "url": "https://jobrxiv.org/job/scientist-iii-protein-biology-10/",
-   "description": "Scientist III, Protein Biology Work Schedule: Standard (Mon-Fri) Environmental Conditions: Adherence to all Good Manufacturing Practices (GMP) Safety Standards, Cleanroom: no hair products, jewelry, makeup, nail polish, perfume, exposed piercings,...",
-   "geo": "Other",
-   "tags": [],
-   "category": "Clinical",
-   "seniority": "Mid",
-   "salary_min": null,
-   "salary_max": null,
-   "salary_currency": null,
-   "salary_text": null,
-   "summary": null,
-   "first_seen": "2026-09-02"
-  },
-  {
    "id": "904590fdda",
    "title": "Scientist III, Cell Biology",
    "company": "JobRxiv",
@@ -5017,6 +4997,26 @@
    "tags": [
     "cell biology"
    ],
+   "category": "Clinical",
+   "seniority": "Mid",
+   "salary_min": null,
+   "salary_max": null,
+   "salary_currency": null,
+   "salary_text": null,
+   "summary": null,
+   "first_seen": "2026-09-02"
+  },
+  {
+   "id": "69272bde9a",
+   "title": "Scientist III, Protein Biology",
+   "company": "JobRxiv",
+   "location": "India",
+   "source": "JobRxiv",
+   "date": "2026-09-02",
+   "url": "https://jobrxiv.org/job/scientist-iii-protein-biology-10/",
+   "description": "Scientist III, Protein Biology Work Schedule: Standard (Mon-Fri) Environmental Conditions: Adherence to all Good Manufacturing Practices (GMP) Safety Standards, Cleanroom: no hair products, jewelry, makeup, nail polish, perfume, exposed piercings,...",
+   "geo": "Other",
+   "tags": [],
    "category": "Clinical",
    "seniority": "Mid",
    "salary_min": null,
@@ -5131,14 +5131,14 @@
    "first_seen": "2026-09-02"
   },
   {
-   "id": "9eb443b7be",
-   "title": "Research Fellow in Within-Host Microbial Genomics",
+   "id": "90ff93568e",
+   "title": "Research Fellow in Microbial Evolutionary Genomics",
    "company": "JobRxiv",
    "location": "United Kingdom (UK)",
    "source": "JobRxiv",
    "date": "2026-09-02",
-   "url": "https://jobrxiv.org/?post_type=job_listing&p=150588",
-   "description": "Research Fellow in Within-Host Microbial Genomics The Division of Biosciences at UCL is one of the world's foremost centres for research and teaching in the biological sciences. We have an...",
+   "url": "https://jobrxiv.org/?post_type=job_listing&p=150587",
+   "description": "Research Fellow in Microbial Evolutionary Genomics The Division of Biosciences at UCL is one of the world's foremost centres for research and teaching in the biological sciences. This is an...",
    "geo": "Europe",
    "tags": [
     "genomics"
@@ -5153,14 +5153,14 @@
    "first_seen": "2026-09-02"
   },
   {
-   "id": "90ff93568e",
-   "title": "Research Fellow in Microbial Evolutionary Genomics",
+   "id": "9eb443b7be",
+   "title": "Research Fellow in Within-Host Microbial Genomics",
    "company": "JobRxiv",
    "location": "United Kingdom (UK)",
    "source": "JobRxiv",
    "date": "2026-09-02",
-   "url": "https://jobrxiv.org/?post_type=job_listing&p=150587",
-   "description": "Research Fellow in Microbial Evolutionary Genomics The Division of Biosciences at UCL is one of the world's foremost centres for research and teaching in the biological sciences. This is an...",
+   "url": "https://jobrxiv.org/?post_type=job_listing&p=150588",
+   "description": "Research Fellow in Within-Host Microbial Genomics The Division of Biosciences at UCL is one of the world's foremost centres for research and teaching in the biological sciences. We have an...",
    "geo": "Europe",
    "tags": [
     "genomics"
