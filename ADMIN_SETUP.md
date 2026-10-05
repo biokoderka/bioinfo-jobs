@@ -1,101 +1,43 @@
-# Admin Setup Guide
+# Panel admina — jak obsługiwać BioInfoJobs
 
-## One-time setup (10 minutes)
+## Dodawanie oferty (zgłoszenie z formularza albo coś, co sama znalazłaś)
 
-### 1. Generate admin password hash
+Zgłoszenia z `submit.html` przychodzą mailem przez Formspree. Na końcu maila jest pole **`admin_json`** — gotowy blok do wklejenia.
 
-Open your browser console (F12) and run:
-```javascript
-crypto.subtle.digest('SHA-256', new TextEncoder().encode('YOUR_PASSWORD_HERE'))
-  .then(b => console.log([...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')))
-```
+1. GitHub → repo `bioinfo-jobs` → **Actions** → **Add job** → **Run workflow**
+   (działa też w aplikacji GitHub na telefonie)
+2. Wklej `admin_json` w pole **job_json** — albo zostaw je puste i wypełnij pola title / company / url / location / deadline.
+3. **Run workflow**. Po ok. minucie oferta jest na stronie.
 
-Copy the output hash.
+Skrypt sam uzupełnia region, sektor, poziom, tagi technologiczne i widełki (jeśli są w opisie), pilnuje duplikatów i odrzuca oferty z minionym terminem.
 
-### 2. Create a GitHub Fine-Grained Token
+**Jak długo oferta wisi:** do deadline'u, a bez deadline'u — 60 dni. Cotygodniowy scraper jej nie rusza.
 
-Go to: **github.com → Settings → Developer settings → Personal access tokens → Fine-grained tokens**
+## Zdejmowanie oferty
 
-Settings:
-- **Repository access:** Only `bioinfo-jobs`
-- **Permissions:**
-  - `Issues` → Read and write
-  - `Contents` → Read and write (for Actions to commit jobs.json)
+Actions → **Add job** → w polu **archive_id** wpisz id oferty (np. `manual_2abef4b283`; id widać w `docs/jobs.json`). Oferta trafia do archiwum.
 
-Copy the token (starts with `github_pat_...`)
-
-### 3. Update submit.html
-
-In `docs/submit.html`, replace:
-```
-const GITHUB_OWNER = "YOUR_USERNAME";
-const GITHUB_TOKEN = "YOUR_GITHUB_FINE_GRAINED_TOKEN";
-```
-
-### 4. Update admin.html
-
-In `docs/admin.html`, replace:
-```
-const GITHUB_OWNER = "YOUR_USERNAME";
-const GITHUB_TOKEN = "YOUR_GITHUB_FINE_GRAINED_TOKEN";
-const ADMIN_PASSWORD_HASH = "REPLACE_WITH_SHA256_OF_YOUR_PASSWORD";
-```
-Paste the hash from step 1.
-
-### 5. Update approve-job.yml
-
-In `.github/workflows/approve-job.yml`, replace `YOUR_USERNAME` in:
-```yaml
-if: |
-  ...
-  github.event.comment.user.login == 'YOUR_USERNAME'
-```
-And in the confirmation comment URL.
-
-### 6. Create GitHub labels
-
-Go to: **github.com/YOUR_USERNAME/bioinfo-jobs/issues/labels**
-
-Create these labels:
-- `job-submission` (color: `#b44fff`)
-- `pending-review` (color: `#ffd166`)
-- `approved` (color: `#06d6a0`)
-
-### 7. Push and deploy
+## Lokalnie (opcjonalnie)
 
 ```bash
-git add . && git commit -m "✦ Add submission & admin system" && git push
+git pull origin main
+python3 scripts/add_job.py --title "Bioinformatician" --company "Ardigen" \
+  --url "https://..." --location "Kraków, Poland" --deadline 2026-11-30
+git add docs/*.json && git commit -m "Add job" && git push
 ```
 
----
+Zawsze najpierw `git pull` — Actions commitują prosto na GitHuba.
 
-## How it works
+## Statystyki wyszukiwań w Job Match (opcjonalnie, ~5 min)
 
-```
-User fills submit.html
-  → GitHub Issue created with label [job-submission, pending-review]
-  → You get notified (GitHub notifications)
+`match.html` może anonimowo logować, czego ludzie szukają (umiejętności, zainteresowania, region — bez żadnych danych osobowych) do Arkusza Google. Instrukcja jest na górze `scripts/search_log_apps_script.gs`. Po wdrożeniu wklej URL kończący się na `/exec` do stałej `SEARCH_LOG_ENDPOINT` w `docs/match.html`.
 
-You open admin.html
-  → Enter password
-  → See all pending submissions
-  → Click "Approve" or "Reject"
+## Google Search Console (jednorazowo)
 
-On Approve:
-  → Admin panel adds /approve comment to issue
-  → GitHub Actions (approve-job.yml) triggers
-  → Job extracted from issue and added to docs/jobs.json
-  → Commit pushed automatically
-  → Issue closed with confirmation comment
+1. https://search.google.com/search-console → **Dodaj usługę** → *Prefiks URL* → `https://biokoderka.github.io/bioinfo-jobs/`
+2. Weryfikacja metodą **Tag HTML** — wklej podany `<meta name="google-site-verification" …>` do `<head>` w `docs/index.html`, wypchnij, kliknij *Zweryfikuj*.
+3. **Mapy witryn** → dodaj `sitemap.xml`.
 
-On Reject:
-  → Issue closed
-  → Job never appears publicly
-```
+## Co zostało usunięte w październiku 2026
 
-## Security notes
-
-- The admin password is hashed (SHA-256) — the plaintext is never stored
-- The GitHub token is in client-side JS — use a **fine-grained token** with minimum permissions (issues:write only for submit.html)
-- `admin.html` is a public URL but password-protected — for extra security, rename it to something less obvious
-- The `/approve` command only works from YOUR GitHub username (enforced in the workflow)
+Stary przepływ „GitHub Issue + `/approve` + admin.html z tokenem w JS” nigdy nie był podpięty (formularz wysyłał do Formspree), więc `approve-job.yml` został usunięty. Trzymanie tokena GitHuba w publicznym JS i tak nie byłoby bezpieczne.

@@ -1,72 +1,79 @@
-# 🧬 BioInfoJobs    
+# 🧬 BioInfoJobs
 
-> **Weekly bioinformatics job board**
+> **Weekly bioinformatics & computational biology job board** by [@biokoderka](https://instagram.com/biokoderka)
 
-A free, open-source job board for bioinformaticians. Aggregates offers from Nature Careers, EMBL, EuroScienceJobs, jobs.ac.uk and more. Filters by region (Poland / Europe / USA / Remote) and sector. AI-powered job analysis via Claude.
+A free, open-source job board for bioinformaticians. Offers are collected automatically every week from job feeds and company career boards, plus hand-picked and community-submitted offers. Filter by region (Poland / Europe / USA / Remote) and sector, or use the two free tools: **Job Match** and **Career Compass**.
 
-🌐 **Live site:** `https://biokoderka.github.io/bioinfo-jobs`
+🌐 **Live:** https://biokoderka.github.io/bioinfo-jobs · part of [BioinfoSites](https://biokoderka.github.io/bioinfosites/)
 
 ---
 
-## Features
+## Pages
 
-- 📡 **Auto-refresh** — GitHub Actions fetches new jobs every Monday at 08:00 UTC
-- 📍 **Geo filtering** — Poland / Europe / USA / Remote / Other
-- 🏢 **Sector filtering** — Academia / Pharma/Biotech / Clinical / Startup
-- 🤖 **AI analysis** — click any job to get Claude's summary, tags, seniority, and relevance score
-- 🔍 **Full-text search** — across title, company, location, tags
-- 💾 **Local cache** — browser caches results for 72h
+| Page | What it does |
+|------|--------------|
+| `index.html` | The board — search, filters, salary info, job details |
+| `match.html` | **Job Match** — pick your skills & interests, get matching offers + advice |
+| `career.html` | **Career Compass** — skills self-assessment against live market data |
+| `stats.html` | Market statistics (regions, sectors, skills, salaries) |
+| `archive.html` | All past offers — the archive is permanent |
+| `submit.html` | Submit a job (reviewed before publishing) |
 
-## Job sources
+## Where the jobs come from
 
-| Source | Focus |
-|--------|-------|
-| [Nature Careers](https://www.nature.com/naturecareers) | Academic & industry science |
-| [EMBL Jobs](https://www.embl.org/jobs) | European molecular biology |
-| [jobs.ac.uk](https://www.jobs.ac.uk) | UK & international academia |
-| [EuroScienceJobs](https://www.eurosciencejobs.com) | European science |
-| [ISCB Careers](https://careers.iscb.org) | Computational biology |
-| Other sources (manual)| Computational biology & bioinformatics |
+| Source | How |
+|--------|-----|
+| [JobRxiv](https://jobrxiv.org) | RSS (most listings) |
+| Company career boards — 10x Genomics, Recursion, Altos Labs, Flatiron, Beam, … | Greenhouse & Lever APIs, **computational roles only** |
+| [Hire Omics](https://hire-omics.com) | Omics job board |
+| Hand-picked (LinkedIn, Polish companies, institutes) & community submissions | `Add job` GitHub Action |
 
-## Setup (5 minutes)
+Other feeds (Nature Careers, jobs.ac.uk, EMBL, Euraxess…) are configured in `scripts/fetch_jobs.py` but often block requests from GitHub Actions, so they contribute only occasionally.
 
-### 1. Fork & clone
-```bash
-git clone https://github.com/YOUR_USERNAME/bioinfo-jobs
-cd bioinfo-jobs
-```
+## Data files
 
-### 2. Enable GitHub Pages
-Go to **Settings → Pages → Source: Deploy from branch → Branch: main → Folder: /docs**
+| File | Contents |
+|------|----------|
+| `docs/jobs.json` | **Active** offers — loaded by every page |
+| `docs/archive.json` | All archived offers — never deleted |
 
-### 3. Enable GitHub Actions
-Go to **Actions tab → Enable workflows**
+### When does an offer get archived?
 
-That's it! The site will be live at `https://YOUR_USERNAME.github.io/bioinfo-jobs` and jobs will refresh every Monday automatically.
+- a scraped offer is no longer listed by its source → `not_found`
+  *(unless the whole source failed in that run — then nothing from it is touched)*
+- an RSS offer is older than 60 days → `expired`
+- the deadline has passed → `deadline`
+- a manual/community offer **without** a deadline: 60 days after it was added → `expired`
 
-### Manual refresh
-Go to **Actions → Weekly Job Refresh → Run workflow**
+Manual offers are never archived just because the scraper didn't "find" them.
 
-### Local development
+## Automation
+
+| Workflow | When | What |
+|----------|------|------|
+| `refresh.yml` | Mondays 08:00 UTC (+ manual) | runs `scripts/fetch_jobs.py`, commits both JSON files |
+| `add-job.yml` | manual | adds a job, or takes one down by id (see [ADMIN_SETUP.md](ADMIN_SETUP.md)) |
+
+## Local development
+
 ```bash
 pip install -r scripts/requirements.txt
-python scripts/fetch_jobs.py   # generates docs/jobs.json
-# open docs/index.html in browser
+python scripts/fetch_jobs.py          # scrape + update docs/jobs.json and docs/archive.json
+python scripts/add_job.py --help      # add / archive a manual job
+python -m http.server -d docs 8000    # then open http://localhost:8000
 ```
 
-## Keyword filtering
+Pages fetch the JSON files, so open them through a local server, not as `file://`.
 
-Jobs are included if they match any of these keywords in title or description:
+## Scripts
 
-`bioinformatics` · `computational biology` · `genomics` · `NGS` · `sequencing` · `proteomics` · `structural biology` · `biostatistics` · `systems biology` · `metagenomics` · `transcriptomics` · `single cell` · `scRNA` · `CRISPR` · `phylogenetics` · `cheminformatics` · `drug discovery` · `variant calling` · `RNA-seq` · `WGS` · `WES` · `multi-omics` · `nanopore`
-
-## Contributing
-
-PRs welcome! Ideas:
-- Add more RSS sources
-- Improve geo-detection
-- Add email digest / Telegram bot
-- Add job deduplication across sources
+| Script | Purpose |
+|--------|---------|
+| `fetch_jobs.py` | scrapers, tagging (tech tags, geo, sector, seniority, salary), archive rules |
+| `add_job.py` | add a manual job / archive a job by id |
+| `cleanup_jobs.py` | one-off data cleanup (Oct 2026) — safe to re-run |
+| `backfill_tech_tags.py`, `retag_expand.py` | one-off re-tagging of existing offers |
+| `search_log_apps_script.gs` | optional anonymous search log for Job Match (Google Sheets) |
 
 ## License
 
