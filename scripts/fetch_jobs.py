@@ -2,6 +2,7 @@
 """
 BioInfoJobs – job fetcher
 Sources: RSS feeds (JobRxiv & co.) + Greenhouse API + Lever API + Hire Omics
+         + Euraxess (Poland only)
 Run locally: python3 scripts/fetch_jobs.py
 
 Output (both written by write_outputs()):
@@ -10,7 +11,7 @@ Output (both written by write_outputs()):
   docs/archive.json  – archived listings, kept forever
 """
 
-import html, json, re, hashlib, subprocess, sys
+import html, json, re, hashlib, subprocess, sys, time
 from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
 from pathlib import Path
@@ -70,7 +71,7 @@ RSS_FEEDS = [
     {"name": "EuroScienceJobs",        "url": "https://www.eurosciencejobs.com/rss/all"},
     {"name": "EMBL Jobs",              "url": "https://www.embl.org/jobs/rss"},
     {"name": "Science Careers (AAAS)", "url": "https://jobs.sciencecareers.org/searchjobs/?Keywords=bioinformatics&format=rss"},
-    {"name": "Euraxess",               "url": "https://euraxess.ec.europa.eu/jobs/rss"},
+    # Euraxess has no RSS feed (the old /jobs/rss URL is dead) - see fetch_euraxess_pl()
     {"name": "Bioinformatics.org",     "url": "https://bioinformatics.org/jobs/rss"},
     {"name": "ISCB Careers",           "url": "https://careers.iscb.org/jobs/rss"},
     {"name": "CompBioJobs",            "url": "https://compbiojobs.com/feed/"},
@@ -772,6 +773,228 @@ def fetch_hire_omics(seen, headers, seen_urls=None):
         print(f"  ERROR: {e}")
     return results
 
+# ── EURAXESS (POLAND) ─────────────────────────────────────────────────────────
+# Euraxess has no RSS/API, so we read the public search page filtered to Poland
+# (job_country:749) and job offers only. Polish universities and institutes have
+# to publish their competitions there, incl. positions in NCN projects.
+EURAXESS_BASE = "https://euraxess.ec.europa.eu"
+EURAXESS_PL_SEARCH = (EURAXESS_BASE + "/jobs/search?f%5B0%5D=job_country%3A749"
+                      "&f%5B1%5D=offer_type%3Ajob_offer")
+EURAXESS_MAX_PAGES = 40      # 10 offers per page, newest first
+EURAXESS_MAX_AGE_DAYS = 60   # stop paging once offers are older than this
+EURAXESS_DELAY_S = 1.0       # be polite: one request per second
+
+EURAXESS_JOB_LINK = re.compile(r'href="(?:https://euraxess\.ec\.europa\.eu)?/jobs/(\d{5,7})"')
+EURAXESS_ANCHOR = r'<a[^>]+href="(?:https://euraxess\.ec\.europa\.eu)?/jobs/{id}"[^>]*>(.*?)</a>'
+MONTHS = {m: i for i, m in enumerate(
+    ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"], 1)}
+
+# a title/field must look like bio AND computational, or be one of these outright
+EUR_STRONG = re.compile(r"bioinformat|genomi|\bomics|[a-z]omics\b|computational biolog|biologi\w* obliczeniow"
+                        r"|biostatyst|biostatist|cheminformat|chemoinformat|systems biolog|biologi\w* systemow", re.I)
+EUR_BIO = re.compile(r"biolog|genet|genom|protein|białk|sekwencj|sequenc|single[- ]cell|biomed|life scien"
+                     r"|nauk\w* biologiczn|medic|medycyn|molecular|molekular|drug|lek[óo]w|microbio|mikrobio", re.I)
+EUR_COMP = re.compile(r"computational|obliczeniow|data scien|danych|machine learning|uczeni\w* maszynow"
+                      r"|deep learning|\bai\b|artificial intelligence|sztuczn\w* inteligencj|informatics|informaty"
+                      r"|statisti|statysty|modell?ing|modelowan|algorithm|algorytm|software|oprogramowan"
+                      r"|programm|programist|pipeline|computer science", re.I)
+
+
+def euraxess_date(text):
+    """'30 Oct 2026 - 22:59 (UTC)' or '27 September 2026' -> '2026-10-30'."""
+    m = re.search(r"(\d{1,2})\s+([A-Za-z]{3,9})\.?\s+(\d{4})", text or "")
+    if not m or m.group(2)[:3].lower() not in MONTHS:
+        return None
+    return f"{int(m.group(3)):04d}-{MONTHS[m.group(2)[:3].lower()]:02d}-{int(m.group(1)):02d}"
+
+
+def euraxess_field(text, label, stop_labels):
+    """Value that follows `label` in flattened text, up to the next known label."""
+    stops = "|".join(re.escape(x) for x in stop_labels)
+    m = re.search(rf"{re.escape(label)}(?:\(s\)|s)?\s*:?\s*(.+?)\s*(?:{stops}|$)", text, re.I | re.S)
+    if not m:
+        return ""
+    val = re.sub(r"^Number of offers\s*:?\s*\d+\s*,\s*", "", m.group(1).strip(" :·-"), flags=re.I)
+    return val.strip(" :·-,")
+
+
+EUR_LABELS = ["Organisation/Company", "Organisation / Company", "Department", "Research Field",
+              "Researcher Profile", "Positions", "Country", "Application Deadline", "Deadline",
+              "Type of Contract", "Job Status", "Hours Per Week", "Offer Starting Date",
+              "Is the job funded", "Reference Number", "Funding Programme", "Funding programme",
+              "Is the Job related", "Work Location", "Posted on", "Posted", "Number of offers",
+              "Offer Description", "OFFER DESCRIPTION", "Where to apply", "Requirements",
+              "Additional Information", "Selection process", "Website for additional job details"]
+
+
+def parse_euraxess_list(page_html):
+    """Split a search-results page into one record per job. Works on the
+    flattened text around each /jobs/<id> link, so small markup changes on
+    Euraxess don't break it."""
+    ids = list(dict.fromkeys(EURAXESS_JOB_LINK.findall(page_html)))
+    starts = []
+    for jid in ids:
+        m = re.search(EURAXESS_ANCHOR.format(id=jid), page_html, re.S)
+        if m:
+            starts.append((m.start(), jid, strip_html(m.group(1))))
+    starts.sort()
+    items = []
+    for i, (pos, jid, title) in enumerate(starts):
+        end = starts[i + 1][0] if i + 1 < len(starts) else len(page_html)
+        text = strip_html(page_html[pos:end])
+        if not title:
+            continue
+        posted = euraxess_date(euraxess_field(text, "Posted on", EUR_LABELS) or
+                               euraxess_field(text, "Posted", EUR_LABELS))
+        deadline_txt = (euraxess_field(text, "Application Deadline", EUR_LABELS) or
+                        euraxess_field(text, "Deadline", EUR_LABELS))
+        items.append({
+            "id": jid, "title": title, "text": text,
+            "url": f"{EURAXESS_BASE}/jobs/{jid}",
+            "posted": posted,
+            "deadline": euraxess_date(deadline_txt),
+            "location": euraxess_field(text, "Work Location", EUR_LABELS) or
+                        euraxess_field(text, "Number of offers", EUR_LABELS),
+            "field": euraxess_field(text, "Research Field", EUR_LABELS),
+            "profile": euraxess_field(text, "Researcher Profile", EUR_LABELS),
+        })
+    return items
+
+
+def euraxess_seniority(title, profile):
+    """Euraxess researcher profiles R1-R4 + Polish academic titles."""
+    t, p = (title or "").lower(), (profile or "").lower()
+    if re.search(r"post-?doc|podoktor", t):
+        return "PostDoc"
+    if re.search(r"doktorant|phd (student|candidate|position)|stypendyst|\bstaż", t):
+        return "Junior"
+    if re.search(r"profesor|professor|kierownik|group leader|lider", t) and "assistant" not in t:
+        return "PI/Lead"
+    if "r4" in p or "leading researcher" in p:
+        return "PI/Lead"
+    if "r3" in p or "established researcher" in p:
+        return "Senior"
+    if "r2" in p or "recognised researcher" in p:
+        return "PostDoc"
+    if "r1" in p or "first stage researcher" in p:
+        return "Junior"
+    return detect_seniority(title)
+
+
+def euraxess_relevant(title, field):
+    t = f"{title} {field}"
+    if EUR_STRONG.search(t):
+        return True
+    return bool(EUR_BIO.search(t) and EUR_COMP.search(t))
+
+
+def parse_euraxess_detail(page_html):
+    """Organisation, description, deadline and country from a /jobs/<id> page."""
+    body = re.search(r"<main[^>]*>(.*)</main>", page_html, re.S | re.I)
+    text = strip_html(body.group(1) if body else page_html)
+    desc = (euraxess_field(text, "Offer Description", EUR_LABELS) or
+            euraxess_field(text, "OFFER DESCRIPTION", EUR_LABELS))
+    return {
+        "organisation": euraxess_field(text, "Organisation/Company", EUR_LABELS) or
+                        euraxess_field(text, "Organisation / Company", EUR_LABELS),
+        "country": euraxess_field(text, "Country", EUR_LABELS),
+        "deadline": euraxess_date(euraxess_field(text, "Application Deadline", EUR_LABELS)),
+        "field": euraxess_field(text, "Research Field", EUR_LABELS),
+        "location": euraxess_field(text, "Work Location", EUR_LABELS),
+        "profile": euraxess_field(text, "Researcher Profile", EUR_LABELS),
+        "description": desc or text[:1200],
+        "is_poland": bool(re.search(r"\bPoland\b|\bPolska\b", text)),
+    }
+
+
+def fetch_euraxess_pl(seen, headers, seen_urls=None, max_pages=EURAXESS_MAX_PAGES, stats=None):
+    if seen_urls is None: seen_urls = set()
+    if stats is None: stats = {}
+    stats.update(pages=0, listed=0, polish=0, relevant=0, added=0, stopped="max_pages")
+    h = {**headers, "Accept": "text/html,application/xhtml+xml"}
+    cutoff = days_ago(EURAXESS_MAX_AGE_DAYS)
+    results, seen_ids = [], set()
+    for page in range(max_pages):
+        url = EURAXESS_PL_SEARCH + (f"&page={page}" if page else "")
+        try:
+            r = requests.get(url, headers=h, timeout=20)
+        except Exception as e:
+            print(f"  ⚠ page {page}: {e}"); stats["stopped"] = f"error: {e}"; break
+        stats["pages"] += 1
+        if r.status_code != 200:
+            print(f"  ⚠ page {page}: HTTP {r.status_code}"); stats["stopped"] = f"HTTP {r.status_code}"; break
+        items = [it for it in parse_euraxess_list(r.text) if it["id"] not in seen_ids]
+        if not items:
+            stats["stopped"] = "no more results"; break
+        stats["listed"] += len(items)
+        too_old = 0
+        for it in items:
+            seen_ids.add(it["id"])
+            if it["posted"] and it["posted"] < cutoff:
+                too_old += 1
+                continue
+            # the country facet should already do this; double-check anyway
+            if it["text"] and not re.search(r"\bPoland\b|\bPolska\b", it["text"]):
+                continue
+            stats["polish"] += 1
+            if is_excluded(it["title"]) or not euraxess_relevant(it["title"], it["field"]):
+                continue
+            stats["relevant"] += 1
+            job = euraxess_job(it, headers=h)
+            if not job:
+                continue
+            ukey = url_key(job["url"])
+            if job["id"] in seen or (ukey and ukey in seen_urls):
+                continue
+            seen.add(job["id"])
+            if ukey: seen_urls.add(ukey)
+            results.append(job)
+            stats["added"] += 1
+        if too_old == len(items):
+            stats["stopped"] = f"older than {EURAXESS_MAX_AGE_DAYS} days"; break
+        time.sleep(EURAXESS_DELAY_S)
+    print(f"  pages {stats['pages']} · listed {stats['listed']} · in Poland {stats['polish']}"
+          f" · relevant {stats['relevant']} → {stats['added']} added (stop: {stats['stopped']})")
+    return results
+
+
+def euraxess_job(it, headers):
+    """Build a job record; open the offer page for organisation + description."""
+    det = {}
+    try:
+        time.sleep(EURAXESS_DELAY_S)
+        r = requests.get(it["url"], headers=headers, timeout=20)
+        if r.status_code == 200:
+            det = parse_euraxess_detail(r.text)
+    except Exception:
+        pass
+    if det and not det.get("is_poland"):
+        return None
+    title = it["title"]
+    org = det.get("organisation") or "See listing"
+    loc = det.get("location") or it.get("location") or "Poland"
+    if not re.search(r"\bPoland\b|\bPolska\b", loc):
+        loc = f"{loc}, Poland" if loc and loc != "See listing" else "Poland"
+    desc = strip_html(det.get("description") or it["text"])[:800]
+    field = det.get("field") or it.get("field") or ""
+    sal = extract_salary(desc)
+    return {
+        "id": job_id(f"euraxess-{it['id']}", "Euraxess"),
+        "title": title, "company": org[:120], "location": clean_location(loc[:120]),
+        "source": "Euraxess",
+        "date": it.get("posted") or today(), "url": it["url"],
+        "description": desc,
+        "geo": "Poland",
+        "tags": extract_tech_tags(f"{title} {field} {desc}"),
+        "category": detect_category(title, org, f"{field} {desc}"),
+        "seniority": euraxess_seniority(title, det.get("profile") or it.get("profile")),
+        "salary_min": sal["salary_min"], "salary_max": sal["salary_max"],
+        "salary_currency": sal["salary_currency"], "salary_text": sal["salary_text"],
+        "summary": None,
+        "deadline": det.get("deadline") or it.get("deadline"),
+    }
+
+
 # ── MERGE / ARCHIVE / WRITE ───────────────────────────────────────────────────
 DOCS = Path(__file__).parent.parent / "docs"
 JOBS_PATH = DOCS / "jobs.json"
@@ -827,6 +1050,7 @@ def source_family(j):
     if src.endswith("(Greenhouse)"): return "greenhouse"
     if src.endswith("(Lever)"):      return "lever"
     if src == "Hire Omics":          return "hire_omics"
+    if src == "Euraxess":            return "euraxess"
     return "rss"
 
 
@@ -845,6 +1069,9 @@ def merge(fresh, existing, ok_families=None):
     * Manual / community job: the scraper never "finds" these, so they are NOT
       archived for being missing. They stay active until their deadline passes,
       or MANUAL_MAX_AGE_DAYS after being added if there is no deadline.
+    * Euraxess job: we only read the newest pages, so an older but still open
+      offer can drop out of view. Like manual jobs, these stay active until
+      their deadline (or MANUAL_MAX_AGE_DAYS without one), not "not_found".
     * Any job whose deadline has passed                  -> archived ("deadline")
     """
     t = today()
@@ -871,7 +1098,7 @@ def merge(fresh, existing, ok_families=None):
     for j in existing:
         if j["id"] in fresh_ids:
             continue
-        if j.get("manually_added"):
+        if j.get("manually_added") or (source_family(j) == "euraxess" and not j.get("archived")):
             if j.get("deadline"):
                 expired = j["deadline"] < t
             else:
@@ -976,7 +1203,10 @@ def main():
     print("\n💼 Hire Omics:")
     ho = fetch_hire_omics(seen, headers, seen_urls)
 
-    fresh = rss + gh + lv + ho
+    print("\n🇵🇱 Euraxess (Poland):")
+    eu = fetch_euraxess_pl(seen, headers, seen_urls)
+
+    fresh = rss + gh + lv + ho + eu
     existing = load_existing()
 
     if not fresh:
@@ -990,11 +1220,12 @@ def main():
         j.pop("rss", None)
     sources = {
         "rss": len(rss), "greenhouse": len(gh), "lever": len(lv), "hire_omics": len(ho),
+        "euraxess": len(eu),
         "manual": sum(1 for j in active if j.get("manually_added")),
     }
     write_outputs(active, archived, sources)
     print(f"   RSS: {len(rss)} · Greenhouse: {len(gh)} · Lever: {len(lv)} · "
-          f"Hire Omics: {len(ho)} · Manual active: {sources['manual']}")
+          f"Hire Omics: {len(ho)} · Euraxess PL: {len(eu)} · Manual active: {sources['manual']}")
 
 
 if __name__ == "__main__":
