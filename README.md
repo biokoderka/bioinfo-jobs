@@ -2,7 +2,7 @@
 
 > **Weekly bioinformatics & computational biology job board** by [@biokoderka](https://instagram.com/biokoderka)
 
-A free, open-source job board for bioinformaticians. Offers are collected automatically every week from job feeds and company career boards, plus hand-picked and community-submitted offers. Filter by region (Poland / Europe / USA / Remote) and sector, or use the two free tools: **Job Match** and **Career Compass**.
+A free job board for bioinformaticians with a public repository (no open-source license is granted unless stated). Offers are collected automatically every week from job feeds and company career boards, plus hand-picked and community-submitted offers. Filter by region (Poland / Europe / USA / Remote) and sector, or use the two free tools: **Job Match** and **Career Compass**.
 
 🌐 **Live:** https://biokoderka.github.io/bioinfo-jobs · part of [BioinfoSites](https://biokoderka.github.io/bioinfosites/)
 

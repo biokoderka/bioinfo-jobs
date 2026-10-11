@@ -392,14 +392,10 @@ const ALL_SKILLS = ["Python","R","SQL","machine learning","deep learning","AWS",
   "transcriptomics","metabolomics","AlphaFold","WES","WGS","RNA-seq","LIMS"];
 
 // ── ANONYMOUS SEARCH LOGGING (shares the same endpoint/sheet as match.html) ───
+// UWAGA: włączenie logowania wymaga aktualizacji polityki prywatności (sekcja 2 — quizy).
 const SEARCH_LOG_ENDPOINT = ""; // paste the same Apps Script Web App URL used in match.html
 
 function logSearch(payload) {
-  try {
-    const log = JSON.parse(localStorage.getItem('careercompass_searches') || '[]');
-    log.push(payload);
-    localStorage.setItem('careercompass_searches', JSON.stringify(log.slice(-500)));
-  } catch (e) {}
   if (SEARCH_LOG_ENDPOINT) {
     try {
       fetch(SEARCH_LOG_ENDPOINT, {

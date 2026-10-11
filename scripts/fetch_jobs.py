@@ -957,7 +957,8 @@ def main():
     seen = set()       # tracks job IDs (title+company hash)
     seen_urls = set()  # tracks canonical URLs for cross-source dedup
     headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        # Identify the bot honestly; the linked page leads to the operator's contact details.
+        "User-Agent": "BioInfoJobs-fetcher/1.0 (+https://biokoderka.github.io/bioinfo-jobs/privacy.html)",
         "Accept": "application/rss+xml, application/xml, text/xml, */*",
     }
 

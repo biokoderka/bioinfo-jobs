@@ -387,16 +387,11 @@ const CAT_COLORS = { "Academia":"#b44fff","Pharma/Biotech":"#ff2d9b","Clinical":
 // ── ANONYMOUS SEARCH LOGGING ──────────────────────────────────────────────────
 // To see aggregate search stats (what people search for, and when), set this
 // to a Google Apps Script Web App URL (see retag/deployment notes for the
-// ready-to-paste Apps Script code). Left empty, logging is local-only.
+// ready-to-paste Apps Script code). Left empty, nothing is logged. Nothing is stored in the browser.
+// UWAGA: włączenie logowania wymaga aktualizacji polityki prywatności (sekcja 2 — quizy).
 const SEARCH_LOG_ENDPOINT = ""; // e.g. "https://script.google.com/macros/s/XXXX/exec"
 
 function logSearch(payload) {
-  try {
-    const log = JSON.parse(localStorage.getItem('jobmatch_searches') || '[]');
-    log.push(payload);
-    localStorage.setItem('jobmatch_searches', JSON.stringify(log.slice(-500)));
-  } catch (e) {}
-
   if (SEARCH_LOG_ENDPOINT) {
     try {
       fetch(SEARCH_LOG_ENDPOINT, {
@@ -413,9 +408,6 @@ function logSearch(payload) {
 function track(eventName, props) {
   try {
     if (window.umami) window.umami.track(eventName, props);
-    const log = JSON.parse(localStorage.getItem('jobmatch_events') || '[]');
-    log.push({ event: eventName, props, t: Date.now() });
-    localStorage.setItem('jobmatch_events', JSON.stringify(log.slice(-200)));
   } catch (e) {}
 }
 
