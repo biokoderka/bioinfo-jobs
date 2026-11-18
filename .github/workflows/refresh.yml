@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r scripts/requirements.txt
 
-      - name: Fetch jobs (RSS, Greenhouse, Lever, Hire Omics)
+      - name: Fetch jobs (RSS, Greenhouse, Lever, Hire Omics, Workday PL, Euraxess)
         run: python scripts/fetch_jobs.py
 
       - name: Commit updated jobs.json + archive.json
