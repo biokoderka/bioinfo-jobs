@@ -230,6 +230,7 @@ body {
     <div class="q-title">What's your current experience level?</div>
     <div class="chip-row" data-group="seniority" data-mode="single">
       <div class="chip selected" data-value="Any">Any</div>
+      <div class="chip" data-value="Intern">Intern</div>
       <div class="chip" data-value="Junior">Junior</div>
       <div class="chip" data-value="Mid">Mid</div>
       <div class="chip" data-value="Senior">Senior</div>
@@ -379,7 +380,7 @@ let lastReport = null;
 
 const CAT_COLORS = { "Academia":"#b44fff","Pharma/Biotech":"#ff2d9b","Clinical":"#ff85c8","Startup":"#e63946","Government/Public":"#7a30b8" };
 const SENIORITY_ORDER = ["Intern","Junior","Mid","Senior","PI/Lead"];
-const NEXT_LEVEL = { "Junior":"Mid", "Mid":"Senior", "Senior":"PI/Lead", "PostDoc":"PI/Lead" };
+const NEXT_LEVEL = { "Intern":"Junior", "Junior":"Mid", "Mid":"Senior", "Senior":"PI/Lead", "PostDoc":"PI/Lead" };
 
 // Same tag vocabulary the scraper tags jobs with — kept in sync manually with
 // scripts/fetch_jobs.py's TECH_TAG_PATTERNS list.
