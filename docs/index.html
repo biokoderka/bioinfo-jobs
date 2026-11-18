@@ -272,15 +272,22 @@ body {
 
 @media (max-width: 700px) {
   #job-grid { grid-template-columns: 1fr; padding: 12px; gap: 10px; }
-  #filters-bar { flex-direction: column; align-items: stretch; gap: 0; padding: 10px 14px; top: 91px; }
+  #filters-bar { flex-direction: column; align-items: stretch; gap: 0; padding: 10px 14px; top: 0; }
   #filters-top-row { gap: 8px; }
   #search { width: auto; flex: 1; min-width: 0; }
   #filters-toggle { display: flex; align-items: center; }
   #filters-panel { display: none; flex-direction: column; align-items: flex-start; gap: 8px; padding-top: 10px; border-top: 1px solid var(--border); margin-top: 10px; }
   #filters-panel.open { display: flex; }
+  /* search takes the full first row; toggle, count, badge and sort wrap below it */
+  #filters-top-row { flex-wrap: wrap; row-gap: 8px; }
+  #search { flex: 1 1 100%; width: 100%; }
   #results-count { margin-left: 0; }
-  #sort-select { width: 100%; }
-  #updated-badge { font-size: 10px; }
+  #updated-badge { font-size: 10px; padding: 3px 8px; }
+  #sort-select { width: auto; margin-left: auto; }
+  /* keep the banner text clear of the ✕ button */
+  #top-banner { padding: 9px 40px 9px 16px; position: relative; }
+  #header { position: relative; top: 0 !important; }
+  #top-banner a { font-size: 12px; }
 }
 </style>
 
@@ -293,7 +300,7 @@ body {
     <span>Fresh premium LinkedIn jobs — posted weekly on the <strong>@biokoderka</strong> broadcast channel on Instagram</span>
     <span class="tb-tag">Follow →</span>
   </a>
-  <button class="tb-close" onclick="this.parentElement.style.display='none';document.getElementById('header').style.top='0';var fb=document.getElementById('filters-bar');if(fb)fb.style.top='57px';" title="Close">✕</button>
+  <button class="tb-close" onclick="closeBanner()" title="Close">✕</button>
 </div>
 
 <div id="header">
@@ -678,6 +685,30 @@ document.getElementById("filters-toggle").addEventListener("click", () => {
   toggle.classList.toggle("active", open);
   toggle.textContent = open ? "✕ Close" : "⚙ Filters";
 });
+
+// ── STICKY OFFSETS ────────────────────────────────────────────────────────────
+// Banner and header heights change with screen width (text wraps on phones),
+// so compute sticky offsets from real heights instead of hard-coded pixels.
+function syncSticky() {
+  const banner = document.getElementById("top-banner");
+  const header = document.getElementById("header");
+  const fb = document.getElementById("filters-bar");
+  if (window.innerWidth <= 700) {
+    // phones: banner and header scroll away, only search/filters stay pinned
+    if (fb) fb.style.top = "0px";
+    return;
+  }
+  const bannerH = banner && banner.style.display !== "none" ? banner.offsetHeight : 0;
+  header.style.top = bannerH + "px";
+  if (fb) fb.style.top = (bannerH + header.offsetHeight) + "px";
+}
+function closeBanner() {
+  document.getElementById("top-banner").style.display = "none";
+  syncSticky();
+}
+window.addEventListener("resize", syncSticky);
+window.addEventListener("load", syncSticky);
+syncSticky();
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 async function init() {
