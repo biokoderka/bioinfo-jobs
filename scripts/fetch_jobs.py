@@ -945,7 +945,7 @@ WORKDAY_COMPANIES = [
 ]
 WORKDAY_PAGE = 20          # Workday caps limit at 20
 WORKDAY_MAX_JOBS = 400     # per company, safety cap
-WORKDAY_DELAY_S = 0.3
+WORKDAY_DELAY_S = 1.0    # between requests to the same company
 # Polish places as Workday spells them ("Poland", "Polska", "Warsaw - PL", "Poland, Gdansk", "Krakow")
 WORKDAY_PL = re.compile(
     r"\bPoland\b|\bPolska\b|Warsaw|Warszawa|Krak[oó]w|Cracow|Wroc[lł]aw|Pozna[nń]|Łódź|\bLodz\b"
@@ -1017,17 +1017,47 @@ def workday_location(info):
     return main
 
 
-def fetch_workday_pl(seen, headers, seen_urls=None, companies=None, session=None):
+WORKDAY_RETRIES = 4          # on HTTP 429/503 back off and try again
+WORKDAY_BACKOFF_S = 8        # 8, 16, 32, 64 s unless the server sends Retry-After
+WORKDAY_TENANT_PAUSE_S = 5   # pause between companies
+WORKDAY_BUDGET_S = 15 * 60   # whole Workday step; stop early if rate limiting drags on
+
+
+def workday_call(http, method, url, sleep=time.sleep, **kw):
+    """
+    One Workday request that respects rate limiting: on 429 (or 503) wait
+    as long as Retry-After says (or an exponential backoff) and retry.
+    GitHub's shared runner IPs hit Workday's limit quickly, so giving up on
+    the first 429 meant no jobs at all.
+    """
+    r = None
+    for attempt in range(WORKDAY_RETRIES + 1):
+        r = getattr(http, method)(url, timeout=20, **kw)
+        if r.status_code not in (429, 503) or attempt == WORKDAY_RETRIES:
+            return r
+        retry_after = (getattr(r, "headers", None) or {}).get("Retry-After", "")
+        wait = int(retry_after) if str(retry_after).isdigit() else WORKDAY_BACKOFF_S * 2 ** attempt
+        sleep(min(wait, 120))
+    return r
+
+
+def fetch_workday_pl(seen, headers, seen_urls=None, companies=None, session=None, sleep=time.sleep):
     if seen_urls is None: seen_urls = set()
-    http = session or requests
     h = {**headers, "Content-Type": "application/json", "Accept": "application/json",
          "Accept-Language": "en-US"}
     results = []
-    for company, host, tenant, site in (companies or WORKDAY_COMPANIES):
+    started = time.monotonic()
+    for i, (company, host, tenant, site) in enumerate(companies or WORKDAY_COMPANIES):
+        if time.monotonic() - started > WORKDAY_BUDGET_S:
+            print(f"  ⏱ time budget used up — skipping {company} and the rest this run")
+            break
+        if i:
+            sleep(WORKDAY_TENANT_PAUSE_S)
+        http = session or requests.Session()
         api = f"https://{host}/wday/cxs/{tenant}/{site}"
         try:
-            r = http.post(f"{api}/jobs", headers=h, timeout=20,
-                          json={"appliedFacets": {}, "limit": 1, "offset": 0, "searchText": ""})
+            r = workday_call(http, "post", f"{api}/jobs", sleep=sleep, headers=h,
+                             json={"appliedFacets": {}, "limit": 1, "offset": 0, "searchText": ""})
             if r.status_code != 200:
                 print(f"  ⚠ {company}: HTTP {r.status_code}"); continue
             facet = workday_poland_facet(r.json().get("facets"))
@@ -1036,9 +1066,9 @@ def fetch_workday_pl(seen, headers, seen_urls=None, companies=None, session=None
             applied = {facet[0]: facet[1]}
             postings, total, offset = [], None, 0
             while offset < WORKDAY_MAX_JOBS:
-                r = http.post(f"{api}/jobs", headers=h, timeout=20,
-                              json={"appliedFacets": applied, "limit": WORKDAY_PAGE,
-                                    "offset": offset, "searchText": ""})
+                r = workday_call(http, "post", f"{api}/jobs", sleep=sleep, headers=h,
+                                 json={"appliedFacets": applied, "limit": WORKDAY_PAGE,
+                                       "offset": offset, "searchText": ""})
                 if r.status_code != 200:
                     print(f"  ⚠ {company}: page {offset // WORKDAY_PAGE} HTTP {r.status_code}"); break
                 data = r.json()
@@ -1049,7 +1079,7 @@ def fetch_workday_pl(seen, headers, seen_urls=None, companies=None, session=None
                 offset += WORKDAY_PAGE
                 if not page or offset >= total:
                     break
-                time.sleep(WORKDAY_DELAY_S)
+                sleep(WORKDAY_DELAY_S)
             added = 0
             for p in postings:
                 title = strip_html(p.get("title", ""))
@@ -1059,8 +1089,10 @@ def fetch_workday_pl(seen, headers, seen_urls=None, companies=None, session=None
                 uid = job_id(title, company)
                 if uid in seen:
                     continue
-                time.sleep(WORKDAY_DELAY_S)
-                d = http.get(f"{api}{path}", headers=h, timeout=20)
+                if time.monotonic() - started > WORKDAY_BUDGET_S:
+                    break
+                sleep(WORKDAY_DELAY_S)
+                d = workday_call(http, "get", f"{api}{path}", sleep=sleep, headers=h)
                 if d.status_code != 200:
                     continue
                 info = d.json().get("jobPostingInfo") or {}
