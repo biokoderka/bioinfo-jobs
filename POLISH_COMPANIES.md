@@ -1,4 +1,25 @@
-# 🇵🇱 Polskie firmy biotech/bioinformatyka — research ATS
+# 🇵🇱 Polskie oferty — gdzie naprawdę są (sprawdzone 18.11.2026)
+
+**Działa automatycznie (`fetch_workday_pl` w `scripts/fetch_jobs.py`):**
+pharma i CRO z biurami w Polsce przez publiczne API Workday — AstraZeneca, BMS,
+Roche, GSK, IQVIA, ICON, Moderna, Novartis, Sanofi. Filtr: polskie lokalizacje
++ tytuł (biostatystyka, programowanie statystyczne, data science, RWE, bioinformatyka…).
+Nową firmę na Workday dodajesz jedną linią w `WORKDAY_COMPANIES`
+(host, tenant i nazwa strony są w adresie jej strony kariery: `https://<tenant>.wdN.myworkdayjobs.com/<strona>`).
+
+**Nie działa / mało daje:**
+- Polskie biotechy (Ardigen, Selvita, Ryvu, Captor, Molecure, Intelliseq…) **nie mają kont
+  w Workable / Greenhouse / Lever** — adresy niżej były zgadywane i zwracają 404.
+  Selvita i Ryvu publikują na **pracuj.pl** i czasem **RocketJobs** — pracuj.pl nie ma API
+  i blokuje automaty, więc te oferty zostają do dodawania ręcznie (submit.html).
+- **Euraxess**: ~386 ofert z Polski, ale tylko kilka bioinformatycznych; serwis
+  okresowo blokuje serwery GitHuba (HTTP 403) i ogranicza liczbę zapytań (429).
+- **RocketJobs / Just Join IT**: API działa, ale wyszukiwanie idzie po umiejętnościach —
+  hasła typu „bioinformatics” dają 0 wyników.
+
+---
+
+## (archiwum) Pierwotna lista adresów do sprawdzenia
 
 ## Jak sprawdzić ręcznie (skopiuj URL do przeglądarki)
 

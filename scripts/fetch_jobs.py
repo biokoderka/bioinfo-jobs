@@ -927,6 +927,172 @@ def fetch_hire_omics(seen, headers, seen_urls=None):
         print(f"  ERROR: {e}")
     return results
 
+# ── WORKDAY (POLAND) ──────────────────────────────────────────────────────────
+# Big pharma / CRO with R&D, biostatistics and data hubs in Poland. Workday's
+# public career-site API (the one the career page itself calls) is filtered to
+# Polish locations; only titles that look relevant get their full posting read.
+# (company, host, tenant, career site) – each verified by hand in Nov 2026.
+WORKDAY_COMPANIES = [
+    ("AstraZeneca",           "astrazeneca.wd3.myworkdayjobs.com",       "astrazeneca",        "Careers"),
+    ("Bristol Myers Squibb",  "bristolmyerssquibb.wd5.myworkdayjobs.com", "bristolmyerssquibb", "BMS"),
+    ("Roche",                 "roche.wd3.myworkdayjobs.com",             "roche",              "roche-ext"),
+    ("GSK",                   "gsk.wd5.myworkdayjobs.com",               "gsk",                "GSKCareers"),
+    ("IQVIA",                 "iqvia.wd1.myworkdayjobs.com",             "iqvia",              "IQVIA"),
+    ("ICON",                  "icon.wd3.myworkdayjobs.com",              "icon",               "broadbean_external"),
+    ("Moderna",               "modernatx.wd1.myworkdayjobs.com",         "modernatx",          "M_tx"),
+    ("Novartis",              "novartis.wd3.myworkdayjobs.com",          "novartis",           "Novartis_Careers"),
+    ("Sanofi",                "sanofi.wd3.myworkdayjobs.com",            "sanofi",             "SanofiCareers"),
+]
+WORKDAY_PAGE = 20          # Workday caps limit at 20
+WORKDAY_MAX_JOBS = 400     # per company, safety cap
+WORKDAY_DELAY_S = 0.3
+# Polish places as Workday spells them ("Poland", "Polska", "Warsaw - PL", "Poland, Gdansk", "Krakow")
+WORKDAY_PL = re.compile(
+    r"\bPoland\b|\bPolska\b|Warsaw|Warszawa|Krak[oó]w|Cracow|Wroc[lł]aw|Pozna[nń]|Łódź|\bLodz\b"
+    r"|Gda[nń]sk|Gdynia|Katowice|Lublin|Bydgoszcz|Szczecin|Toru[nń]|Rzesz[oó]w|Bia[lł]ystok|Olsztyn"
+    r"|-\s*PL\b|\bPL\s*-", re.I)
+# pharma titles worth reading on top of the generic ATS patterns
+WORKDAY_EXTRA_PATTERNS = [
+    r"real world (evidence|data)", r"\brwe\b", r"\bepidemiolog", r"clinical data scien",
+    r"statistical (programm|scien)", r"\br programmer\b", r"pharmacometric", r"\bbiomarker",
+    r"\btranslational (scien|medicine)", r"\bdata steward",
+]
+
+
+def workday_poland_facet(facets):
+    """
+    Find the location facet that selects Poland. Workday tenants differ: some
+    have a country facet ("Location_Country": Polska), others only cities
+    ("locations": Warsaw, Poznan). Values can be nested one level in groups.
+    Returns (facetParameter, [ids]) for the parameter with the most Polish jobs.
+    """
+    by_param = {}
+    for f in facets or []:
+        for v in f.get("values") or []:
+            if v.get("values"):
+                pairs = [(v.get("facetParameter") or f.get("facetParameter"), w) for w in v["values"]]
+            else:
+                pairs = [(f.get("facetParameter"), v)]
+            for param, w in pairs:
+                if param and WORKDAY_PL.search(w.get("descriptor") or ""):
+                    by_param.setdefault(param, []).append(w)
+    if not by_param:
+        return None
+    param, vals = max(by_param.items(), key=lambda kv: sum(w.get("count", 0) for w in kv[1]))
+    return param, [w["id"] for w in vals]
+
+
+def is_relevant_workday(title):
+    t = (title or "").lower()
+    return is_relevant_ats(title) or any(re.search(p, t) for p in WORKDAY_EXTRA_PATTERNS)
+
+
+# Generic tech titles ("AI Architect", "Software Engineer") at a pharma are often
+# pure IT. Those are kept only if the posting itself talks about science/clinical data.
+WORKDAY_SCIENCE_TITLE = re.compile(
+    r"bioinformat|genom|omics|biostat|statistic|epidemiolog|real world|\brwe\b|clinical data"
+    r"|pharmacometric|biomarker|computational biolog|cheminformat|translational|scientist", re.I)
+WORKDAY_SCIENCE_TEXT = re.compile(
+    r"clinical (trial|data|development|research|stud)|biometric|biostatist|statistical programm"
+    r"|real[- ]world (evidence|data)|\bomics\b|genomic|bioinformat|drug discovery|biomarker"
+    r"|life scien\w+ (data|research)|r&d data|research and development data|pharmacovigilance", re.I)
+
+def workday_science_context(title, description):
+    return bool(WORKDAY_SCIENCE_TITLE.search(title or "") or is_relevant(title or "", description or "")
+                or WORKDAY_SCIENCE_TEXT.search(description or ""))
+
+
+def workday_location(info):
+    """'Warsaw, Poland (+5 other locations) · Office or Home' – Polish place first."""
+    locs = [l for l in [info.get("location")] + list(info.get("additionalLocations") or []) if l]
+    pl = [l for l in locs if WORKDAY_PL.search(l)]
+    main = (pl or locs or ["Poland"])[0]
+    if not WORKDAY_PL.search(main):
+        main = f"{main}, Poland"
+    if len(locs) > 1:
+        main += f" (+{len(locs) - 1} other location{'s' if len(locs) > 2 else ''})"
+    remote = info.get("remoteType") or ""
+    if re.search(r"remote|home|hybrid", remote, re.I):
+        main += f" · {remote}"
+    return main
+
+
+def fetch_workday_pl(seen, headers, seen_urls=None, companies=None, session=None):
+    if seen_urls is None: seen_urls = set()
+    http = session or requests
+    h = {**headers, "Content-Type": "application/json", "Accept": "application/json",
+         "Accept-Language": "en-US"}
+    results = []
+    for company, host, tenant, site in (companies or WORKDAY_COMPANIES):
+        api = f"https://{host}/wday/cxs/{tenant}/{site}"
+        try:
+            r = http.post(f"{api}/jobs", headers=h, timeout=20,
+                          json={"appliedFacets": {}, "limit": 1, "offset": 0, "searchText": ""})
+            if r.status_code != 200:
+                print(f"  ⚠ {company}: HTTP {r.status_code}"); continue
+            facet = workday_poland_facet(r.json().get("facets"))
+            if not facet:
+                print(f"  · {company}: no Polish locations right now"); continue
+            applied = {facet[0]: facet[1]}
+            postings, total, offset = [], None, 0
+            while offset < WORKDAY_MAX_JOBS:
+                r = http.post(f"{api}/jobs", headers=h, timeout=20,
+                              json={"appliedFacets": applied, "limit": WORKDAY_PAGE,
+                                    "offset": offset, "searchText": ""})
+                if r.status_code != 200:
+                    print(f"  ⚠ {company}: page {offset // WORKDAY_PAGE} HTTP {r.status_code}"); break
+                data = r.json()
+                if total is None:              # Workday only sends the total on the first page
+                    total = data.get("total") or 0
+                page = data.get("jobPostings") or []
+                postings += page
+                offset += WORKDAY_PAGE
+                if not page or offset >= total:
+                    break
+                time.sleep(WORKDAY_DELAY_S)
+            added = 0
+            for p in postings:
+                title = strip_html(p.get("title", ""))
+                path = p.get("externalPath") or ""
+                if not title or not path or is_excluded(title) or not is_relevant_workday(title):
+                    continue
+                uid = job_id(title, company)
+                if uid in seen:
+                    continue
+                time.sleep(WORKDAY_DELAY_S)
+                d = http.get(f"{api}{path}", headers=h, timeout=20)
+                if d.status_code != 200:
+                    continue
+                info = d.json().get("jobPostingInfo") or {}
+                link = info.get("externalUrl") or f"https://{host}/{site}{path}"
+                ukey = url_key(link)
+                if ukey and ukey in seen_urls:
+                    continue
+                full = strip_html(info.get("jobDescription") or "")
+                desc = full[:800]
+                if not workday_science_context(title, full):
+                    continue
+                loc = workday_location(info)
+                seen.add(uid)
+                if ukey: seen_urls.add(ukey)
+                sal = extract_salary(full)
+                results.append({"id": uid, "title": title, "company": company,
+                    "location": clean_location(loc), "source": f"{company} (Workday)",
+                    "date": (info.get("startDate") or "")[:10] or today(), "url": link,
+                    "description": desc, "geo": "Poland",
+                    "tags": extract_tech_tags(f"{title} {full[:4000]}"),
+                    "category": detect_category(title, company, desc),
+                    "seniority": detect_seniority(title),
+                    "salary_min": sal["salary_min"], "salary_max": sal["salary_max"],
+                    "salary_currency": sal["salary_currency"], "salary_text": sal["salary_text"],
+                    "summary": None})
+                added += 1
+            print(f"  ✓ {company}: {len(postings)} in Poland → {added} relevant")
+        except Exception as e:
+            print(f"  ⚠ {company}: {e}")
+    return results
+
+
 # ── EURAXESS (POLAND) ─────────────────────────────────────────────────────────
 # Euraxess has no RSS/API, so we read the public search page filtered to Poland
 # (job_country:749) and job offers only. Polish universities and institutes have
@@ -1205,6 +1371,7 @@ def source_family(j):
     if src.endswith("(Lever)"):      return "lever"
     if src == "Hire Omics":          return "hire_omics"
     if src == "Euraxess":            return "euraxess"
+    if src.endswith("(Workday)"):     return "workday"
     return "rss"
 
 
@@ -1357,10 +1524,13 @@ def main():
     print("\n💼 Hire Omics:")
     ho = fetch_hire_omics(seen, headers, seen_urls)
 
+    print("\n🇵🇱 Workday – pharma & CRO hubs in Poland:")
+    wd = fetch_workday_pl(seen, headers, seen_urls)
+
     print("\n🇵🇱 Euraxess (Poland):")
     eu = fetch_euraxess_pl(seen, headers, seen_urls)
 
-    fresh = rss + gh + lv + ho + eu
+    fresh = rss + gh + lv + ho + wd + eu
     existing = load_existing()
 
     if not fresh:
@@ -1373,13 +1543,13 @@ def main():
     for j in archived:
         j.pop("rss", None)
     sources = {
-        "rss": len(rss), "greenhouse": len(gh), "lever": len(lv), "hire_omics": len(ho),
+        "rss": len(rss), "greenhouse": len(gh), "lever": len(lv), "hire_omics": len(ho), "workday": len(wd),
         "euraxess": len(eu),
         "manual": sum(1 for j in active if j.get("manually_added")),
     }
     write_outputs(active, archived, sources)
     print(f"   RSS: {len(rss)} · Greenhouse: {len(gh)} · Lever: {len(lv)} · "
-          f"Hire Omics: {len(ho)} · Euraxess PL: {len(eu)} · Manual active: {sources['manual']}")
+          f"Hire Omics: {len(ho)} · Workday PL: {len(wd)} · Euraxess PL: {len(eu)} · Manual active: {sources['manual']}")
 
 
 if __name__ == "__main__":
