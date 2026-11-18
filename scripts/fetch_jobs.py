@@ -129,13 +129,72 @@ KEYWORDS = [
 POLAND_KW  = ["poland","polska","warsaw","warszawa","wroclaw","wrocław","krakow","kraków","cracow",
               "gdansk","gdańsk","gdynia","poznan","poznań","lodz","łódź","katowice","lublin",
               "bialystok","białystok","szczecin","torun","toruń","rzeszow","rzeszów","olsztyn"]
-USA_KW     = ["usa","united states","boston","cambridge, ma","new york","san francisco",
-              "seattle","bethesda","baltimore","san diego"," ca,"," ny,"," ma,"," wa,"]
-REMOTE_KW  = ["remote","fully remote","100% remote","work from home","wfh","anywhere"]
-EUROPE_KW  = ["germany","france","spain","italy","netherlands","sweden","denmark","norway",
-              "finland","switzerland","austria","belgium","czech","hungary","portugal",
-              "uk","united kingdom","england","scotland","ireland","heidelberg","london",
-              "paris","berlin","amsterdam","barcelona","zurich","oxford","edinburgh","munich"]
+USA_KW     = ["usa","u.s.","us","united states","united states of america","america",
+              # cities / hubs that show up in biotech listings
+              "boston","cambridge, ma","new york","nyc","ny office","san francisco",
+              "south san francisco","bay area","seattle","bethesda","baltimore","san diego",
+              "san carlos","emeryville","redwood city","palo alto","menlo park","mountain view",
+              "south san fran","brisbane, ca","foster city","alameda","berkeley","oakland",
+              "salt lake city","houston","austin","dallas","chicago","philadelphia","pittsburgh",
+              "new haven","princeton","durham","raleigh","research triangle","rtp","atlanta",
+              "denver","boulder","los angeles","pasadena","irvine","la jolla","st. louis",
+              "minneapolis","rochester, mn","ann arbor","madison","indianapolis","nashville",
+              "watertown","waltham","lexington, ma","somerville","rockville","gaithersburg",
+              "washington, dc","new jersey","portland, or",
+              # states (full names)
+              "alabama","alaska","arizona","arkansas","california","colorado","connecticut",
+              "delaware","florida","georgia, usa","hawaii","idaho","illinois","indiana","iowa",
+              "kansas","kentucky","louisiana","maine","maryland","massachusetts","michigan",
+              "minnesota","mississippi","missouri","montana","nebraska","nevada",
+              "new hampshire","new mexico","north carolina","north dakota","ohio","oklahoma",
+              "oregon","pennsylvania","rhode island","south carolina","south dakota",
+              "tennessee","texas","utah","vermont","virginia","washington state","wisconsin",
+              "wyoming"]
+# "San Carlos, CA", "Boston, MA 02115", "Seattle WA" – two-letter state code after a place
+US_STATE_CODE = re.compile(   # case-sensitive on purpose: "Seattle WA" yes, "office in Tokyo" no
+    r"(?:,\s*|[A-Za-z]{3,}\s+)(?:AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS"
+    r"|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|DC)\b(?:\s*\d{5})?")
+# in the location field "remote" is reliable; in a long description it is not
+# ("remote sensing", "not remote", "remote monitoring"), so there we only trust clear phrases
+REMOTE_KW  = ["remote","fully remote","100% remote","work from home","wfh","anywhere","telecommute"]
+REMOTE_DESC_KW = ["fully remote","100% remote","remote position","remote role","remote-first",
+                  "remote first","work from home","work-from-home","remote within","remote-friendly",
+                  "remote eligible","this role is remote","this position is remote","remote work is possible",
+                  "remote —","remote –","remote -","position remote","contract remote",
+                  "part-time remote","full-time remote"]
+EUROPE_KW  = ["europe","european union","eu",
+              "germany","deutschland","france","spain","italy","netherlands","the netherlands",
+              "sweden","denmark","norway","finland","iceland","switzerland","austria","belgium",
+              "luxembourg","czech","czechia","czech republic","slovakia","slovenia","croatia",
+              "hungary","romania","bulgaria","greece","portugal","estonia","latvia","lithuania",
+              "ireland","uk","u.k.","united kingdom","great britain","england","scotland","wales",
+              "northern ireland","serbia","cyprus","malta",
+              "heidelberg","london","cambridge, uk","cambridge uk","hinxton","oxford","edinburgh",
+              "manchester","glasgow","dundee","bristol","paris","lyon","grenoble","marseille",
+              "berlin","munich","münchen","hamburg","frankfurt","cologne","köln","dresden","leipzig",
+              "tübingen","tuebingen","freiburg","göttingen","mainz","bonn","jena","martinsried",
+              "amsterdam","rotterdam","utrecht","leiden","delft","nijmegen","groningen",
+              "barcelona","madrid","valencia","seville","milan","milano","rome","roma","turin",
+              "padua","bologna","trieste","zurich","zürich","basel","geneva","lausanne","bern",
+              "vienna","wien","graz","innsbruck","brussels","leuven","ghent","antwerp",
+              "copenhagen","aarhus","odense","stockholm","uppsala","gothenburg","lund","umeå",
+              "oslo","bergen","trondheim","helsinki","turku","dublin","galway","cork",
+              "lisbon","porto","prague","brno","budapest","vienna","athens","tallinn","tartu",
+              "riga","vilnius","ljubljana","zagreb","belgrade","bucharest","sofia","bratislava"]
+
+def _kw_regex(words):
+    """Whole-word match, so 'uk' no longer fires on 'Duke' and 'us' not on 'focus'."""
+    words = sorted(set(words), key=len, reverse=True)
+    return re.compile(r"(?<![a-z0-9])(?:" + "|".join(re.escape(w) for w in words) + r")(?![a-z0-9])", re.I)
+
+_POLAND_RE = _kw_regex(POLAND_KW)
+_USA_RE = _kw_regex(USA_KW)
+_EUROPE_RE = _kw_regex(EUROPE_KW)
+_REMOTE_RE = _kw_regex(REMOTE_KW)
+_REMOTE_DESC_RE = _kw_regex(REMOTE_DESC_KW)
+# words that look like countries/states but are not ("US" in "contact us", "eu" etc. are only
+# trusted in the short location/title fields, never in the description)
+_SHORT_ONLY = {"us", "u.s.", "eu", "uk", "u.k.", "america", "rtp", "nyc", "georgia, usa"}
 
 # ── HELPERS ───────────────────────────────────────────────────────────────────
 # ── EXCLUDE — non-scientific/non-technical roles ──────────────────────────────
@@ -207,13 +266,51 @@ def is_excluded(title):
     return any(kw in t for kw in EXCLUDE_TITLE_KEYWORDS)
 
 
+def _place_geo(text, allow_short=True):
+    """Region from a piece of text that names a place, or None."""
+    if not text:
+        return None
+    if _POLAND_RE.search(text):
+        return "Poland"
+    usa = [m.group(0).lower() for m in _USA_RE.finditer(text)]
+    eur = [m.group(0).lower() for m in _EUROPE_RE.finditer(text)]
+    if not allow_short:
+        usa = [w for w in usa if w not in _SHORT_ONLY]
+        eur = [w for w in eur if w not in _SHORT_ONLY]
+    if allow_short and US_STATE_CODE.search(text):
+        usa.append("state-code")
+    if usa and not eur:
+        return "USA"
+    if eur and not usa:
+        return "Europe"
+    if usa and eur:      # e.g. "Cambridge, MA or London" – first mention wins
+        first_us = min(m.start() for m in _USA_RE.finditer(text)) if _USA_RE.search(text) else 10**9
+        first_eu = min(m.start() for m in _EUROPE_RE.finditer(text))
+        return "USA" if first_us <= first_eu else "Europe"
+    return None
+
+
 def detect_geo(title, location, description):
-    text = (title+" "+location+" "+description).lower()
-    if any(k in text for k in REMOTE_KW): return "Remote"
-    if any(k in text for k in POLAND_KW): return "Poland"
-    if any(k in text for k in USA_KW):    return "USA"
-    if any(k in text for k in EUROPE_KW): return "Europe"
-    return "Other"
+    """
+    Region for a listing:
+    1. Remote – "remote" in location or title, or a clear remote phrase in the
+       description ("fully remote", "hourly contract remote"; not "remote sensing")
+    2. place in location, then in title ("Postdoc (Boston)")
+    3. full place names in the start of the description
+    Whole-word matching only: substrings like 'uk' in 'Duke' or
+    'remote' in 'remote sensing' used to send jobs to the wrong region.
+    """
+    loc = (location or "").replace("See listing", " ")
+    title = title or ""
+    desc = description or ""
+    # remote wins over a country ("United States" + "Hourly contract Remote")
+    if _REMOTE_RE.search(loc) or _REMOTE_RE.search(title) or _REMOTE_DESC_RE.search(desc):
+        return "Remote"
+    g = _place_geo(loc) or _place_geo(title, allow_short=False)
+    if g:
+        return g
+    g = _place_geo(desc[:1500], allow_short=False)
+    return g or "Other"
 
 def detect_category(title, company, description=""):
     t = (title + " " + company + " " + description).lower()
@@ -711,6 +808,57 @@ def fetch_lever(seen, headers, seen_urls=None):
 
 # ── HIRE OMICS ────────────────────────────────────────────────────────────────
 
+def hire_omics_posting(page_html):
+    """
+    Hire Omics pages embed schema.org JobPosting JSON-LD (the block Google reads)
+    with the real city, company and posting date. Falls back to the visible
+    "Location:" tags. Returns dict with location / company / date (any may be "").
+    """
+    out = {"location": "", "company": "", "date": "", "work_mode": ""}
+    for block in re.findall(r'<script[^>]+application/ld\+json[^>]*>(.*?)</script>', page_html, re.S | re.I):
+        try:
+            data = json.loads(block, strict=False)
+        except Exception:
+            continue
+        if not isinstance(data, dict) or data.get("@type") != "JobPosting":
+            continue
+        locs = data.get("jobLocation") or []
+        if isinstance(locs, dict):
+            locs = [locs]
+        places = []
+        for l in locs:
+            a = (l or {}).get("address") or {}
+            if isinstance(a, str):
+                places.append(a)
+            else:
+                part = ", ".join(x for x in (a.get("addressLocality"), a.get("addressRegion"),
+                                            a.get("addressCountry") if isinstance(a.get("addressCountry"), str) else None) if x)
+                if part:
+                    places.append(part)
+        out["location"] = " / ".join(dict.fromkeys(places))
+        org = data.get("hiringOrganization") or {}
+        out["company"] = (org.get("name") if isinstance(org, dict) else "") or ""
+        out["date"] = (data.get("datePosted") or "")[:10]
+        if data.get("jobLocationType") == "TELECOMMUTE":
+            out["work_mode"] = "Remote"
+        break
+    # visible "Location:" tags: <div>Location:</div> ... <div class="text-small">San Carlos, CA</div> ... Hybrid
+    i = page_html.find("Location:</div>")
+    if i >= 0:
+        block = page_html[i:i + 1500]
+        end = block.find("job-intro__item")      # next field ("Date posted:")
+        block = block[:end] if end > 0 else block
+        tags = [strip_html(t).strip() for t in re.findall(r'<div class="text-small">(.*?)</div>', block, re.S)]
+        is_mode = lambda t: bool(re.fullmatch(r"(?:remote|hybrid|on-?site)(?:\s+or\s+(?:remote|hybrid|on-?site))*", t, re.I))
+        modes = [t for t in tags if is_mode(t)]
+        places = [t for t in tags if t and not is_mode(t)]
+        if modes and not out["work_mode"]:
+            out["work_mode"] = modes[0][:1].upper() + modes[0][1:]
+        if places and not out["location"]:
+            out["location"] = " / ".join(places)
+    return out
+
+
 def fetch_hire_omics(seen, headers, seen_urls=None):
     if seen_urls is None: seen_urls = set()
     """Scrape jobs from hire-omics.com — Webflow job board for bioinformatics/genomics."""
@@ -744,11 +892,16 @@ def fetch_hire_omics(seen, headers, seen_urls=None):
                 body_m = re.search(r'<body[^>]*>(.*)', ptext, re.S)
                 if not is_relevant(title, strip_html(body_m.group(1) if body_m else ptext)[:4000]): continue
                 # Company name often in a heading near top
+                post = hire_omics_posting(ptext)
                 comp_m = re.search(r'<h2[^>]*>([^<]{2,60})</h2>', ptext)
-                company = strip_html(comp_m.group(1)) if comp_m else "See listing"
-                # Location — look for common patterns
-                loc_m = re.search(r'(Remote|Hybrid|Onsite)[,\s]*([A-Za-z,.\s]{0,40})?', ptext)
-                loc = loc_m.group(0).strip() if loc_m else ""
+                company = post["company"] or (strip_html(comp_m.group(1)) if comp_m else "See listing")
+                # Location: real city from the JobPosting data + work mode tag
+                # ("San Carlos, CA · Hybrid"); old regex only ever caught the mode
+                if post["location"]:
+                    loc = post["location"] + (f" · {post['work_mode']}" if post["work_mode"] else "")
+                else:
+                    loc_m = re.search(r'(Remote|Hybrid|Onsite)[,\s]*([A-Za-z,.\s]{0,40})?', ptext)
+                    loc = loc_m.group(0).strip() if loc_m else ""
                 desc_m = re.findall(r'<p[^>]*>(.{40,}?)</p>', ptext, re.DOTALL)
                 desc = " ".join(strip_html(p) for p in desc_m[:3])[:800]
                 ukey = url_key(url)
@@ -758,7 +911,8 @@ def fetch_hire_omics(seen, headers, seen_urls=None):
                 sal = extract_salary(ptext)  # full page text has better salary context
                 results.append({"id":uid,"title":title,"company":company,
                     "location":clean_location(loc),"source":"Hire Omics",
-                    "date":today(),"url":url,"description":desc,
+                    "date":post["date"] or today(),"url":url,"description":desc,
+                    "date_posted":bool(post["date"]),
                     "geo":detect_geo(title,loc,desc),"tags":extract_tech_tags(f"{title} {desc}"),
                     "category":detect_category(title,company,desc),
                     "seniority":detect_seniority(title),
@@ -1085,8 +1239,8 @@ def merge(fresh, existing, ok_families=None):
     for j in fresh:
         prev = by_id.get(j["id"])
         j["first_seen"] = (prev or {}).get("first_seen") or (prev or {}).get("date") or t
-        if j.get("source") == "Hire Omics":      # board gives no posting date
-            j["date"] = j["first_seen"]
+        if j.get("source") == "Hire Omics" and not j.pop("date_posted", False):
+            j["date"] = j["first_seen"]          # no posting date on the page
         if j.get("rss") and j.get("date", "") < rss_cutoff:
             archived.append(archive(j, "expired"))
             continue
