@@ -942,6 +942,8 @@ WORKDAY_COMPANIES = [
     ("Moderna",               "modernatx.wd1.myworkdayjobs.com",         "modernatx",          "M_tx"),
     ("Novartis",              "novartis.wd3.myworkdayjobs.com",          "novartis",           "Novartis_Careers"),
     ("Sanofi",                "sanofi.wd3.myworkdayjobs.com",            "sanofi",             "SanofiCareers"),
+    # host + site from a live Takeda posting; tenant assumed – check the run log
+    ("Takeda",                "takeda.wd502.myworkdayjobs.com",          "takeda",             "External"),
 ]
 WORKDAY_PAGE = 20          # Workday caps limit at 20
 WORKDAY_MAX_JOBS = 400     # per company, safety cap
