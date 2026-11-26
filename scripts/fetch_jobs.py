@@ -16,6 +16,8 @@ from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 import feedparser, requests
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from enrich import enrich
 
 
 def check_git_up_to_date():
@@ -683,7 +685,10 @@ def fetch_rss(seen, headers, seen_urls=None):
                 title = strip_html(e.get("title",""))
                 desc  = strip_html(e.get("summary","") or e.get("description",""))
                 link  = e.get("link","#")
-                loc   = strip_html(e.get("location","")) or extract_location(desc)
+                # WordPress Job Manager feeds (JobRxiv) put these in their own namespace
+                loc   = (strip_html(e.get("location","")) or strip_html(e.get("job_listing_location",""))
+                         or extract_location(desc))
+                employer_name = strip_html(e.get("job_listing_company","") or e.get("company",""))
                 # JobRxiv RSS doesn't include location — scrape the job page for it
                 if f["name"] == "JobRxiv" and not loc and link != "#":
                     try:
@@ -711,7 +716,7 @@ def fetch_rss(seen, headers, seen_urls=None):
                     "seniority":detect_seniority(title),
                     "salary_min":sal["salary_min"],"salary_max":sal["salary_max"],
                     "salary_currency":sal["salary_currency"],"salary_text":sal["salary_text"],
-                    "summary":None})
+                    "summary":None, **({"employer": employer_name} if employer_name else {})})
                 added += 1
             print(f"→ {added} relevant")
         except Exception as e:
@@ -758,7 +763,7 @@ def fetch_greenhouse(seen, headers, seen_urls=None):
                     "seniority":detect_seniority(title),
                     "salary_min":sal["salary_min"],"salary_max":sal["salary_max"],
                     "salary_currency":sal["salary_currency"],"salary_text":sal["salary_text"],
-                    "summary":None})
+                    "summary":None, **({"employer": employer_name} if employer_name else {})})
                 added += 1
             if added: print(f"  ✓ {company}: {added} jobs")
         except Exception as e:
@@ -799,7 +804,7 @@ def fetch_lever(seen, headers, seen_urls=None):
                     "seniority":detect_seniority(title),
                     "salary_min":sal["salary_min"],"salary_max":sal["salary_max"],
                     "salary_currency":sal["salary_currency"],"salary_text":sal["salary_text"],
-                    "summary":None})
+                    "summary":None, **({"employer": employer_name} if employer_name else {})})
                 added += 1
             if added: print(f"  ✓ {company}: {added} jobs")
         except Exception as e:
@@ -918,7 +923,7 @@ def fetch_hire_omics(seen, headers, seen_urls=None):
                     "seniority":detect_seniority(title),
                     "salary_min":sal["salary_min"],"salary_max":sal["salary_max"],
                     "salary_currency":sal["salary_currency"],"salary_text":sal["salary_text"],
-                    "summary":None})
+                    "summary":None, **({"employer": employer_name} if employer_name else {})})
                 added += 1
             except Exception:
                 continue
@@ -1490,7 +1495,7 @@ def merge(fresh, existing, ok_families=None):
     return active, archived
 
 
-TEXT_FIELDS = ("title", "company", "location", "description", "source", "salary_text")
+TEXT_FIELDS = ("title", "company", "employer", "location", "description", "source", "salary_text")
 
 def safe_url(u):
     """Only http(s) links, and nothing that could break out of href="..."."""
@@ -1512,8 +1517,8 @@ def sanitize(j):
 
 
 def write_outputs(active, archived, sources):
-    active = [sanitize(j) for j in active]
-    archived = [sanitize(j) for j in archived]
+    active = [sanitize(enrich(j)) for j in active]
+    archived = [sanitize(enrich(j)) for j in archived]
     now = datetime.now(timezone.utc).isoformat()
     DOCS.mkdir(parents=True, exist_ok=True)
     JOBS_PATH.write_text(json.dumps({

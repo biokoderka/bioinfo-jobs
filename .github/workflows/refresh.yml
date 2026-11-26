@@ -30,11 +30,14 @@ jobs:
       - name: Fetch jobs (RSS, Greenhouse, Lever, Hire Omics, Workday PL, Euraxess)
         run: python scripts/fetch_jobs.py
 
-      - name: Commit updated jobs.json + archive.json
+      - name: Build static pages (browse, companies, skills, reports, sitemap)
+        run: python scripts/build_pages.py
+
+      - name: Commit updated data + generated pages
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/jobs.json docs/archive.json
+          git add docs/jobs.json docs/archive.json docs/sitemap.xml docs/skills.html docs/browse docs/companies docs/reports
           if git diff --cached --quiet; then
             echo "No changes — skipping commit"
             exit 0
