@@ -1,6 +1,6 @@
 {
  "offers": 356,
- "relevant": 190,
+ "relevant": 191,
  "employers": 43,
  "with_salary": 33,
  "remote": 12,
@@ -79,7 +79,7 @@
   [
    "genomics",
    35,
-   18.4
+   18.3
   ],
   [
    "AI",
@@ -93,8 +93,8 @@
   ],
   [
    "R",
-   18,
-   9.5
+   19,
+   9.9
   ],
   [
    "omics",
@@ -144,7 +144,7 @@
   [
    "Python",
    6,
-   3.2
+   3.1
   ],
   [
    "neurobiology",

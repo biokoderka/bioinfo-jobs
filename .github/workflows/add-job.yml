@@ -77,7 +77,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/jobs.json docs/archive.json docs/sitemap.xml docs/skills.html docs/browse docs/companies docs/reports
+          git add docs/jobs.json docs/archive.json docs/descriptions.json docs/sitemap.xml docs/skills.html docs/browse docs/companies docs/reports docs/job
           git diff --cached --quiet && exit 0
           git commit -m "➕ Manual job update"
           git pull --rebase origin main

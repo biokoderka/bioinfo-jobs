@@ -28,7 +28,7 @@ TITLE_STRONG = re.compile(
 TITLE_CORE = re.compile(
     r"\b(?!econ|ergon)\w*omics\b|\bngs\b|\bsequencing\b|single[- ]cell|precision medicine"
     r"|quantitative (biolog|pharmacolog|systems)|molecular (ai|modell?ing|dynamics)|protein design"
-    r"|computational\b|\bstatistician|epidemiolog|real[- ]world (evidence|data)|\brwe\b", re.I)
+    r"|computational\b|\b(r|sas) programm|clinical programm|\bstatistician|epidemiolog|real[- ]world (evidence|data)|\brwe\b", re.I)
 # Computational, but needs life-science context from the rest of the offer.
 TITLE_COMPUTE = re.compile(
     r"data (scien|engineer|analy|steward|platform)|machine learning|\bml\b|\bai\b|deep learning"
@@ -196,12 +196,18 @@ def slugify(text):
     return t[:80] or "x"
 
 
+def page_path(job):
+    """Offer page under docs/, stable for the offer's lifetime (title + id only)."""
+    return f"job/{slugify(job.get('title'))[:60].strip('-')}-{slugify(str(job.get('id')))}.html"
+
+
 # ── ALL TOGETHER ─────────────────────────────────────────────────────────────
 def enrich(job):
     """Adds/refreshes the derived fields in place and returns the job."""
     job["relevance"] = relevance_score(job)
     job["relevance_tier"] = relevance_tier(job["relevance"])
     job["employment_type"] = employment_type(job)
+    job["page"] = page_path(job)
     emp = employer(job)
     if emp:
         job["employer"] = emp

@@ -37,7 +37,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/jobs.json docs/archive.json docs/sitemap.xml docs/skills.html docs/browse docs/companies docs/reports
+          git add docs/jobs.json docs/archive.json docs/descriptions.json docs/sitemap.xml docs/skills.html docs/browse docs/companies docs/reports docs/job
           if git diff --cached --quiet; then
             echo "No changes — skipping commit"
             exit 0
