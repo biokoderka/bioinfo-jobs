@@ -48,7 +48,8 @@ Other feeds (Nature Careers, jobs.ac.uk, EMBL, Euraxess…) are configured in `s
 | `relevance` | 0–100, how clearly the offer is a computational-biology role — a transparent keyword model on title, description and tags (weights documented in the file) |
 | `relevance_tier` | `high` (80–100) · `relevant` (60–79) · `loose` (< 60). The board hides `loose` offers by default ("All" shows them) |
 | `employment_type` | `Full-time` / `Part-time` / `Contract` — only when the offer says so |
-| `employer` | the real employer; missing when a job board doesn't name it (most JobRxiv offers) |
+| `employer` | the real employer; missing when a job board doesn't name it |
+| `full_text` | `true` when a JobRxiv offer was read from its own page (the feed only has a teaser). Tags, location and employer then come from the full offer; the page is fetched once and reused on later runs (max `JOBRXIV_MAX_PAGES` new pages per run, 0.5 s apart) |
 
 The board also shows **Fresh** (first seen in the last 7 days), **salary**, **Remote/Hybrid** badges, and lets visitors
 **save offers** (stored in their browser only). Filters live in the URL, e.g. `index.html?geo=Poland&sen=Junior&rel=0`.

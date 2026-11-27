@@ -12,6 +12,7 @@ Output (both written by write_outputs()):
 """
 
 import html, json, re, hashlib, subprocess, sys, time
+from html.parser import HTMLParser
 from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
 from pathlib import Path
@@ -649,8 +650,105 @@ def today():
     return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
 # ── FETCHERS ──────────────────────────────────────────────────────────────────
-def fetch_rss(seen, headers, seen_urls=None):
+# ── JOBRXIV FULL PAGES ───────────────────────────────────────────────────────
+# The JobRxiv feed only carries the first ~200 characters of an offer – the
+# science, not the requirements – so skills like Python/R/Nextflow were almost
+# never detected. We read the offer's own page once (WordPress Job Manager
+# markup), take the full description, location and employer from it, and
+# remember the result: an offer already read in full is not fetched again.
+JOBRXIV_PAGE_DELAY_S = 0.5     # be polite: at most ~2 page requests per second
+JOBRXIV_MAX_PAGES    = 400     # cap per run; the rest are read on the next run
+JOBRXIV_MIN_TEXT     = 300     # shorter than this = the page didn't parse, don't trust it
+
+
+class _ClassTextParser(HTMLParser):
+    """Collects the text inside the first element whose class contains `wanted`."""
+    VOID = {"br", "img", "hr", "input", "meta", "link", "source", "wbr", "area", "col", "embed", "param", "track"}
+
+    def __init__(self, wanted):
+        super().__init__(convert_charrefs=True)
+        self.wanted, self.depth, self.done, self.parts = wanted, 0, False, []
+
+    def handle_starttag(self, tag, attrs):
+        if self.done or tag in self.VOID:
+            if self.depth and tag == "br":
+                self.parts.append("\n")
+            return
+        if self.depth:
+            self.depth += 1
+            if tag in ("p", "li", "h2", "h3", "h4", "div", "tr"):
+                self.parts.append("\n")
+        elif self.wanted in (dict(attrs).get("class") or "").split():
+            self.depth = 1
+
+    def handle_endtag(self, tag):
+        if self.depth and tag not in self.VOID:
+            self.depth -= 1
+            if not self.depth:
+                self.done = True
+
+    def handle_data(self, data):
+        if self.depth and not self.done:
+            self.parts.append(data)
+
+    def text(self):
+        t = "".join(self.parts)
+        t = re.sub(r"[ \t\r\f\v]+", " ", t)
+        return re.sub(r"\s*\n\s*", "\n", t).strip()
+
+
+def _text_of_class(page, cls):
+    p = _ClassTextParser(cls)
+    try:
+        p.feed(page)
+    except Exception:
+        return ""
+    return p.text()
+
+
+def parse_jobrxiv_page(page):
+    """Full description, location and employer from a JobRxiv offer page.
+    Every field is optional – an unexpected layout just returns less."""
+    text = ""
+    for cls in ("job_description", "entry-content", "single_job_listing"):
+        text = _text_of_class(page, cls)
+        if len(text) >= JOBRXIV_MIN_TEXT:
+            break
+    loc = ""
+    m = re.search(r'class="location"\s*>\s*(?:<a[^>]*>)?\s*([^<]{2,80}?)\s*<', page)
+    if m:
+        loc = html.unescape(m.group(1)).strip()
+    employer_name = ""
+    m = re.search(r'class="company".{0,1500}?<strong>\s*([^<]{2,120}?)\s*</strong>', page, re.S)
+    if m:
+        employer_name = html.unescape(m.group(1)).strip()
+    return {"text": text if len(text) >= JOBRXIV_MIN_TEXT else "", "location": loc, "employer": employer_name}
+
+
+def fetch_jobrxiv_page(link, headers, budget, sleep=time.sleep):
+    """One polite request; returns parse_jobrxiv_page() output or None. `budget` is a
+    one-item list counting the pages still allowed this run."""
+    if budget[0] <= 0:
+        return None
+    budget[0] -= 1
+    try:
+        rp = requests.get(link, headers={**headers, "Accept": "text/html"}, timeout=10)
+    except Exception:
+        return None
+    finally:
+        sleep(JOBRXIV_PAGE_DELAY_S)
+    if rp.status_code != 200:
+        return None
+    return parse_jobrxiv_page(rp.text)
+
+
+def fetch_rss(seen, headers, seen_urls=None, known=None, sleep=time.sleep):
+    """known – url_key -> job from jobs.json/archive.json, so JobRxiv pages
+    that were already read in full are reused instead of fetched again."""
     if seen_urls is None: seen_urls = set()
+    known = known or {}
+    page_budget = [JOBRXIV_MAX_PAGES]
+    pages_read = pages_reused = 0
     results = []
     for f in RSS_FEEDS:
         print(f"  → {f['name']} ...", end=" ", flush=True)
@@ -689,16 +787,6 @@ def fetch_rss(seen, headers, seen_urls=None):
                 loc   = (strip_html(e.get("location","")) or strip_html(e.get("job_listing_location",""))
                          or extract_location(desc))
                 employer_name = strip_html(e.get("job_listing_company","") or e.get("company",""))
-                # JobRxiv RSS doesn't include location — scrape the job page for it
-                if f["name"] == "JobRxiv" and not loc and link != "#":
-                    try:
-                        rp = requests.get(link, headers=headers, timeout=8)
-                        if rp.status_code == 200:
-                            m = re.search(r'class="location"\s*>\s*<a[^>]*>([^<]{2,60})</a>', rp.text)
-                            if m:
-                                loc = m.group(1).strip()
-                    except:
-                        pass
                 if is_excluded(title): continue
                 if not is_relevant(title, desc): continue
                 uid = job_id(title, f["name"])
@@ -707,18 +795,47 @@ def fetch_rss(seen, headers, seen_urls=None):
                 if ukey and ukey in seen_urls: continue
                 seen.add(uid)
                 if ukey: seen_urls.add(ukey)
+                full_text = ""
+                tags_text = f"{title} {desc}"
+                reused_tags = None
+                if f["name"] == "JobRxiv" and link != "#":
+                    prev = known.get(ukey) or {}
+                    if prev.get("full_text"):
+                        # read in full on an earlier run – reuse, no request
+                        pages_reused += 1
+                        full_text = prev.get("description") or ""
+                        loc = loc or prev.get("location") or ""
+                        employer_name = employer_name or prev.get("employer") or ""
+                        # tags were taken from the whole page; the stored description is cut at 800
+                        reused_tags = prev.get("tags") or []
+                    else:
+                        page = fetch_jobrxiv_page(link, headers, page_budget, sleep=sleep)
+                        if page:
+                            pages_read += 1
+                            full_text = page["text"]
+                            loc = loc or page["location"]
+                            employer_name = employer_name or page["employer"]
+                    if full_text:
+                        tags_text = f"{title} {full_text}"
+                        if len(full_text) > len(desc):
+                            desc = full_text
                 sal = extract_salary(desc)
                 results.append({"id":uid,"title":title,"company":f["name"],
                     "location":clean_location(loc),"source":f["name"],
                     "date":parse_date(e),"url":link,"description":desc[:800],
-                    "geo":detect_geo(title,loc,desc),"tags":extract_tech_tags(f"{title} {desc}"),
+                    "geo":detect_geo(title,loc,desc),
+                    "tags":reused_tags if reused_tags is not None else extract_tech_tags(tags_text),
                     "category":detect_category(title,f["name"],desc),
                     "seniority":detect_seniority(title),
                     "salary_min":sal["salary_min"],"salary_max":sal["salary_max"],
                     "salary_currency":sal["salary_currency"],"salary_text":sal["salary_text"],
-                    "summary":None, **({"employer": employer_name} if employer_name else {})})
+                    "summary":None, **({"employer": employer_name} if employer_name else {}),
+                    **({"full_text": True} if full_text else {})})
                 added += 1
             print(f"→ {added} relevant")
+            if f["name"] == "JobRxiv":
+                print(f"     JobRxiv pages: {pages_read} read in full, {pages_reused} reused from earlier runs"
+                      f"{', cap reached – the rest next run' if page_budget[0] <= 0 else ''}")
         except Exception as e:
             print(f"ERROR: {e}")
     return results
@@ -1547,8 +1664,11 @@ def main():
         "Accept": "application/rss+xml, application/xml, text/xml, */*",
     }
 
+    existing = load_existing()
+    known = {url_key(j.get("url") or ""): j for j in existing if j.get("full_text")}
+
     print("📡 RSS feeds:")
-    rss = fetch_rss(seen, headers, seen_urls)
+    rss = fetch_rss(seen, headers, seen_urls, known=known)
     for j in rss:
         j["rss"] = True   # marker for the age cutoff in merge(); removed before writing
 
@@ -1568,7 +1688,6 @@ def main():
     eu = fetch_euraxess_pl(seen, headers, seen_urls)
 
     fresh = rss + gh + lv + ho + wd + eu
-    existing = load_existing()
 
     if not fresh:
         # Every source failed (network, blocked IP...). Don't archive the whole

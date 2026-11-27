@@ -534,6 +534,8 @@ def build_skills(active, everything, as_of):
                 '<th class="num" title="Share of offers in the last 90 days vs the 90 days before">Trend</th><th></th></tr>'
                 + "".join(rows) + "</table>") if rows else '<p class="muted">—</p>'
 
+    # JobRxiv feed entries are teasers unless the page was read (full_text); other sources give the whole offer
+    read_full = sum(1 for j in rel if j.get("full_text") or j.get("source") != "JobRxiv")
     tools = [k for k in cnt if k in TOOLS]
     methods = [k for k in cnt if k in METHODS]
     domains = [k for k in cnt if k not in TOOLS and k not in METHODS]
@@ -554,9 +556,10 @@ def build_skills(active, everything, as_of):
   <div class="kpi"><b>{esc(names.get(max(methods, key=lambda k: cnt[k]), "—")) if methods else "—"}</b><span>top method / data type</span></div>
   <div class="kpi"><b>{esc(names.get(max(tools, key=lambda k: cnt[k]), "—")) if tools else "—"}</b><span>top language / tool</span></div>
 </div>
-<p class="note">Skills are detected automatically in titles and descriptions. Many feeds only give the first few hundred
-characters of an offer, where employers describe the science, while tool requirements sit further down — so languages and
-tools are heavily under-counted. Treat the ranking as relative, not absolute.</p>
+<p class="note">Skills are detected automatically in the offer text. {pct(read_full, len(rel))}% of these offers were read in
+full (company career pages, and JobRxiv offers fetched from their own page since November 2026); for the rest only the
+feed's first few hundred characters were available — where employers describe the science, not the tools — so languages
+and tools are still under-counted. Treat the ranking as relative, not absolute.</p>
 <h2>Domains</h2>{table(domains, 25)}
 <h2>Methods &amp; data types</h2>{table(methods, 25)}
 <h2>Languages &amp; tools</h2>{table(tools, 25)}
