@@ -82,15 +82,16 @@ class Pages(unittest.TestCase):
             docs = Path(tmp)
             (docs / "jobs.json").write_text(json.dumps({"updated": "2026-11-23T08:00:00+00:00", "jobs": jobs}))
             (docs / "archive.json").write_text(json.dumps({"jobs": archived}))
-            old = (bp.DOCS, bp.JOBS_PATH, bp.ARCHIVE_PATH)
+            old = (bp.DOCS, bp.JOBS_PATH, bp.ARCHIVE_PATH, bp.DESCRIPTIONS_PATH)
             bp.DOCS, bp.JOBS_PATH, bp.ARCHIVE_PATH = docs, docs / "jobs.json", docs / "archive.json"
+            bp.DESCRIPTIONS_PATH = docs / "descriptions.json"
             try:
                 bp.main()
                 first = {p: p.read_text() for p in docs.rglob("*") if p.is_file()}
                 bp.main()   # second run without new data changes nothing
                 second = {p: p.read_text() for p in docs.rglob("*") if p.is_file()}
             finally:
-                bp.DOCS, bp.JOBS_PATH, bp.ARCHIVE_PATH = old
+                bp.DOCS, bp.JOBS_PATH, bp.ARCHIVE_PATH, bp.DESCRIPTIONS_PATH = old
             self.assertEqual(first, second)
             wro = (docs / "browse" / "wroclaw.html").read_text()
             self.assertIn("Senior Bioinformatician", wro)

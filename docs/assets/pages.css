@@ -109,3 +109,11 @@ footer a { color: var(--violet-dim); }
   .barcell { width: 30%; }
   #header { position: relative; }
 }
+
+/* offer pages */
+.card .apply { align-self: flex-start; margin-top: 4px; font-size: 10px; font-weight: 700; color: var(--magenta);
+  padding: 3px 10px; border: 1px solid rgba(255,45,155,.3); border-radius: 20px; background: rgba(255,45,155,.08); }
+.offer-text p { color: var(--text); font-size: 14px; line-height: 1.75; margin: 0 0 10px; }
+.offer-text ul { margin: 0 0 12px 20px; color: var(--text); font-size: 14px; line-height: 1.7; }
+.offer-text .note { color: var(--text-dim); }
+@media (max-width: 700px) { .cols[style*="minmax(0,2fr)"] { grid-template-columns: 1fr !important; } }

@@ -799,8 +799,10 @@ function openModal(id) {
   const applyBtnHTML = j.url && j.url !== "#"
     ? `<a href="${j.url}" target="_blank" rel="noopener" class="btn btn-ai" style="text-decoration:none">🔗 Apply / View listing ↗</a>`
     : "";
+  // page of its own (docs/job/…), to share or bookmark
+  const pageLink = j.page ? `<a href="${j.page}" class="btn btn-dim" style="text-decoration:none" title="Page of this offer — handy for sharing">📄 Offer page</a>` : "";
   document.getElementById("modal-actions").innerHTML =
-    applyBtnHTML + `<button class="btn btn-outline" id="modal-save">${saveLabel}</button>` + companyLink;
+    applyBtnHTML + `<button class="btn btn-outline" id="modal-save">${saveLabel}</button>` + pageLink + companyLink;
   document.getElementById("modal-save").addEventListener("click", () => { toggleSaved(j.id); render(); openModal(j.id); });
   const stickyApply = document.getElementById("modal-sticky-apply");
   if (j.url && j.url !== "#") {

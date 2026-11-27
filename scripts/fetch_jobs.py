@@ -582,6 +582,23 @@ def strip_html(text):
     return re.sub(r"\s+", " ", t).strip()
 
 
+FULL_DESC_MAX = 8000   # chars of the full offer kept for the offer pages (docs/descriptions.json)
+
+
+def html_to_text(raw, limit=FULL_DESC_MAX):
+    """Like strip_html, but keeps paragraphs and list items on their own lines,
+    for the full offer text shown on the offer pages."""
+    t = html.unescape(raw or "")                   # Greenhouse sends HTML-escaped HTML
+    t = re.sub(r"(?i)<\s*(br|/p|/div|/h[1-6]|/li|/tr|/ul|/ol)[^>]*>", "\n", t)
+    t = re.sub(r"(?i)<\s*li[^>]*>", "\n• ", t)
+    t = re.sub(r"<[^>]+>", " ", t)
+    t = html.unescape(t).replace("<", "‹").replace(">", "›")
+    t = WP_FOOTER.sub("", t)
+    lines = [re.sub(r"[ \t\r\f\v\u00a0]+", " ", ln).strip() for ln in t.split("\n")]
+    t = re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip()
+    return t[:limit]
+
+
 # Company career boards (Greenhouse / Lever) list EVERY role at the company,
 # and the department name ("Drug Discovery", "Sequencing") made the generic
 # keyword check pass for chemists, lab techs, in-vivo pharmacologists etc.
@@ -798,6 +815,7 @@ def fetch_rss(seen, headers, seen_urls=None, known=None, sleep=time.sleep):
                 full_text = ""
                 tags_text = f"{title} {desc}"
                 reused_tags = None
+                fresh_full = ""          # full offer text read this run (for docs/descriptions.json)
                 if f["name"] == "JobRxiv" and link != "#":
                     prev = known.get(ukey) or {}
                     if prev.get("full_text"):
@@ -813,6 +831,7 @@ def fetch_rss(seen, headers, seen_urls=None, known=None, sleep=time.sleep):
                         if page:
                             pages_read += 1
                             full_text = page["text"]
+                            fresh_full = page["text"]
                             loc = loc or page["location"]
                             employer_name = employer_name or page["employer"]
                     if full_text:
@@ -830,7 +849,8 @@ def fetch_rss(seen, headers, seen_urls=None, known=None, sleep=time.sleep):
                     "salary_min":sal["salary_min"],"salary_max":sal["salary_max"],
                     "salary_currency":sal["salary_currency"],"salary_text":sal["salary_text"],
                     "summary":None, **({"employer": employer_name} if employer_name else {}),
-                    **({"full_text": True} if full_text else {})})
+                    **({"full_text": True} if full_text else {}),
+                    **({"description_full": fresh_full[:FULL_DESC_MAX]} if fresh_full else {})})
                 added += 1
             print(f"→ {added} relevant")
             if f["name"] == "JobRxiv":
@@ -845,10 +865,11 @@ def fetch_greenhouse(seen, headers, seen_urls=None):
     results = []
     for company, slug in GREENHOUSE_COMPANIES:
         try:
-            url = f"https://boards.greenhouse.io/{slug}/jobs.json"
-            r = requests.get(url, headers=headers, timeout=12)
+            # documented public API, with the offer text; the old endpoint as fallback
+            url = f"https://boards-api.greenhouse.io/v1/boards/{slug}/jobs?content=true"
+            r = requests.get(url, headers=headers, timeout=20)
             if r.status_code != 200:
-                url = f"https://boards-api.greenhouse.io/v1/boards/{slug}/jobs?content=true"
+                url = f"https://boards.greenhouse.io/{slug}/jobs.json"
                 r = requests.get(url, headers=headers, timeout=12)
             if r.status_code != 200:
                 print(f"  ⚠ {company}: HTTP {r.status_code}")
@@ -862,7 +883,8 @@ def fetch_greenhouse(seen, headers, seen_urls=None):
                 upd   = job.get("updated_at","")
                 date  = upd[:10] if upd else today()
                 depts = ", ".join(d.get("name","") for d in job.get("departments",[]))
-                desc  = f"{depts}. {title} at {company}.".strip(". ")
+                full  = html_to_text(job.get("content", ""))
+                desc  = re.sub(r"\s+", " ", full)[:800] if len(full) > 200 else f"{depts}. {title} at {company}.".strip(". ")
                 if is_excluded(title): continue
                 if not is_relevant_ats(title): continue
                 uid = job_id(title, company)
@@ -875,7 +897,8 @@ def fetch_greenhouse(seen, headers, seen_urls=None):
                 results.append({"id":uid,"title":title,"company":company,
                     "location":clean_location(loc),"source":f"{company} (Greenhouse)",
                     "date":date,"url":link,"description":desc,
-                    "geo":detect_geo(title,loc,desc),"tags":extract_tech_tags(f"{title} {desc}"),
+                    **({"description_full": full} if len(full) > 200 else {}),
+                    "geo":detect_geo(title,loc,desc),"tags":extract_tech_tags(f"{title} {full or desc}"),
                     "category":detect_category(title,company,desc),
                     "seniority":detect_seniority(title),
                     "salary_min":sal["salary_min"],"salary_max":sal["salary_max"],
@@ -900,6 +923,9 @@ def fetch_lever(seen, headers, seen_urls=None):
                 loc   = job.get("categories",{}).get("location","")
                 link  = job.get("hostedUrl","#")
                 desc  = strip_html(job.get("description",""))[:800]
+                full  = html_to_text(job.get("description", "") + "".join(
+                            f"<h3>{x.get('text','')}</h3><ul>{x.get('content','')}</ul>" for x in job.get("lists") or [])
+                        + (job.get("additional") or ""))
                 created = job.get("createdAt")
                 date  = (datetime.fromtimestamp(created/1000, timezone.utc).strftime("%Y-%m-%d")
                          if isinstance(created, (int, float)) else today())
@@ -915,7 +941,7 @@ def fetch_lever(seen, headers, seen_urls=None):
                 sal = extract_salary(job.get("description",""))
                 results.append({"id":uid,"title":title,"company":company,
                     "location":clean_location(loc),"source":f"{company} (Lever)",
-                    "date":date,"url":link,"description":desc,
+                    "date":date,"url":link,"description":desc, **({"description_full": full} if len(full) > 200 else {}),
                     "geo":detect_geo(title,loc,desc),"tags":extract_tech_tags(f"{title} {desc}"),
                     "category":detect_category(title,company,desc),
                     "seniority":detect_seniority(title),
@@ -1226,6 +1252,7 @@ def fetch_workday_pl(seen, headers, seen_urls=None, companies=None, session=None
                     continue
                 full = strip_html(info.get("jobDescription") or "")
                 desc = full[:800]
+                full_page = html_to_text(info.get("jobDescription") or "")
                 if not workday_science_context(title, full):
                     continue
                 loc = workday_location(info)
@@ -1235,7 +1262,7 @@ def fetch_workday_pl(seen, headers, seen_urls=None, companies=None, session=None
                 results.append({"id": uid, "title": title, "company": company,
                     "location": clean_location(loc), "source": f"{company} (Workday)",
                     "date": (info.get("startDate") or "")[:10] or today(), "url": link,
-                    "description": desc, "geo": "Poland",
+                    "description": desc, **({"description_full": full_page} if len(full_page) > 200 else {}), "geo": "Poland",
                     "tags": extract_tech_tags(f"{title} {full[:4000]}"),
                     "category": detect_category(title, company, desc),
                     "seniority": detect_seniority(title),
@@ -1451,6 +1478,7 @@ def euraxess_job(it, headers):
     loc = det.get("location") or it.get("location") or "Poland"
     if not re.search(r"\bPoland\b|\bPolska\b", loc):
         loc = f"{loc}, Poland" if loc and loc != "See listing" else "Poland"
+    full = strip_html(det.get("description") or "")
     desc = strip_html(det.get("description") or it["text"])[:800]
     field = det.get("field") or it.get("field") or ""
     sal = extract_salary(desc)
@@ -1459,7 +1487,7 @@ def euraxess_job(it, headers):
         "title": title, "company": org[:120], "location": clean_location(loc[:120]),
         "source": "Euraxess",
         "date": it.get("posted") or today(), "url": it["url"],
-        "description": desc,
+        "description": desc, **({"description_full": full[:FULL_DESC_MAX]} if len(full) > 800 else {}),
         "geo": "Poland",
         "tags": extract_tech_tags(f"{title} {field} {desc}"),
         "category": detect_category(title, org, f"{field} {desc}"),
@@ -1635,11 +1663,33 @@ def sanitize(j):
     return j
 
 
+def write_descriptions(active, archived):
+    """Full offer texts live in docs/descriptions.json ({id: text}), not in jobs.json,
+    so the board doesn't download them. Kept only for active offers: a text from an
+    earlier run stays until the offer is archived (JobRxiv pages are read once)."""
+    path = DOCS / "descriptions.json"
+    try:
+        old = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    except Exception:
+        old = {}
+    texts = {}
+    for j in active:
+        t = j.pop("description_full", None)
+        t = t if t else old.get(j["id"])
+        if t:
+            texts[j["id"]] = t.replace("<", "‹").replace(">", "›")
+    for j in archived:
+        j.pop("description_full", None)
+    path.write_text(json.dumps(dict(sorted(texts.items())), ensure_ascii=False, indent=0), encoding="utf-8")
+    return len(texts)
+
+
 def write_outputs(active, archived, sources):
+    DOCS.mkdir(parents=True, exist_ok=True)
+    n_full = write_descriptions(active, archived)
     active = [sanitize(enrich(j)) for j in active]
     archived = [sanitize(enrich(j)) for j in archived]
     now = datetime.now(timezone.utc).isoformat()
-    DOCS.mkdir(parents=True, exist_ok=True)
     JOBS_PATH.write_text(json.dumps({
         "updated": now,
         "count": len(active),
@@ -1652,7 +1702,8 @@ def write_outputs(active, archived, sources):
         "count": len(archived),
         "jobs": archived,
     }, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-    print(f"\n✅ {len(active)} active → {JOBS_PATH.name} · {len(archived)} archived → {ARCHIVE_PATH.name}")
+    print(f"\n✅ {len(active)} active → {JOBS_PATH.name} · {len(archived)} archived → {ARCHIVE_PATH.name}"
+          f" · {n_full} full offer texts → descriptions.json")
 
 
 def main():

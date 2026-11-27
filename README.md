@@ -21,6 +21,8 @@ A free job board for bioinformaticians with a public repository (no open-source 
 | `companies/` | *generated* — employer directory + one page per employer (open & past offers, skills) |
 | `skills.html` | *generated* — skills employers ask for, with 90-day trends |
 | `reports/` | *generated* — quarterly job-market reports (+ `.json` with the raw numbers) |
+| `job/` | *generated* — one page per offer. Open offers with the full text, a named employer and a known country carry **JobPosting** markup (Google for Jobs) and go into the sitemap; others are `noindex`. Closed offers keep a "closed" page without markup for 90 days |
+| `descriptions.json` | full offer texts `{id: text}` for active offers, written by `fetch_jobs.py` (kept out of `jobs.json` so the board stays light) |
 | `submit.html` | Submit a job (reviewed before publishing) |
 
 ## Where the jobs come from

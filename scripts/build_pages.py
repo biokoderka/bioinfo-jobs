@@ -34,6 +34,9 @@ ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 JOBS_PATH = DOCS / "jobs.json"
 ARCHIVE_PATH = DOCS / "archive.json"
+DESCRIPTIONS_PATH = DOCS / "descriptions.json"   # full offer texts written by fetch_jobs.py
+CLOSED_PAGE_DAYS = 90   # an archived offer keeps a "closed" page this long, then the page goes
+MIN_FULL_TEXT = 500     # shorter than this = only a teaser, so no JobPosting markup
 BASE_URL = "https://biokoderka.github.io/bioinfo-jobs/"
 FRESH_DAYS = 7
 MIN_REL = 60          # "relevant" threshold used for skill statistics
@@ -243,7 +246,7 @@ def rel_badge(j):
 def badges(j, as_of):
     out = []
     try:
-        if (as_of - date.fromisoformat(seen_date(j))).days <= FRESH_DAYS:
+        if not j.get("archived") and (as_of - date.fromisoformat(seen_date(j))).days <= FRESH_DAYS:
             out.append('<span class="badge b-fresh">✨ Fresh</span>')
     except ValueError:
         pass
@@ -268,10 +271,11 @@ def card(j, as_of, up):
     when = esc(j.get("date") or "")
     return f"""<div class="card">
   <div class="top"><span>{esc(j.get("source"))}</span><span>{rel_badge(j)} {when}</span></div>
-  <a class="t" href="{esc(j.get("url"))}" target="_blank" rel="noopener nofollow">{esc(j.get("title"))} ↗</a>
+  <a class="t" href="{up}{esc(j.get("page") or "")}">{esc(j.get("title"))}</a>
   <div class="c">{company} · {esc(j.get("seniority") or "")}</div>
   <div class="l">📍 {esc(j.get("location"))}</div>
   {badges(j, as_of)}
+  <a class="apply" href="{esc(j.get("url"))}" target="_blank" rel="noopener nofollow">Apply ↗</a>
 </div>"""
 
 
@@ -778,6 +782,192 @@ regions, sectors, levels, skills, employers and salaries.</p>
     return pages, data_files, ["reports/"] + indexable
 
 
+# ── OFFER PAGES ──────────────────────────────────────────────────────────────
+# One page per offer at docs/job/<title>-<id>.html. Google for Jobs only accepts
+# JobPosting markup that carries the full offer, a named employer and a place,
+# and that disappears when the offer closes — so:
+#   * open offer with all of that   → indexable page with JobPosting JSON-LD
+#   * open offer missing any of it  → page for sharing, noindex, no markup
+#   * closed (archived) offer       → "closed" page, noindex, no markup, for
+#                                     CLOSED_PAGE_DAYS; then the file is removed
+COUNTRIES = [  # (pattern, ISO code) – first match wins, checked against the location
+    (r"\bpoland\b|\bpolska\b", "PL"), (r"\bgermany\b|\bdeutschland\b", "DE"),
+    (r"\bunited kingdom\b|\buk\b|\bengland\b|\bscotland\b|\bwales\b|\blondon\b|\bcambridge, uk\b", "GB"),
+    (r"\bfrance\b", "FR"), (r"\bswitzerland\b|\bschweiz\b|\bsuisse\b", "CH"), (r"\bnetherlands\b|\bholland\b", "NL"),
+    (r"\bspain\b|\bespaña\b", "ES"), (r"\bitaly\b|\bitalia\b", "IT"), (r"\bsweden\b", "SE"), (r"\bdenmark\b", "DK"),
+    (r"\bbelgium\b", "BE"), (r"\baustria\b", "AT"), (r"\bireland\b", "IE"), (r"\bfinland\b", "FI"),
+    (r"\bnorway\b", "NO"), (r"\bportugal\b", "PT"), (r"\bczech", "CZ"), (r"\bgreece\b", "GR"),
+    (r"\bhungary\b", "HU"), (r"\bromania\b", "RO"), (r"\bestonia\b", "EE"), (r"\bluxembourg\b", "LU"),
+    (r"\bcanada\b", "CA"), (r"\baustralia\b", "AU"), (r"\bnew zealand\b", "NZ"), (r"\bjapan\b", "JP"),
+    (r"\bsingapore\b", "SG"), (r"\bchina\b", "CN"), (r"\bindia\b", "IN"), (r"\bisrael\b", "IL"),
+    (r"\bunited states\b|\busa\b|\bu\.s\.|remote\W+us\b", "US"),
+    # bare city names (ATS boards often give only the city)
+    (r"warsaw|warszawa|krak[oó]w|wroc[lł]aw|pozna[nń]|gda[nń]sk|[lł][oó]d[zź]", "PL"),
+    (r"\bberlin|munich|münchen|heidelberg|hamburg|frankfurt|cologne|köln|mainz|tübingen", "DE"),
+    (r"zurich|zürich|basel|geneva|genève|lausanne|\bbern\b", "CH"), (r"\bparis\b|\blyon\b|grenoble", "FR"),
+    (r"amsterdam|utrecht|leiden|rotterdam", "NL"), (r"copenhagen|københavn", "DK"), (r"stockholm|uppsala", "SE"),
+    (r"\blondon\b|oxford|cambridge, uk|edinburgh|hinxton", "GB"), (r"\bdublin\b", "IE"), (r"barcelona|madrid", "ES"),
+    (r"toronto|vancouver|montreal", "CA"),
+    (r"san francisco|\bsf\b|\bnyc\b|new york|boston|seattle|san diego|chicago|cambridge, ma|bay area|palo alto", "US"),
+]
+US_STATE = re.compile(r",\s*(A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|PA|RI|S[CD]|T[NX]|UT|V[AT]|W[AIVY])\b")
+SAL_UNIT = [(r"/\s*h|hour", "HOUR"), (r"/\s*mo|month|mies", "MONTH"), (r"/\s*yr|year|annual|rok", "YEAR")]
+
+
+def country_of(j):
+    loc = (j.get("location") or "")
+    for pat, code in COUNTRIES:
+        if re.search(pat, loc, re.I):
+            return code
+    if US_STATE.search(loc) or j.get("geo") == "USA":
+        return "US"
+    if j.get("geo") == "Poland":
+        return "PL"
+    return None
+
+
+def place_of(j):
+    """(locality, region) from "Warsaw, Poland (+16 other locations)" / "Boston, MA"."""
+    loc = re.sub(r"\(.*?\)|·.*$", "", j.get("location") or "").strip(" ,")
+    parts = [x.strip() for x in loc.split(",") if x.strip()]
+    if not parts or re.search(r"remote|hybrid|anywhere|multiple", parts[0], re.I):
+        return None, None
+    region = parts[1] if len(parts) > 1 and re.fullmatch(r"[A-Z]{2}", parts[1]) else None
+    return parts[0], region
+
+
+def salary_ld(j):
+    lo, hi, cur = j.get("salary_min"), j.get("salary_max"), j.get("salary_currency")
+    if not (lo or hi) or not cur or not re.fullmatch(r"[A-Z]{3}", cur):
+        return None
+    txt = (j.get("salary_text") or "").lower()
+    unit = next((u for pat, u in SAL_UNIT if re.search(pat, txt)), None)
+    if not unit:
+        return None
+    return {"@type": "MonetaryAmount", "currency": cur,
+            "value": {"@type": "QuantitativeValue", "minValue": lo or hi, "maxValue": hi or lo, "unitText": unit}}
+
+
+def text_to_html(text):
+    """Plain offer text → <p>/<ul> HTML (escaped)."""
+    out, items = [], []
+
+    def flush():
+        if items:
+            out.append("<ul>" + "".join(f"<li>{esc(i)}</li>" for i in items) + "</ul>")
+            items.clear()
+    for block in re.split(r"\n\s*\n", text or ""):
+        for line in block.split("\n"):
+            line = line.strip()
+            if not line:
+                continue
+            if line.startswith("• "):
+                items.append(line[2:])
+            else:
+                flush()
+                out.append(f"<p>{esc(line)}</p>")
+    flush()
+    return "\n".join(out)
+
+
+def job_posting_ld(j, full, as_of):
+    emp, country = employer_of(j), country_of(j)
+    if not emp or not country or len(full or "") < MIN_FULL_TEXT or not re.match(r"\d{4}-\d{2}-\d{2}$", j.get("date") or ""):
+        return None
+    ld = {"@context": "https://schema.org/", "@type": "JobPosting", "title": j["title"],
+          "description": text_to_html(full), "datePosted": j["date"],
+          "hiringOrganization": {"@type": "Organization", "name": emp},
+          "identifier": {"@type": "PropertyValue", "name": "BioInfoJobs", "value": str(j["id"])},
+          "directApply": False, "url": BASE_URL + j["page"]}
+    if j.get("geo") == "Remote":
+        ld["jobLocationType"] = "TELECOMMUTE"
+        ld["applicantLocationRequirements"] = {"@type": "Country", "name": country}
+    else:
+        locality, region = place_of(j)
+        addr = {"@type": "PostalAddress", "addressCountry": country}
+        if locality:
+            addr["addressLocality"] = locality
+        if region:
+            addr["addressRegion"] = region
+        ld["jobLocation"] = {"@type": "Place", "address": addr}
+    if j.get("deadline") and re.match(r"\d{4}-\d{2}-\d{2}$", j["deadline"]) and j["deadline"] >= as_of.isoformat():
+        ld["validThrough"] = j["deadline"] + "T23:59:59"
+    et = {"Full-time": "FULL_TIME", "Part-time": "PART_TIME", "Contract": "CONTRACTOR"}.get(j.get("employment_type"))
+    if j.get("seniority") == "Intern":
+        et = "INTERN"
+    if et:
+        ld["employmentType"] = et
+    sal = salary_ld(j)
+    if sal:
+        ld["baseSalary"] = sal
+    return ld
+
+
+def ld_script(data):
+    # "</" inside the JSON would end the <script> element early
+    return json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
+
+
+def build_job_pages(active, archived, as_of, texts):
+    pages, indexable = {}, []
+    cutoff = (as_of - timedelta(days=CLOSED_PAGE_DAYS)).isoformat()
+    closed = [j for j in archived if (j.get("archived_date") or "") >= cutoff]
+    pool = [j for j in active if (j.get("relevance") or 0) >= MIN_REL]
+    n_markup = 0
+    for j in active + closed:
+        is_open = not j.get("archived")
+        full = texts.get(str(j["id"])) if is_open else None
+        ld = job_posting_ld(j, full, as_of) if is_open else None
+        emp = employer_of(j)
+        company = esc(emp or j.get("company"))
+        if emp:
+            company = f'<a href="../companies/{slugify(emp)}.html">{company}</a>'
+        similar = [x for x in pool if x["id"] != j["id"] and (
+                   (emp and employer_of(x) == emp) or (x.get("category") == j.get("category") and x.get("geo") == j.get("geo")))]
+        similar = by_relevance(similar)[:6]
+        teaser = j.get("description") or ""
+        body_text = text_to_html(full) if full else f"<p>{esc(teaser)}{'…' if len(teaser) >= 790 else ''}</p>"
+        teaser_note = "" if full else (
+            '<p class="note">This is the start of the offer as published by the source — '
+            'read the full text on the employer\'s page.</p>' if is_open else "")
+        status = "" if is_open else (
+            f'<div class="panel" style="border-color:var(--magenta);margin:14px 0"><h3>This offer has closed</h3>'
+            f'<p>It left the board on {esc(j.get("archived_date"))}. Similar open offers are listed below, and the '
+            f'<a href="../archive.html">archive</a> keeps every past offer.</p></div>')
+        apply = (f'<a class="btn btn-ai" href="{esc(j.get("url"))}" target="_blank" rel="noopener nofollow">Apply on the employer\'s site ↗</a>'
+                 if is_open and (j.get("url") or "#") != "#" else "")
+        meta_rows = "".join(f"<tr><td class=muted>{k}</td><td>{v}</td></tr>" for k, v in [
+            ("Employer", company), ("Location", esc(j.get("location"))), ("Region", esc(j.get("geo"))),
+            ("Level", esc(j.get("seniority") or "—")), ("Sector", esc(j.get("category") or "—")),
+            ("Salary", esc(j.get("salary_text") or "not disclosed")),
+            ("Type", esc(j.get("employment_type") or "not stated")),
+            ("Posted", esc(j.get("date"))), ("Deadline", esc(j.get("deadline") or "—")),
+            ("Source", esc(j.get("source"))), ("Relevance", rel_badge(j) or "—")])
+        body = f"""<div class="crumbs"><a href="../index.html">Jobs</a> / {company} / offer</div>
+{status}
+<h1>{esc(j.get("title"))}</h1>
+<p class="lead">{company} · 📍 {esc(j.get("location"))}</p>
+{badges(j, as_of)}
+<div style="margin:14px 0 4px">{apply}<a class="btn btn-ol" href="../index.html?q={quote(j.get("title") or "")}&amp;rel=0">See it on the board</a></div>
+<div class="cols" style="margin-top:20px;grid-template-columns:minmax(0,2fr) minmax(260px,1fr)">
+  <div class="panel offer-text"><h3>About the offer</h3>{body_text}{teaser_note}</div>
+  <div class="panel"><h3>Details</h3><table>{meta_rows}</table></div>
+</div>
+{f'<h2>Similar open offers</h2>{cards(similar, as_of, "../")}' if similar else ""}
+<p class="note">BioInfoJobs lists offers from job boards and company career pages and links to the original posting.
+Always check the details with the employer before applying.</p>"""
+        title = f"{j.get('title')} — {emp or j.get('company')}"
+        desc = f"{j.get('title')} at {emp or j.get('company')}, {j.get('location')}. " + re.sub(r"\s+", " ", full or j.get("description") or "")
+        html_page = page(f"{title} | BioInfoJobs", desc[:300], j["page"], body, noindex=not ld,
+                         nav_on="")
+        if ld:
+            html_page = html_page.replace("</head>", f'<script type="application/ld+json">{ld_script(ld)}</script>\n</head>', 1)
+            indexable.append(j["page"])
+            n_markup += 1
+        pages[j["page"]] = html_page
+    return pages, indexable, n_markup
+
+
 # ── SITEMAP ──────────────────────────────────────────────────────────────────
 def sitemap(paths, as_of):
     urls = [(p, f, pr) for p, f, pr in STATIC_PAGES]
@@ -822,6 +1012,10 @@ def main():
         indexable += idx
     pages.update(build_skills(active, everything, as_of))
     indexable.append("skills.html")
+    texts = load(DESCRIPTIONS_PATH) if DESCRIPTIONS_PATH.exists() else {}
+    p, idx, n_markup = build_job_pages(active, arch.get("jobs", []), as_of, texts)
+    pages.update(p)
+    indexable += idx
     p, f, idx = build_reports(everything, as_of)
     pages.update(p)
     files.update(f)
@@ -833,12 +1027,13 @@ def main():
     write("sitemap.xml", sitemap(indexable, as_of), written)
 
     # employer pages that no longer exist (an employer renamed) – remove the stale file
-    for folder in ("browse", "companies", "reports"):
+    for folder in ("browse", "companies", "reports", "job"):
         for old in (DOCS / folder).glob("*"):
             if old.is_file() and old not in written:
                 old.unlink()
 
-    print(f"✅ {len(pages)} pages, {len(files)} data files, sitemap with {len(indexable) + len(STATIC_PAGES)} URLs"
+    print(f"✅ {len(pages)} pages ({n_markup} offers with JobPosting markup), {len(files)} data files,"
+          f" sitemap with {len(indexable) + len(STATIC_PAGES)} URLs"
           f"{' · enriched jobs.json/archive.json' if changed else ''}")
 
 

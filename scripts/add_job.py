@@ -35,6 +35,7 @@ def build_job(d):
             sys.exit(f"❌ Missing required field: {k}")
     title, company = fj.strip_html(d["title"]), fj.strip_html(d["company"])
     location = fj.clean_location(d.get("location"))
+    full = fj.html_to_text(d.get("description", ""))
     desc = fj.strip_html(d.get("description", ""))[:800]
     deadline = d.get("deadline") or None
     if deadline in ("no deadline", "none", ""):
@@ -51,6 +52,7 @@ def build_job(d):
         "source": d.get("source") or "Community submission",
         "date": fj.today(), "first_seen": fj.today(),
         "url": d["url"], "description": desc,
+        **({"description_full": full} if len(full) > 800 else {}),
         "geo": geo, "category": cat, "seniority": sen,
         "tags": fj.extract_tech_tags(f"{title} {desc}"),
         "salary_min": sal["salary_min"], "salary_max": sal["salary_max"],
