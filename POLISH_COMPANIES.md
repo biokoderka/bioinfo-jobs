@@ -2,7 +2,7 @@
 
 **Działa automatycznie (`fetch_workday_pl` w `scripts/fetch_jobs.py`):**
 pharma i CRO z biurami w Polsce przez publiczne API Workday — AstraZeneca, BMS,
-Roche, GSK, IQVIA, ICON, Moderna, Novartis, Sanofi. Filtr: polskie lokalizacje
+Roche, GSK, IQVIA, ICON, Moderna, Novartis, Sanofi, Takeda. Filtr: polskie lokalizacje
 + tytuł (biostatystyka, programowanie statystyczne, data science, RWE, bioinformatyka…).
 Nową firmę na Workday dodajesz jedną linią w `WORKDAY_COMPANIES`
 (host, tenant i nazwa strony są w adresie jej strony kariery: `https://<tenant>.wdN.myworkdayjobs.com/<strona>`).
