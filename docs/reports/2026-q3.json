@@ -1,0 +1,245 @@
+{
+ "offers": 586,
+ "relevant": 328,
+ "employers": 57,
+ "with_salary": 65,
+ "remote": 27,
+ "poland": 0,
+ "regions": [
+  [
+   "USA",
+   262
+  ],
+  [
+   "Europe",
+   195
+  ],
+  [
+   "Other",
+   102
+  ],
+  [
+   "Remote",
+   27
+  ]
+ ],
+ "sectors": [
+  [
+   "Pharma/Biotech",
+   265
+  ],
+  [
+   "Academia",
+   231
+  ],
+  [
+   "Clinical",
+   76
+  ],
+  [
+   "Startup",
+   13
+  ],
+  [
+   "Government/Public",
+   1
+  ]
+ ],
+ "levels": [
+  [
+   "Mid",
+   317
+  ],
+  [
+   "Senior",
+   142
+  ],
+  [
+   "PostDoc",
+   98
+  ],
+  [
+   "PI/Lead",
+   22
+  ],
+  [
+   "Intern",
+   5
+  ],
+  [
+   "Junior",
+   2
+  ]
+ ],
+ "skills": [
+  [
+   "genomics",
+   77,
+   23.5
+  ],
+  [
+   "AI",
+   60,
+   18.3
+  ],
+  [
+   "biostatistics",
+   29,
+   8.8
+  ],
+  [
+   "oncology",
+   27,
+   8.2
+  ],
+  [
+   "proteomics",
+   25,
+   7.6
+  ],
+  [
+   "drug discovery",
+   24,
+   7.3
+  ],
+  [
+   "single cell",
+   22,
+   6.7
+  ],
+  [
+   "machine learning",
+   18,
+   5.5
+  ],
+  [
+   "omics",
+   16,
+   4.9
+  ],
+  [
+   "multi-omics",
+   12,
+   3.7
+  ],
+  [
+   "immunology",
+   10,
+   3.0
+  ],
+  [
+   "NGS",
+   10,
+   3.0
+  ],
+  [
+   "biological data",
+   9,
+   2.7
+  ],
+  [
+   "spatial transcriptomics",
+   7,
+   2.1
+  ],
+  [
+   "transcriptomics",
+   7,
+   2.1
+  ]
+ ],
+ "top_employers": [
+  [
+   "Profluent",
+   10
+  ],
+  [
+   "Mithrl",
+   7
+  ],
+  [
+   "BillionToOne",
+   6
+  ],
+  [
+   "Deep Genomics",
+   6
+  ],
+  [
+   "Grail",
+   6
+  ],
+  [
+   "LatchBio",
+   5
+  ],
+  [
+   "Astera",
+   5
+  ],
+  [
+   "Basecamp Research",
+   5
+  ],
+  [
+   "Recursion Pharma",
+   5
+  ],
+  [
+   "Element Biosciences",
+   4
+  ],
+  [
+   "Biohub",
+   3
+  ],
+  [
+   "Flatiron Health",
+   3
+  ]
+ ],
+ "salaries": {
+  "USD · Mid": {
+   "n": 13,
+   "median": 146500
+  },
+  "USD · All levels": {
+   "n": 26,
+   "median": 157250
+  },
+  "USD · PI/Lead": {
+   "n": 5,
+   "median": 280500
+  },
+  "USD · Senior": {
+   "n": 8,
+   "median": 173750
+  },
+  "GBP · All levels": {
+   "n": 4,
+   "median": 51688
+  },
+  "GBP · Senior": {
+   "n": 3,
+   "median": 52075
+  }
+ },
+ "sources": [
+  [
+   "JobRxiv",
+   482
+  ],
+  [
+   "Other boards & manual",
+   92
+  ],
+  [
+   "Company boards (Greenhouse, Lever, Workday)",
+   12
+  ]
+ ],
+ "quarter": "Q3 2026",
+ "coverage": "2026-07-01 – 2026-09-30",
+ "in_progress": false,
+ "generated": "2026-11-23"
+}

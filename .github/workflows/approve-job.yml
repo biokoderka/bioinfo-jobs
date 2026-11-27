@@ -92,11 +92,14 @@ jobs:
           print(f"✅ Added '{job['title']}' @ {job['company']} to jobs.json")
           EOF
 
+      - name: Build static pages (also scores the new job)
+        run: python scripts/build_pages.py
+
       - name: Commit updated jobs.json
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/jobs.json
+          git add docs/jobs.json docs/archive.json docs/sitemap.xml docs/skills.html docs/browse docs/companies docs/reports
           git diff --cached --quiet || git commit -m "✅ Add approved job from issue #${{ github.event.issue.number }}"
           git push
 

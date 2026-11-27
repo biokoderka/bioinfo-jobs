@@ -1,0 +1,249 @@
+{
+ "offers": 370,
+ "relevant": 208,
+ "employers": 77,
+ "with_salary": 20,
+ "remote": 36,
+ "poland": 23,
+ "regions": [
+  [
+   "Europe",
+   144
+  ],
+  [
+   "USA",
+   130
+  ],
+  [
+   "Other",
+   37
+  ],
+  [
+   "Remote",
+   36
+  ],
+  [
+   "Poland",
+   23
+  ]
+ ],
+ "sectors": [
+  [
+   "Pharma/Biotech",
+   181
+  ],
+  [
+   "Academia",
+   133
+  ],
+  [
+   "Clinical",
+   41
+  ],
+  [
+   "Startup",
+   10
+  ],
+  [
+   "Data Science",
+   3
+  ],
+  [
+   "Healthcare IT",
+   1
+  ],
+  [
+   "Government/Public",
+   1
+  ]
+ ],
+ "levels": [
+  [
+   "Mid",
+   180
+  ],
+  [
+   "Senior",
+   103
+  ],
+  [
+   "PostDoc",
+   62
+  ],
+  [
+   "Intern",
+   11
+  ],
+  [
+   "PI/Lead",
+   10
+  ],
+  [
+   "Junior",
+   4
+  ]
+ ],
+ "skills": [
+  [
+   "Python",
+   44,
+   21.2
+  ],
+  [
+   "genomics",
+   34,
+   16.3
+  ],
+  [
+   "biostatistics",
+   32,
+   15.4
+  ],
+  [
+   "AI",
+   27,
+   13.0
+  ],
+  [
+   "machine learning",
+   26,
+   12.5
+  ],
+  [
+   "proteomics",
+   22,
+   10.6
+  ],
+  [
+   "R",
+   20,
+   9.6
+  ],
+  [
+   "NGS",
+   19,
+   9.1
+  ],
+  [
+   "drug discovery",
+   18,
+   8.7
+  ],
+  [
+   "single cell",
+   16,
+   7.7
+  ],
+  [
+   "bioinformatics pipeline",
+   15,
+   7.2
+  ],
+  [
+   "clinical genomics",
+   13,
+   6.2
+  ],
+  [
+   "multi-omics",
+   12,
+   5.8
+  ],
+  [
+   "immunology",
+   11,
+   5.3
+  ],
+  [
+   "omics",
+   11,
+   5.3
+  ]
+ ],
+ "top_employers": [
+  [
+   "Roche",
+   5
+  ],
+  [
+   "AstraZeneca",
+   5
+  ],
+  [
+   "Personalis, Inc",
+   3
+  ],
+  [
+   "Billennium",
+   3
+  ],
+  [
+   "Holisticon Connect (NEXER GROUP)",
+   3
+  ],
+  [
+   "The Department of Systems Biology at Columbia University Vagelos College of Physicians and Surgeons",
+   2
+  ],
+  [
+   "GenBio AI",
+   2
+  ],
+  [
+   "Amgen",
+   2
+  ],
+  [
+   "Seargin",
+   2
+  ],
+  [
+   "Intelliseq",
+   2
+  ],
+  [
+   "Accenture (ICH Europe)",
+   2
+  ],
+  [
+   "Twist Bioscience",
+   1
+  ]
+ ],
+ "salaries": {
+  "USD · Senior": {
+   "n": 4,
+   "median": 165172
+  },
+  "USD · All levels": {
+   "n": 4,
+   "median": 165172
+  },
+  "PLN · Mid": {
+   "n": 3,
+   "median": 198000
+  },
+  "PLN · All levels": {
+   "n": 6,
+   "median": 210000
+  }
+ },
+ "sources": [
+  [
+   "JobRxiv",
+   286
+  ],
+  [
+   "Other boards & manual",
+   81
+  ],
+  [
+   "Company boards (Greenhouse, Lever, Workday)",
+   3
+  ]
+ ],
+ "quarter": "Q2 2026",
+ "coverage": "2026-04-23 – 2026-06-30",
+ "in_progress": false,
+ "generated": "2026-11-23"
+}

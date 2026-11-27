@@ -210,6 +210,30 @@ body {
 .tag { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; }
 .geo-tag { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; }
 .score-badge { font-family: 'DM Mono', monospace; font-size: 10px; margin-left: auto; }
+/* relevance score: 80–100 highly relevant · 60–79 relevant · <60 loosely related */
+.rel-badge { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 20px; white-space: nowrap; cursor: help; }
+.rel-high     { color: #06d6a0; background: rgba(6,214,160,0.10); border: 1px solid rgba(6,214,160,0.35); }
+.rel-relevant { color: #ffd166; background: rgba(255,209,102,0.10); border: 1px solid rgba(255,209,102,0.35); }
+.rel-loose    { color: var(--text-dim); background: transparent; border: 1px solid var(--border2); }
+.jc-badges { display: flex; gap: 5px; flex-wrap: wrap; position: relative; }
+.badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
+.b-fresh  { color: #06d6a0; background: rgba(6,214,160,0.10); border: 1px solid rgba(6,214,160,0.3); }
+.b-salary { color: #ffd166; background: rgba(255,209,102,0.08); border: 1px solid rgba(255,209,102,0.3); }
+.b-remote { color: var(--pink-soft); background: rgba(255,133,200,0.08); border: 1px solid rgba(255,133,200,0.3); }
+.b-type   { color: #c090ff; background: rgba(180,79,255,0.08); border: 1px solid #3d1860; }
+.save-btn {
+  background: none; border: none; cursor: pointer; font-size: 15px; line-height: 1;
+  color: var(--text-mute); padding: 0 2px; transition: transform 0.15s, color 0.15s;
+}
+.save-btn:hover { color: #ffd166; transform: scale(1.15); }
+.save-btn.on { color: #ffd166; }
+#btn-saved { display: inline-flex; align-items: center; gap: 6px; }
+#btn-saved.on { border-color: #ffd166; color: #ffd166; background: rgba(255,209,102,0.08); }
+#saved-count { font-family: 'DM Mono', monospace; font-size: 10px; background: rgba(255,209,102,0.15); color: #ffd166; border-radius: 10px; padding: 1px 6px; }
+#saved-gone { display: none; margin: 16px 20px 0; padding: 12px 16px; border: 1px dashed var(--border2); border-radius: 12px; font-size: 12px; color: var(--text-dim); line-height: 1.8; }
+#saved-gone a { color: var(--violet); }
+#company-chip { display: none; }
+.footer-browse a { margin: 0 4px; }
 
 /* ── MODAL ── */
 #modal-overlay { display: none; position: fixed; inset: 0; background: rgba(5,0,10,0.8); backdrop-filter: blur(6px); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
@@ -317,6 +341,10 @@ body {
     <a class="btn btn-ai" href="career.html" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:11px">🧭 Career Compass</a>
     <a class="btn btn-outline" href="archive.html" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px">📦 Archive</a>
     <a class="btn btn-outline" href="stats.html" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px">📊 Stats</a>
+    <a class="btn btn-outline" href="companies/" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px">🏢 Companies</a>
+    <a class="btn btn-outline" href="skills.html" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px">🧠 Skills</a>
+    <a class="btn btn-outline" href="reports/" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px">📈 Reports</a>
+    <button class="btn btn-dim" id="btn-saved" title="Offers you saved in this browser" style="font-size:11px">⭐ Saved <span id="saved-count">0</span></button>
     <a class="btn btn-outline" href="https://biokoderka.github.io/bioinfo-news/" target="_blank" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px">📰 News</a>
     <a class="btn btn-outline" href="https://biokoderka.github.io/bioinfo-uni" target="_blank" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px">🎓 Uni</a>
     <a class="btn btn-outline" href="https://biokoderka.github.io/bioinfosites/" target="_blank" style="text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px">🧬 All BioInfo sites</a>
@@ -336,6 +364,7 @@ body {
     <select id="sort-select" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text-dim);padding:5px 10px;border-radius:8px;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;">
       <option value="newest">↓ Newest</option>
       <option value="oldest">↑ Oldest</option>
+      <option value="relevance">★ Most relevant</option>
     </select>
   </div>
   <!-- Collapsible panel: filters + clear -->
@@ -366,10 +395,18 @@ body {
       <button class="flt-btn" data-sen="PostDoc">PostDoc</button>
       <button class="flt-btn" data-sen="PI/Lead">PI/Lead</button>
     </div>
+    <div class="filter-group" title="How clearly the offer is a computational-biology role, 0–100. Keyword model based on the title, description and detected skills.">
+      <span class="filter-label">🎯 Relevance</span>
+      <button class="flt-btn" data-rel="0">All</button>
+      <button class="flt-btn active-magenta" data-rel="60">60+ relevant</button>
+      <button class="flt-btn" data-rel="80">80+ highly</button>
+    </div>
+    <button class="flt-btn active-magenta" id="company-chip" title="Show all companies"></button>
     <button id="btn-clear-filters">✕ Clear filters</button>
   </div>
 </div>
 
+<div id="saved-gone"></div>
 <div id="job-grid"></div>
 <div id="empty">
   <div class="icon">🧬</div>
@@ -444,6 +481,9 @@ body {
   <a href="submit.html">Submit a job listing</a> ·
   <a href="https://github.com/Biokoderka/bioinfo-jobs" target="_blank">View on GitHub</a> ·
   <a href="privacy.html">Privacy &amp; Terms</a> ·
+  <span class="footer-browse">Browse:
+    <a href="browse/poland.html">Poland</a>·<a href="browse/warszawa.html">Warszawa</a>·<a href="browse/krakow.html">Kraków</a>·<a href="browse/wroclaw.html">Wrocław</a>·<a href="browse/remote.html">Remote</a>·<a href="browse/entry-level.html">Entry level</a>·<a href="browse/pharma.html">Pharma</a>·<a href="browse/">all categories</a>
+  </span><br>
   Sources: JobRxiv · Nature Careers · jobs.ac.uk · EuroScienceJobs · EMBL · Science Careers · Euraxess · Bioinformatics.org · ISCB Careers · CompBioJobs · Hire Omics · company career pages (Greenhouse, Lever, Workday — incl. pharma &amp; CRO hubs in Poland) · community submissions
   <br><br>
   <span style="font-size:10px;color:var(--text-dim);opacity:0.7;max-width:700px;display:inline-block;line-height:1.6;">
@@ -463,6 +503,10 @@ body {
 const GEO_COLORS = { "Poland":"#e63946", "Europe":"#b44fff", "USA":"#ff2d9b", "Remote":"#ff85c8", "Other":"#5a3878" };
 const GEO_FLAGS  = { "Poland":"🇵🇱", "Europe":"🇪🇺", "USA":"🇺🇸", "Remote":"🌐", "Other":"🌍" };
 const CAT_COLORS = { "Academia":"#b44fff","Pharma/Biotech":"#ff2d9b","Clinical":"#ff85c8","Startup":"#e63946","Government/Public":"#7a30b8" };
+const REL_LABELS = { high: "Highly relevant", relevant: "Relevant", loose: "Loosely related" };
+const DEFAULT_REL = 60;   // offers below this are hidden until "All" is picked
+const FRESH_DAYS = 7;     // "Fresh" = first seen on the board in the last week
+const SAVED_KEY = "bij_saved_v1";
 
 // ── JOBS DATA ────────────────────────────────────────────────────────────────
 let jobs = [];          // active listings from jobs.json (refreshed weekly by GitHub Actions)
@@ -473,6 +517,9 @@ let selectedJob = null;
 let geoFilter = "All";
 let catFilter = "All";
 let senFilter = "All";
+let relFilter = DEFAULT_REL;
+let companyFilter = "";
+let savedOnly = false;
 let sortOrder = "newest";
 let searchQ   = "";
 
@@ -488,6 +535,64 @@ function setStatus(msg) {
   el.textContent = msg; el.style.display = msg ? "block" : "none";
 }
 
+function employerOf(j) { return j.employer || j.company; }
+
+function relTier(j) {
+  if (typeof j.relevance !== "number") return null;
+  return j.relevance_tier || (j.relevance >= 80 ? "high" : j.relevance >= 60 ? "relevant" : "loose");
+}
+
+function isFresh(j) {
+  const d = daysAgo(j.first_seen || j.date);
+  return d !== null && d <= FRESH_DAYS;
+}
+
+function isRemoteish(j) {
+  if (j.geo === "Remote") return "Remote";
+  return /hybrid/i.test(j.location || "") ? "Hybrid" : null;
+}
+
+function relBadge(j) {
+  const t = relTier(j);
+  if (!t) return "";
+  return `<span class="rel-badge rel-${t}" title="${REL_LABELS[t]} — relevance ${j.relevance}/100 (keyword model: title, description, detected skills)">🎯 ${j.relevance}</span>`;
+}
+
+function badgesHTML(j) {
+  const out = [];
+  if (isFresh(j)) out.push(`<span class="badge b-fresh" title="New on BioInfoJobs in the last ${FRESH_DAYS} days">✨ Fresh</span>`);
+  if (j.salary_text) out.push(`<span class="badge b-salary" title="Salary disclosed in the offer">💰 ${j.salary_text}</span>`);
+  const rm = isRemoteish(j);
+  if (rm) out.push(`<span class="badge b-remote">${rm === "Remote" ? "🌐" : "🏠"} ${rm}</span>`);
+  if (j.employment_type) out.push(`<span class="badge b-type">${j.employment_type}</span>`);
+  return out.length ? `<div class="jc-badges">${out.join("")}</div>` : "";
+}
+
+// ── SAVED JOBS (this browser only) ───────────────────────────────────────────
+function loadSaved() {
+  try { return JSON.parse(localStorage.getItem(SAVED_KEY) || "{}") || {}; } catch (e) { return {}; }
+}
+let saved = loadSaved();
+function persistSaved() {
+  try { localStorage.setItem(SAVED_KEY, JSON.stringify(saved)); } catch (e) {}
+  updateSavedCount();
+}
+function isSaved(id) { return Object.prototype.hasOwnProperty.call(saved, String(id)); }
+function toggleSaved(id) {
+  const j = jobs.find(x => String(x.id) === String(id));
+  if (isSaved(id)) delete saved[String(id)];
+  else if (j) saved[String(id)] = { id: j.id, title: j.title, company: employerOf(j), url: j.url, saved_at: new Date().toISOString().slice(0,10) };
+  persistSaved();
+}
+function updateSavedCount() {
+  document.getElementById("saved-count").textContent = Object.keys(saved).length;
+}
+function saveBtnHTML(j, extraStyle = "") {
+  const on = isSaved(j.id);
+  return `<button class="save-btn${on ? " on" : ""}" data-save="${j.id}" title="${on ? "Remove from saved" : "Save this offer"}" style="${extraStyle}">${on ? "★" : "☆"}</button>`;
+}
+
+// ── FILTERING ────────────────────────────────────────────────────────────────
 function getFiltered() {
   const today = new Date().toISOString().split("T")[0];
   const cutoff = new Date(Date.now() - 60 * 86400000).toISOString().split("T")[0];
@@ -495,38 +600,117 @@ function getFiltered() {
     if (j.archived) return false;
     if (j.deadline && j.deadline < today) return false;
     if (j.date && j.date < cutoff) return false;
+    if (savedOnly && !isSaved(j.id)) return false;
     const matchGeo = geoFilter === "All" || j.geo === geoFilter;
     const matchCat = catFilter === "All" || j.category === catFilter;
     const matchSen = senFilter === "All" || j.seniority === senFilter;
+    // saved view shows every saved offer, whatever its score
+    const matchRel = savedOnly || !relFilter || typeof j.relevance !== "number" || j.relevance >= relFilter;
+    const matchCo  = !companyFilter || employerOf(j).toLowerCase() === companyFilter.toLowerCase();
     const q = searchQ.toLowerCase();
-    const matchQ = !q || (j.title+" "+j.company+" "+j.location+" "+(j.tags||[]).join(" ")+" "+(j.description||"")).toLowerCase().includes(q);
-    return matchGeo && matchCat && matchSen && matchQ;
+    const matchQ = !q || (j.title+" "+employerOf(j)+" "+j.location+" "+(j.tags||[]).join(" ")+" "+(j.description||"")).toLowerCase().includes(q);
+    return matchGeo && matchCat && matchSen && matchRel && matchCo && matchQ;
   });
   filtered.sort((a,b) => a.date < b.date ? 1 : -1);
   if (sortOrder === "oldest") filtered.reverse();
+  if (sortOrder === "relevance") filtered.sort((a,b) => (b.relevance||0) - (a.relevance||0));
   return filtered;
+}
+
+function hiddenByRelevance() {
+  if (!relFilter || savedOnly) return 0;
+  const saveRel = relFilter; relFilter = 0;
+  const all = getFiltered().length;
+  relFilter = saveRel;
+  return all - getFiltered().length;
+}
+
+// ── URL STATE (shareable filters, used by the browse / company pages) ────────
+function readParams() {
+  const p = new URLSearchParams(location.search);
+  if (p.get("geo")) geoFilter = p.get("geo");
+  if (p.get("cat")) catFilter = p.get("cat");
+  if (p.get("sen")) senFilter = p.get("sen");
+  if (p.get("rel") !== null && !isNaN(parseInt(p.get("rel")))) relFilter = parseInt(p.get("rel"));
+  if (p.get("company")) companyFilter = p.get("company");
+  if (p.get("saved") === "1") savedOnly = true;
+  if (p.get("sort")) sortOrder = p.get("sort");
+  if (p.get("q")) { searchQ = p.get("q"); document.getElementById("search").value = searchQ; }
+}
+function writeParams() {
+  const p = new URLSearchParams();
+  if (geoFilter !== "All") p.set("geo", geoFilter);
+  if (catFilter !== "All") p.set("cat", catFilter);
+  if (senFilter !== "All") p.set("sen", senFilter);
+  if (relFilter !== DEFAULT_REL) p.set("rel", relFilter);
+  if (companyFilter) p.set("company", companyFilter);
+  if (savedOnly) p.set("saved", "1");
+  if (sortOrder !== "newest") p.set("sort", sortOrder);
+  if (searchQ.trim()) p.set("q", searchQ.trim());
+  const qs = p.toString();
+  history.replaceState(null, "", location.pathname + (qs ? "?" + qs : ""));
+}
+function syncButtons() {
+  const mark = (sel, val) => document.querySelectorAll(sel).forEach(b => {
+    const on = b.dataset[Object.keys(b.dataset)[0]] === String(val);
+    b.classList.toggle("active-magenta", on);
+    b.style.background=""; b.style.color=""; b.style.borderColor=""; b.style.boxShadow="";
+  });
+  mark(".flt-btn[data-geo]", geoFilter);
+  mark(".flt-btn[data-cat]", catFilter);
+  mark(".flt-btn[data-sen]", senFilter);
+  mark(".flt-btn[data-rel]", relFilter);
+  document.getElementById("sort-select").value = sortOrder;
+  document.getElementById("btn-saved").classList.toggle("on", savedOnly);
+  const chip = document.getElementById("company-chip");
+  chip.style.display = companyFilter ? "inline-block" : "none";
+  chip.textContent = companyFilter ? `🏢 ${companyFilter} ✕` : "";
 }
 
 // ── RENDER ───────────────────────────────────────────────────────────────────
 function render() {
+  syncButtons();
+  writeParams();
   const filtered = getFiltered();
   const activeTotal = jobs.filter(j => !j.archived).length;
   const archivedTotal = archivedCount;
-  const isFiltered = geoFilter!=="All" || catFilter!=="All" || senFilter!=="All" || searchQ;
+  const isFiltered = geoFilter!=="All" || catFilter!=="All" || senFilter!=="All" || searchQ || companyFilter || savedOnly;
   const countEl = document.getElementById("results-count");
+  const hidden = hiddenByRelevance();
+  const hiddenNote = hidden ? ` · <a href="#" id="show-loose" style="color:var(--text-dim)" title="Offers scored below ${relFilter}/100">${hidden} less relevant hidden</a>` : "";
   if (isFiltered) {
-    countEl.textContent = `${filtered.length} result${filtered.length!==1?"s":""}`;
+    countEl.innerHTML = `${filtered.length} result${filtered.length!==1?"s":""}${hiddenNote}`;
   } else {
-    countEl.innerHTML = `<strong style="color:var(--text)">${activeTotal}</strong> active`;
+    countEl.innerHTML = `<strong style="color:var(--text)">${filtered.length}</strong> of ${activeTotal} active${hiddenNote}`;
     if (archivedTotal) countEl.innerHTML += ` · <a href="archive.html" style="color:var(--text-dim);text-decoration:none">${archivedTotal} archived</a>`;
   }
+  const sl = document.getElementById("show-loose");
+  if (sl) sl.addEventListener("click", e => { e.preventDefault(); relFilter = 0; render(); });
+
   // show/hide clear button
-  const hasFilters = geoFilter!=="All" || catFilter!=="All" || senFilter!=="All" || searchQ.trim();
+  const hasFilters = isFiltered || relFilter !== DEFAULT_REL || String(searchQ).trim();
   document.getElementById("btn-clear-filters").style.display = hasFilters ? "inline-block" : "none";
+
+  // saved offers that are no longer on the board
+  const gone = document.getElementById("saved-gone");
+  const activeIds = new Set(jobs.filter(j => !j.archived).map(j => String(j.id)));
+  const missing = savedOnly ? Object.values(saved).filter(s => !activeIds.has(String(s.id))) : [];
+  if (missing.length) {
+    gone.style.display = "block";
+    gone.innerHTML = `<strong>${missing.length} saved offer${missing.length!==1?"s are":" is"} no longer active</strong> — they may be in the <a href="archive.html">archive</a>:<br>` +
+      missing.map(s => `☆ <a href="${s.url}" target="_blank" rel="noopener">${s.title}</a> · ${s.company} <button class="save-btn on" data-save="${s.id}" title="Remove from saved" style="font-size:12px">✕</button>`).join("<br>");
+  } else { gone.style.display = "none"; gone.innerHTML = ""; }
+
   const grid = document.getElementById("job-grid");
   const empty = document.getElementById("empty");
 
-  if (!filtered.length) { grid.innerHTML = ""; empty.style.display = "block"; return; }
+  if (!filtered.length) {
+    grid.innerHTML = "";
+    empty.style.display = "block";
+    document.getElementById("empty-title").textContent = savedOnly ? "No saved offers yet" : "No jobs match your filters";
+    bindSaveButtons();
+    return;
+  }
   empty.style.display = "none";
 
   grid.innerHTML = filtered.map(j => {
@@ -538,7 +722,6 @@ function render() {
       : `<span style="margin-left:auto;font-size:9px;color:var(--text-mute);font-family:'DM Mono',monospace">demo data</span>`;
     const age = daysAgo(j.date);
     const ageColor = age === null ? "var(--text-mute)"
-                   : age === 0   ? "#06d6a0"
                    : age <= 3    ? "#06d6a0"
                    : age <= 7    ? "var(--pink-soft)"
                    : age <= 14   ? "#ffd166"
@@ -547,16 +730,19 @@ function render() {
                    : age === 0   ? "today"
                    : age === 1   ? "yesterday"
                    : `${age}d ago`;
+    const company = employerOf(j);
+    const via = j.employer && j.employer !== j.company ? ` <span style="color:var(--text-mute)">· via ${j.company}</span>` : "";
     return `<div class="job-card" data-id="${j.id}">
-      <div class="jc-source"><span>${j.source}</span><span style="color:${ageColor};font-weight:600">${ageLabel}</span></div>
+      <div class="jc-source"><span>${j.source}</span><span style="display:flex;align-items:center;gap:8px">${relBadge(j)}<span style="color:${ageColor};font-weight:600">${ageLabel}</span>${saveBtnHTML(j)}</span></div>
       <div class="jc-title">${j.title}</div>
-      <div class="jc-company">${j.company}</div>
+      <div class="jc-company">${company}${via}</div>
       <div class="jc-location">📍 ${j.location}</div>
+      ${badgesHTML(j)}
       <div class="jc-footer">
         <span class="geo-tag" style="background:${gc}22;color:${gc};border:1px solid ${gc}44">${gf} ${j.geo}</span>
         ${cc ? `<span class="tag" style="background:${cc}18;color:${cc};border:1px solid ${cc}33">${j.category}</span>` : ""}
         ${j.seniority ? `<span class="tag" style="background:rgba(180,79,255,0.12);color:#c090ff;border:1px solid #3d1860">${j.seniority}</span>` : ""}
-        ${j.tags.slice(0,1).map(t=>`<span class="tag" style="background:rgba(180,79,255,0.08);color:#9060c0;border:1px solid #2a1040">${t}</span>`).join("")}
+        ${(j.tags||[]).slice(0,1).map(t=>`<span class="tag" style="background:rgba(180,79,255,0.08);color:#9060c0;border:1px solid #2a1040">${t}</span>`).join("")}
         ${applyLink}
       </div>
     </div>`;
@@ -564,6 +750,20 @@ function render() {
 
   grid.querySelectorAll(".job-card").forEach(el => {
     el.addEventListener("click", () => openModal(el.dataset.id));
+  });
+  bindSaveButtons();
+}
+
+function bindSaveButtons() {
+  document.querySelectorAll(".save-btn[data-save]").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      const id = btn.dataset.save;
+      if (isSaved(id) && !jobs.find(x => String(x.id) === String(id))) { delete saved[String(id)]; persistSaved(); }
+      else toggleSaved(id);
+      render();
+      if (selectedJob && String(selectedJob.id) === String(id) && document.getElementById("modal-overlay").classList.contains("open")) openModal(id);
+    });
   });
 }
 
@@ -575,23 +775,33 @@ function openModal(id) {
   const gc = GEO_COLORS[j.geo]||"#5a3878";
   const gf = GEO_FLAGS[j.geo]||"🌍";
   const cc = j.category ? CAT_COLORS[j.category] : null;
+  const company = employerOf(j);
 
   document.getElementById("modal-title").textContent  = j.title;
-  document.getElementById("modal-meta").textContent   = j.company + " · " + j.location;
+  document.getElementById("modal-meta").textContent   = company + " · " + j.location;
   const age = daysAgo(j.date);
   const ageStr = age === null ? j.date : age === 0 ? "added today" : age === 1 ? "added yesterday" : `added ${age} days ago`;
   document.getElementById("modal-source").textContent = `${j.source} · ${ageStr} (${j.date})`;
 
+  const t = relTier(j);
   document.getElementById("modal-badges").innerHTML = [
     `<span class="geo-tag" style="background:${gc}22;color:${gc};border:1px solid ${gc}44">${gf} ${j.geo}</span>`,
     cc ? `<span class="tag" style="background:${cc}18;color:${cc};border:1px solid ${cc}33;padding:3px 10px">${j.category}</span>` : "",
-    j.seniority ? `<span class="tag" style="background:rgba(180,79,255,0.12);color:#b44fff;border:1px solid #3d1860;padding:3px 10px">${j.seniority}</span>` : ""
+    j.seniority ? `<span class="tag" style="background:rgba(180,79,255,0.12);color:#b44fff;border:1px solid #3d1860;padding:3px 10px">${j.seniority}</span>` : "",
+    t ? `<span class="rel-badge rel-${t}" style="padding:3px 10px" title="Keyword model: title, description, detected skills">🎯 ${REL_LABELS[t]} · ${j.relevance}/100</span>` : "",
+    badgesHTML(j).replace('class="jc-badges"', 'style="display:contents"')
   ].join("");
 
+  const companyLink = j.employer
+    ? `<a href="index.html?company=${encodeURIComponent(company)}&rel=0" class="btn btn-dim" style="text-decoration:none" onclick="closeModal()">🏢 All offers from ${company}</a>`
+    : "";
+  const saveLabel = isSaved(j.id) ? "★ Saved" : "☆ Save";
   const applyBtnHTML = j.url && j.url !== "#"
     ? `<a href="${j.url}" target="_blank" rel="noopener" class="btn btn-ai" style="text-decoration:none">🔗 Apply / View listing ↗</a>`
     : "";
-  document.getElementById("modal-actions").innerHTML = applyBtnHTML;
+  document.getElementById("modal-actions").innerHTML =
+    applyBtnHTML + `<button class="btn btn-outline" id="modal-save">${saveLabel}</button>` + companyLink;
+  document.getElementById("modal-save").addEventListener("click", () => { toggleSaved(j.id); render(); openModal(j.id); });
   const stickyApply = document.getElementById("modal-sticky-apply");
   if (j.url && j.url !== "#") {
     stickyApply.style.display = "block";
@@ -600,7 +810,7 @@ function openModal(id) {
 
   // Tags panel (replaces AI box)
   const aiBox = document.getElementById("ai-box");
-  if (j.tags.length > 0) {
+  if ((j.tags||[]).length > 0) {
     aiBox.style.display = "block";
     document.getElementById("ai-label").textContent = "◆ TECH STACK DETECTED";
     document.getElementById("ai-summary").textContent = "";
@@ -629,52 +839,18 @@ document.getElementById("modal-close").addEventListener("click", closeModal);
 document.getElementById("modal-overlay").addEventListener("click", e => { if(e.target===e.currentTarget) closeModal(); });
 document.addEventListener("keydown", e => { if(e.key==="Escape") closeModal(); });
 
-document.querySelectorAll(".flt-btn[data-geo]").forEach(btn => {
-  btn.addEventListener("click", () => {
-    geoFilter = btn.dataset.geo;
-    document.querySelectorAll(".flt-btn[data-geo]").forEach(b => {
-      b.classList.remove("active-magenta","active-geo");
-      b.style.background=""; b.style.color=""; b.style.borderColor=""; b.style.boxShadow="";
-    });
-    btn.classList.add("active-magenta");
-    render();
-  });
-});
-
-document.querySelectorAll(".flt-btn[data-cat]").forEach(btn => {
-  btn.addEventListener("click", () => {
-    catFilter = btn.dataset.cat;
-    document.querySelectorAll(".flt-btn[data-cat]").forEach(b => {
-      b.classList.remove("active-magenta","active-geo");
-      b.style.background=""; b.style.color=""; b.style.borderColor=""; b.style.boxShadow="";
-    });
-    btn.classList.add("active-magenta");
-    render();
-  });
-});
-
-document.querySelectorAll(".flt-btn[data-sen]").forEach(btn => {
-  btn.addEventListener("click", () => {
-    senFilter = btn.dataset.sen;
-    document.querySelectorAll(".flt-btn[data-sen]").forEach(b => {
-      b.classList.remove("active-magenta"); b.style.background=""; b.style.color=""; b.style.borderColor=""; b.style.boxShadow="";
-    });
-    btn.classList.add("active-magenta");
-    render();
-  });
-});
+document.querySelectorAll(".flt-btn[data-geo]").forEach(btn => btn.addEventListener("click", () => { geoFilter = btn.dataset.geo; render(); }));
+document.querySelectorAll(".flt-btn[data-cat]").forEach(btn => btn.addEventListener("click", () => { catFilter = btn.dataset.cat; render(); }));
+document.querySelectorAll(".flt-btn[data-sen]").forEach(btn => btn.addEventListener("click", () => { senFilter = btn.dataset.sen; render(); }));
+document.querySelectorAll(".flt-btn[data-rel]").forEach(btn => btn.addEventListener("click", () => { relFilter = parseInt(btn.dataset.rel); render(); }));
+document.getElementById("company-chip").addEventListener("click", () => { companyFilter = ""; render(); });
+document.getElementById("btn-saved").addEventListener("click", () => { savedOnly = !savedOnly; render(); window.scrollTo({ top: 0 }); });
 
 // ── CLEAR FILTERS ─────────────────────────────────────────────────────────────
 document.getElementById("btn-clear-filters").addEventListener("click", () => {
   geoFilter = "All"; catFilter = "All"; senFilter = "All"; sortOrder = "newest"; searchQ = "";
+  relFilter = DEFAULT_REL; companyFilter = ""; savedOnly = false;
   document.getElementById("search").value = "";
-  document.getElementById("sort-select").value = "newest";
-  document.querySelectorAll(".flt-btn[data-geo],.flt-btn[data-cat],.flt-btn[data-sen]").forEach(b => {
-    b.classList.remove("active-magenta"); b.style.background=""; b.style.color=""; b.style.borderColor=""; b.style.boxShadow="";
-  });
-  document.querySelector(".flt-btn[data-geo='All']").classList.add("active-magenta");
-  document.querySelector(".flt-btn[data-cat='All']").classList.add("active-magenta");
-  document.querySelector(".flt-btn[data-sen='All']").classList.add("active-magenta");
   render();
 });
 
@@ -713,6 +889,8 @@ syncSticky();
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 async function init() {
+  readParams();
+  updateSavedCount();
   // 1. Try to load jobs.json (GitHub Pages / auto-refresh)
   try {
     const res = await fetch("jobs.json");

@@ -1,0 +1,233 @@
+{
+ "offers": 356,
+ "relevant": 190,
+ "employers": 43,
+ "with_salary": 33,
+ "remote": 12,
+ "poland": 54,
+ "regions": [
+  [
+   "USA",
+   139
+  ],
+  [
+   "Europe",
+   113
+  ],
+  [
+   "Poland",
+   54
+  ],
+  [
+   "Other",
+   38
+  ],
+  [
+   "Remote",
+   12
+  ]
+ ],
+ "sectors": [
+  [
+   "Pharma/Biotech",
+   172
+  ],
+  [
+   "Academia",
+   123
+  ],
+  [
+   "Clinical",
+   59
+  ],
+  [
+   "Government/Public",
+   1
+  ],
+  [
+   "Startup",
+   1
+  ]
+ ],
+ "levels": [
+  [
+   "Mid",
+   173
+  ],
+  [
+   "Senior",
+   95
+  ],
+  [
+   "PostDoc",
+   53
+  ],
+  [
+   "PI/Lead",
+   21
+  ],
+  [
+   "Intern",
+   8
+  ],
+  [
+   "Junior",
+   6
+  ]
+ ],
+ "skills": [
+  [
+   "genomics",
+   35,
+   18.4
+  ],
+  [
+   "AI",
+   32,
+   16.8
+  ],
+  [
+   "biostatistics",
+   24,
+   12.6
+  ],
+  [
+   "R",
+   18,
+   9.5
+  ],
+  [
+   "omics",
+   12,
+   6.3
+  ],
+  [
+   "single cell",
+   11,
+   5.8
+  ],
+  [
+   "immunology",
+   11,
+   5.8
+  ],
+  [
+   "machine learning",
+   11,
+   5.8
+  ],
+  [
+   "multi-omics",
+   9,
+   4.7
+  ],
+  [
+   "drug discovery",
+   9,
+   4.7
+  ],
+  [
+   "proteomics",
+   8,
+   4.2
+  ],
+  [
+   "epidemiology",
+   7,
+   3.7
+  ],
+  [
+   "microbiology",
+   7,
+   3.7
+  ],
+  [
+   "Python",
+   6,
+   3.2
+  ],
+  [
+   "neurobiology",
+   5,
+   2.6
+  ]
+ ],
+ "top_employers": [
+  [
+   "ICON",
+   17
+  ],
+  [
+   "Roche",
+   12
+  ],
+  [
+   "Flatiron Health",
+   11
+  ],
+  [
+   "IQVIA",
+   8
+  ],
+  [
+   "Twist Bioscience",
+   6
+  ],
+  [
+   "LatchBio",
+   5
+  ],
+  [
+   "Altos Labs",
+   4
+  ],
+  [
+   "Nautilus Biotechnology",
+   4
+  ],
+  [
+   "Moderna",
+   4
+  ],
+  [
+   "GSK",
+   3
+  ],
+  [
+   "Bristol Myers Squibb",
+   3
+  ],
+  [
+   "AstraZeneca",
+   3
+  ]
+ ],
+ "salaries": {
+  "USD · All levels": {
+   "n": 6,
+   "median": 152000
+  },
+  "USD · Mid": {
+   "n": 3,
+   "median": 160000
+  }
+ },
+ "sources": [
+  [
+   "JobRxiv",
+   250
+  ],
+  [
+   "Company boards (Greenhouse, Lever, Workday)",
+   80
+  ],
+  [
+   "Other boards & manual",
+   26
+  ]
+ ],
+ "quarter": "Q4 2026",
+ "coverage": "2026-10-01 – 2026-11-23",
+ "in_progress": true,
+ "generated": "2026-11-23"
+}

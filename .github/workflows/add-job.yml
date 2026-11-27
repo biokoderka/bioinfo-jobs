@@ -70,11 +70,14 @@ jobs:
               --location "$LOCATION" --deadline "$DEADLINE" --description "$DESCRIPTION"
           fi
 
+      - name: Build static pages
+        run: python scripts/build_pages.py
+
       - name: Commit
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/jobs.json docs/archive.json
+          git add docs/jobs.json docs/archive.json docs/sitemap.xml docs/skills.html docs/browse docs/companies docs/reports
           git diff --cached --quiet && exit 0
           git commit -m "➕ Manual job update"
           git pull --rebase origin main

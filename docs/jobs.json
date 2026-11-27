@@ -30,7 +30,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 61,
+   "relevance_tier": "relevant",
+   "employment_type": null,
+   "employer": "Columbia University Irving Medical Center"
   },
   {
    "id": "ff120aef12",
@@ -50,7 +54,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Flatiron Health"
   },
   {
    "id": "89c6c23a2b",
@@ -73,7 +81,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "IQVIA"
   },
   {
    "id": "f92692e2e6",
@@ -93,7 +105,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "29ff1c3a33",
@@ -116,7 +131,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 55,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "5086a4781c",
@@ -136,7 +154,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "903846545b",
@@ -156,7 +177,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-24"
+   "first_seen": "2026-09-24",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": "Contract"
   },
   {
    "id": "7e6003ed21",
@@ -179,7 +203,10 @@
    "salary_currency": "USD",
    "salary_text": "$85,372 – $113,659/yr",
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 100,
+   "relevance_tier": "high",
+   "employment_type": "Contract"
   },
   {
    "id": "60a4cc925f",
@@ -201,7 +228,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 71,
+   "relevance_tier": "relevant",
+   "employment_type": null,
+   "employer": "Cold Spring Harbor Laboratory"
   },
   {
    "id": "0398cc84fa",
@@ -221,7 +252,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "63a59ac37b",
@@ -241,7 +275,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "431e0cb520",
@@ -263,7 +300,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 12,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "761901acff",
@@ -285,7 +325,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 65,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "5109154d83",
@@ -307,7 +350,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 55,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "848929da57",
@@ -329,7 +375,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 100,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "e7c4f2e3ee",
@@ -351,7 +400,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "bba331e36c",
@@ -373,7 +425,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-05-14"
+   "first_seen": "2026-05-14",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "0f655d3efc",
@@ -395,7 +450,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 55,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Flatiron Health"
   },
   {
    "id": "0fffe5808f",
@@ -417,7 +476,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-23"
+   "first_seen": "2026-09-23",
+   "relevance": 89,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Beam Therapeutics"
   },
   {
    "id": "d6e917fc32",
@@ -437,7 +500,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "bd07796baf",
@@ -457,7 +523,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "0fbd826e03",
@@ -480,7 +549,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 89,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "c8df89c6a7",
@@ -500,7 +572,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "ab676f90d3",
@@ -522,7 +597,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "74b77583f8",
@@ -544,7 +622,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "04d845048e",
@@ -566,7 +647,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 71,
+   "relevance_tier": "relevant",
+   "employment_type": null,
+   "employer": "Twist Bioscience"
   },
   {
    "id": "9b59e5863e",
@@ -588,7 +673,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "f275d4720d",
@@ -610,7 +698,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "61a721d31f",
@@ -630,7 +721,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "f28df0e2df",
@@ -650,7 +744,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 92,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "cc04f25124",
@@ -672,7 +769,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 51,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "4a9d8a538c",
@@ -694,7 +794,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 89,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "14fe96c830",
@@ -716,7 +819,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Flatiron Health"
   },
   {
    "id": "db56d0de6e",
@@ -738,7 +845,11 @@
    "salary_currency": "USD",
    "salary_text": "$140,000 – $180,000/yr",
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 65,
+   "relevance_tier": "relevant",
+   "employment_type": null,
+   "employer": "LatchBio"
   },
   {
    "id": "e0865b8dba",
@@ -760,7 +871,11 @@
    "salary_currency": "USD",
    "salary_text": "$140,000 – $180,000/yr",
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 55,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "LatchBio"
   },
   {
    "id": "91f2b3cc9e",
@@ -783,7 +898,11 @@
    "salary_currency": "USD",
    "salary_text": "$200,000 – $270,000/yr",
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "GenBio AI"
   },
   {
    "id": "084260d4b6",
@@ -803,7 +922,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "4f5e0e0ac7",
@@ -823,7 +945,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "98a1311e55",
@@ -845,7 +970,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 6,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "7e44a22191",
@@ -867,7 +995,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 71,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "aac8ae8412",
@@ -887,7 +1018,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-23"
+   "first_seen": "2026-11-23",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "912b57e452",
@@ -909,7 +1043,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "233df34e10",
@@ -931,7 +1068,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "8ab621475f",
@@ -953,7 +1093,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 95,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "2f91ebc1d5",
@@ -973,7 +1116,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 92,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "96b1e4256d",
@@ -995,7 +1141,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 39,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "239b46a7c1",
@@ -1015,7 +1164,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "7bd610b19d",
@@ -1035,7 +1187,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 36,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "184968681f",
@@ -1057,7 +1212,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 95,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "b34e1a7369",
@@ -1080,7 +1238,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 89,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "32b5a6e331",
@@ -1100,7 +1261,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-06-19"
+   "first_seen": "2026-06-19",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "207049a285",
@@ -1123,7 +1287,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 77,
+   "relevance_tier": "relevant",
+   "employment_type": "Full-time"
   },
   {
    "id": "b496798b2d",
@@ -1143,7 +1310,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "d8aa0545d2",
@@ -1166,7 +1336,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 6,
+   "relevance_tier": "loose",
+   "employment_type": "Contract"
   },
   {
    "id": "71aaf05895",
@@ -1188,7 +1361,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 55,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "d4257398ea",
@@ -1210,7 +1386,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 65,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "0c3422d072",
@@ -1235,7 +1414,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 98,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "bdd3367643",
@@ -1255,7 +1437,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "92388ff6ac",
@@ -1278,7 +1463,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Flatiron Health"
   },
   {
    "id": "68178510d1",
@@ -1300,7 +1489,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-05"
+   "first_seen": "2026-10-05",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Flatiron Health"
   },
   {
    "id": "a107410bb2",
@@ -1322,7 +1515,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "IQVIA"
   },
   {
    "id": "79c89af010",
@@ -1344,7 +1541,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "37d23123e6",
@@ -1366,7 +1566,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "25e9889b5e",
@@ -1388,7 +1591,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 36,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "1242235104",
@@ -1414,7 +1620,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 70,
+   "relevance_tier": "relevant",
+   "employment_type": null,
+   "employer": "GSK"
   },
   {
    "id": "c4718e334d",
@@ -1437,7 +1647,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 74,
+   "relevance_tier": "relevant",
+   "employment_type": null,
+   "employer": "GSK"
   },
   {
    "id": "b3f250e5c4",
@@ -1459,7 +1673,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 6,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "e7ff0f2828",
@@ -1479,7 +1696,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "9815823632",
@@ -1499,7 +1719,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "c4385c9f6d",
@@ -1521,7 +1744,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "dcbf6f3a3a",
@@ -1543,7 +1769,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 51,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "a3ca7eb11c",
@@ -1565,7 +1794,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-06-09"
+   "first_seen": "2026-06-09",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "9c26ae2b4a",
@@ -1587,7 +1819,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-19"
+   "first_seen": "2026-09-19",
+   "relevance": 6,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "2ef9603516",
@@ -1607,7 +1842,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "980dc2dfb8",
@@ -1631,7 +1869,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 64,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "5bc0608504",
@@ -1651,7 +1892,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-02"
+   "first_seen": "2026-09-02",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "9ea74b4e53",
@@ -1673,7 +1917,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 71,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "e1eee1db3d",
@@ -1693,7 +1940,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "a0d6b70d29",
@@ -1713,7 +1963,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "6b6b75dfe3",
@@ -1733,7 +1986,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "f8a2c58e96",
@@ -1755,7 +2011,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "dc7a92b991",
@@ -1775,7 +2034,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "ad1b61380d",
@@ -1797,7 +2059,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "1fd17a98e9",
@@ -1819,7 +2084,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 71,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "0a789bb51f",
@@ -1841,7 +2109,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-23"
+   "first_seen": "2026-09-23",
+   "relevance": 89,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "7a3284c4e2",
@@ -1863,7 +2134,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 92,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "3c05848399",
@@ -1888,7 +2162,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 100,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "a7e12205d1",
@@ -1910,7 +2187,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 89,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "IQVIA"
   },
   {
    "id": "653025056e",
@@ -1932,7 +2213,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "57cca11c12",
@@ -1954,7 +2238,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "960467d11c",
@@ -1976,7 +2263,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "d46eb1aed5",
@@ -2001,7 +2291,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 100,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "121d3332e2",
@@ -2021,7 +2314,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "795c34f534",
@@ -2044,7 +2340,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 3,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "40650317be",
@@ -2066,7 +2365,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-06-01"
+   "first_seen": "2026-06-01",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "11141e74e7",
@@ -2086,7 +2388,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "9f74f970e0",
@@ -2106,7 +2411,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "6fd1426fc4",
@@ -2129,7 +2437,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 92,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "58d4fddd98",
@@ -2152,7 +2463,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 92,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "372329fb99",
@@ -2175,7 +2489,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Profluent"
   },
   {
    "id": "92898524c6",
@@ -2197,7 +2515,11 @@
    "salary_currency": "USD",
    "salary_text": "$125,000 – $175,000/yr",
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 98,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Precede Biosciences"
   },
   {
    "id": "ec67f7556e",
@@ -2219,7 +2541,11 @@
    "salary_currency": "USD",
    "salary_text": "$140,000 – $180,000/yr",
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 55,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "LatchBio"
   },
   {
    "id": "7483c6631e",
@@ -2241,7 +2567,11 @@
    "salary_currency": "USD",
    "salary_text": "$270,000 – $300,000/yr",
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Biohub"
   },
   {
    "id": "cffdafa3d1",
@@ -2264,7 +2594,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 92,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Bristol Myers Squibb"
   },
   {
    "id": "87bf818f14",
@@ -2288,7 +2622,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 33,
+   "relevance_tier": "loose",
+   "employment_type": "Full-time",
+   "employer": "IQVIA"
   },
   {
    "id": "8b97d13c79",
@@ -2310,7 +2648,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "8f290e0208",
@@ -2336,7 +2677,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 36,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "IQVIA"
   },
   {
    "id": "d5ad4a535b",
@@ -2358,7 +2703,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-09"
+   "first_seen": "2026-09-09",
+   "relevance": 89,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "0a4619f006",
@@ -2378,7 +2726,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 71,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "c6d75bff02",
@@ -2401,7 +2752,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 61,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "607ec525b4",
@@ -2425,7 +2779,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 95,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "089ae1975d",
@@ -2447,7 +2804,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 92,
+   "relevance_tier": "high",
+   "employment_type": "Contract"
   },
   {
    "id": "06ded5201e",
@@ -2472,7 +2832,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 98,
+   "relevance_tier": "high",
+   "employment_type": "Full-time"
   },
   {
    "id": "b7e2f1dc53",
@@ -2496,7 +2859,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 100,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "0edf0278c9",
@@ -2518,7 +2884,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "25c94fc36b",
@@ -2540,7 +2909,10 @@
    "salary_currency": "USD",
    "salary_text": "$86,195 – $116,981/yr",
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": "Contract"
   },
   {
    "id": "f8415f0a21",
@@ -2560,7 +2932,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "c05b5b091f",
@@ -2580,7 +2955,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "e1cda9058b",
@@ -2602,7 +2980,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "84005ded1f",
@@ -2622,7 +3003,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "c00bad707e",
@@ -2644,7 +3028,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 6,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "636429c452",
@@ -2664,7 +3051,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "c5b0d3418e",
@@ -2686,7 +3076,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "1af21d518b",
@@ -2706,7 +3099,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "65625d070f",
@@ -2728,7 +3124,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "df11d26168",
@@ -2750,7 +3149,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Institute for Computational Cancer Biology University Hospital Cologne Germany"
   },
   {
    "id": "eab700ef72",
@@ -2773,7 +3176,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 71,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "6d04013eef",
@@ -2797,7 +3203,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 92,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "IQVIA"
   },
   {
    "id": "fe807177f9",
@@ -2819,7 +3229,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "9790b43df8",
@@ -2842,7 +3255,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 98,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "306cb3ec07",
@@ -2865,7 +3281,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "16c1fbc5cf",
@@ -2888,7 +3307,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 6,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "645801de1e",
@@ -2911,7 +3333,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 77,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "85336d16f3",
@@ -2934,7 +3359,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-05-16"
+   "first_seen": "2026-05-16",
+   "relevance": 6,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "7d690fd9a8",
@@ -2957,7 +3385,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": "Contract"
   },
   {
    "id": "4fc34bb574",
@@ -2980,7 +3411,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 89,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "409eedfbe6",
@@ -3000,7 +3434,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Prime Medicine"
   },
   {
    "id": "e8695388c2",
@@ -3022,7 +3460,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 89,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Precede Biosciences"
   },
   {
    "id": "9974bcee4d",
@@ -3046,7 +3488,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 64,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "759eed0fa3",
@@ -3068,7 +3513,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 66,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "24c324bdbb",
@@ -3090,7 +3538,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 61,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "e6fd1d3dff",
@@ -3112,7 +3563,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 65,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "28f7c06a7a",
@@ -3134,7 +3588,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 92,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "ca7493bab4",
@@ -3154,7 +3611,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "c5f0d6ec4d",
@@ -3174,7 +3634,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "0d675b5ea3",
@@ -3197,7 +3660,10 @@
    "salary_currency": "USD",
    "salary_text": "$111,275 – $120,435/yr",
    "summary": null,
-   "first_seen": "2026-11-09"
+   "first_seen": "2026-11-09",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": "Contract"
   },
   {
    "id": "e75cb5652b",
@@ -3217,7 +3683,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "dc170b98a1",
@@ -3239,7 +3708,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "ec9076f7f6",
@@ -3259,7 +3731,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "6056be3215",
@@ -3281,7 +3756,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "84da62c235",
@@ -3303,7 +3781,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "c9577bee95",
@@ -3325,7 +3806,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 42,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "f2d7983027",
@@ -3347,7 +3831,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 92,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Institute for Biomedicine Eurac Research Bolzano Italy"
   },
   {
    "id": "58ba548cb8",
@@ -3369,7 +3857,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Recursion Pharma"
   },
   {
    "id": "37d48f27ff",
@@ -3391,7 +3883,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-05"
+   "first_seen": "2026-10-05",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Recursion Pharma"
   },
   {
    "id": "6e043902b1",
@@ -3411,7 +3907,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 71,
+   "relevance_tier": "relevant",
+   "employment_type": "Contract",
+   "employer": "Altos Labs"
   },
   {
    "id": "929f25979e",
@@ -3434,7 +3934,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 6,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "0c998608e8",
@@ -3456,7 +3959,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 6,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "14eec76205",
@@ -3476,7 +3982,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-06-19"
+   "first_seen": "2026-06-19",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "65e2e483ec",
@@ -3498,7 +4007,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "5fbf90b870",
@@ -3518,7 +4030,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 20,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "da01c9ee52",
@@ -3538,7 +4053,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "a6cf46091d",
@@ -3558,7 +4076,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "c099291f13",
@@ -3580,7 +4101,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "255631439c",
@@ -3602,7 +4126,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 71,
+   "relevance_tier": "relevant",
+   "employment_type": "Full-time"
   },
   {
    "id": "3726e226d8",
@@ -3622,7 +4149,11 @@
    "salary_currency": "USD",
    "salary_text": "$126,000 – $182,000/yr",
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Nautilus Biotechnology"
   },
   {
    "id": "6b24bf8508",
@@ -3644,7 +4175,11 @@
    "salary_currency": "USD",
    "salary_text": "$120,000 – $180,000/yr",
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 55,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "LatchBio"
   },
   {
    "id": "5bc7e06c0c",
@@ -3666,7 +4201,11 @@
    "salary_currency": "USD",
    "salary_text": "$200,000 – $250,000/yr",
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Astera"
   },
   {
    "id": "c3b7bf0381",
@@ -3690,7 +4229,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 80,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "fa336eea29",
@@ -3712,7 +4254,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 92,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Twist Bioscience"
   },
   {
    "id": "ce40f2f996",
@@ -3734,7 +4280,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "07d059aa6e",
@@ -3756,7 +4305,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 55,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "55debbcfd9",
@@ -3778,7 +4330,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 71,
+   "relevance_tier": "relevant",
+   "employment_type": "Contract"
   },
   {
    "id": "68969a1f74",
@@ -3801,7 +4356,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 72,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "6d09fb49c0",
@@ -3823,7 +4381,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 89,
+   "relevance_tier": "high",
+   "employment_type": "Part-time"
   },
   {
    "id": "93e7e1200f",
@@ -3845,7 +4406,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-05-14"
+   "first_seen": "2026-05-14",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "5a698a703d",
@@ -3868,7 +4432,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 67,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "c10555e1a4",
@@ -3891,7 +4458,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-11"
+   "first_seen": "2026-10-11",
+   "relevance": 77,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "be0ba12276",
@@ -3914,7 +4484,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-02"
+   "first_seen": "2026-11-02",
+   "relevance": 77,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "414fb237cb",
@@ -3937,7 +4510,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 89,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "46a0714ec1",
@@ -3957,7 +4533,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": "Part-time"
   },
   {
    "id": "34d15e43a0",
@@ -3977,7 +4556,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "28552bf4ed",
@@ -4001,7 +4583,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 98,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "31a29fd324",
@@ -4021,7 +4606,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-06-18"
+   "first_seen": "2026-06-18",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "70976d25cc",
@@ -4044,7 +4632,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 89,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "79ea5485de",
@@ -4066,7 +4657,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 6,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "28bb36f754",
@@ -4086,7 +4680,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "0d67fea44b",
@@ -4108,7 +4705,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "e5078790e2",
@@ -4132,7 +4732,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-11"
+   "first_seen": "2026-10-11",
+   "relevance": 64,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "92b4d627c8",
@@ -4154,7 +4757,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "c867214ad9",
@@ -4174,7 +4780,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "53e0754562",
@@ -4194,7 +4803,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "11603eb695",
@@ -4216,7 +4828,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "c43b3ede7d",
@@ -4238,7 +4853,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 71,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "a357ad1c03",
@@ -4260,7 +4878,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 65,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "f6088038fb",
@@ -4280,7 +4901,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Princeton University the Lewis Sigler Institute for Integrative Genomics"
   },
   {
    "id": "94c43f2431",
@@ -4300,7 +4925,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "47dd1a42d4",
@@ -4322,7 +4950,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 71,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "0adb48bccb",
@@ -4342,7 +4973,11 @@
    "salary_currency": "USD",
    "salary_text": "$126,000 – $182,000/yr",
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Nautilus Biotechnology"
   },
   {
    "id": "465b6fea76",
@@ -4362,7 +4997,11 @@
    "salary_currency": "USD",
    "salary_text": "$164,000 – $221,000/yr",
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Nautilus Biotechnology"
   },
   {
    "id": "26dd5981ad",
@@ -4382,7 +5021,11 @@
    "salary_currency": "USD",
    "salary_text": "$164,000 – $221,000/yr",
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Nautilus Biotechnology"
   },
   {
    "id": "7ae0c5da82",
@@ -4405,7 +5048,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-07-15"
+   "first_seen": "2026-07-15",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "14bd420d9c",
@@ -4425,7 +5071,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-19"
+   "first_seen": "2026-10-19",
+   "relevance": 71,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "25be2be558",
@@ -4447,7 +5096,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": "Part-time"
   },
   {
    "id": "e3a405deb4",
@@ -4473,7 +5125,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 15,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "The Institute for Systems Genetics at NYU Langone Medical Center"
   },
   {
    "id": "b9db34dd6a",
@@ -4495,7 +5151,10 @@
    "salary_currency": "USD",
    "salary_text": "$124,392 – $133,017/yr",
    "summary": null,
-   "first_seen": "2026-10-26"
+   "first_seen": "2026-10-26",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": "Contract"
   },
   {
    "id": "0ab923cbf4",
@@ -4517,7 +5176,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 65,
+   "relevance_tier": "relevant",
+   "employment_type": null,
+   "employer": "Bristol Myers Squibb"
   },
   {
    "id": "4c801467a4",
@@ -4540,7 +5203,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-19"
+   "first_seen": "2026-10-19",
+   "relevance": 61,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "2b7aba299c",
@@ -4560,7 +5226,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-19"
+   "first_seen": "2026-10-19",
+   "relevance": 45,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "e08ed8d323",
@@ -4582,7 +5251,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-19"
+   "first_seen": "2026-10-19",
+   "relevance": 61,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "5f37e24799",
@@ -4604,7 +5276,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-19"
+   "first_seen": "2026-10-19",
+   "relevance": 71,
+   "relevance_tier": "relevant",
+   "employment_type": null
   },
   {
    "id": "47447b3ccf",
@@ -4624,7 +5299,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-19"
+   "first_seen": "2026-10-19",
+   "relevance": 89,
+   "relevance_tier": "high",
+   "employment_type": null
   },
   {
    "id": "83709e16ca",
@@ -4644,7 +5322,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-19"
+   "first_seen": "2026-10-19",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "33c991b36d",
@@ -4667,7 +5348,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-19"
+   "first_seen": "2026-10-19",
+   "relevance": 6,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Janux"
   },
   {
    "id": "7324c49f1a",
@@ -4689,7 +5374,10 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-08-14"
+   "first_seen": "2026-08-14",
+   "relevance": 6,
+   "relevance_tier": "loose",
+   "employment_type": null
   },
   {
    "id": "da110a29aa",
@@ -4711,7 +5399,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-19"
+   "first_seen": "2026-10-19",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Altos Labs"
   },
   {
    "id": "3344cb176a",
@@ -4731,7 +5423,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-19"
+   "first_seen": "2026-10-19",
+   "relevance": 92,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Personalis, Inc"
   },
   {
    "id": "38c0c78efc",
@@ -4753,7 +5449,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-11"
+   "first_seen": "2026-10-11",
+   "relevance": 33,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Altos Labs"
   },
   {
    "id": "8b31bb64aa",
@@ -4775,7 +5475,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-11"
+   "first_seen": "2026-10-11",
+   "relevance": 89,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Relay Therapeutics"
   },
   {
    "id": "88a4bf4087",
@@ -4798,7 +5502,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-11"
+   "first_seen": "2026-10-11",
+   "relevance": 74,
+   "relevance_tier": "relevant",
+   "employment_type": null,
+   "employer": "Profluent"
   },
   {
    "id": "cc14def3f0",
@@ -4820,7 +5528,11 @@
    "salary_currency": "EUR",
    "salary_text": "€74,300 – €126,500/yr",
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 0,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "IQVIA"
   },
   {
    "id": "a4923ea4cb",
@@ -4840,7 +5552,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-05"
+   "first_seen": "2026-10-05",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Twist Bioscience"
   },
   {
    "id": "452bfb7568",
@@ -4864,7 +5580,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 39,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "GSK"
   },
   {
    "id": "d989c40182",
@@ -4889,7 +5609,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 33,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "IQVIA"
   },
   {
    "id": "9bbc53b46b",
@@ -4911,7 +5635,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-05"
+   "first_seen": "2026-10-05",
+   "relevance": 58,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Altos Labs"
   },
   {
    "id": "012ffb6288",
@@ -4934,7 +5662,11 @@
    "salary_currency": "USD",
    "salary_text": "$212,000 – $339,000/yr",
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 58,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Profluent"
   },
   {
    "id": "81e99cc2aa",
@@ -4956,7 +5688,11 @@
    "salary_currency": "USD",
    "salary_text": "$75,029 – $85,748/yr",
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 6,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "BillionToOne"
   },
   {
    "id": "8779e3cb09",
@@ -4979,7 +5715,11 @@
    "salary_currency": "USD",
    "salary_text": "$268,000 – $355,000/yr",
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Profluent"
   },
   {
    "id": "1f70b96540",
@@ -5001,7 +5741,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 6,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "BillionToOne"
   },
   {
    "id": "32a570cad4",
@@ -5021,7 +5765,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-10-05"
+   "first_seen": "2026-10-05",
+   "relevance": 65,
+   "relevance_tier": "relevant",
+   "employment_type": null,
+   "employer": "Twist Bioscience"
   },
   {
    "id": "3b7d146ea8",
@@ -5045,7 +5793,11 @@
    "salary_currency": "USD",
    "salary_text": "$120,000 – $180,000/yr",
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 83,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "LatchBio"
   },
   {
    "id": "29fd8b7ecb",
@@ -5067,7 +5819,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 55,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Astera"
   },
   {
    "id": "2efd48d9d7",
@@ -5089,7 +5845,11 @@
    "salary_currency": "USD",
    "salary_text": "$200,000 – $300,000/yr",
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 55,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Astera"
   },
   {
    "id": "459e414f2b",
@@ -5113,7 +5873,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 39,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Proxima"
   },
   {
    "id": "a2e6915730",
@@ -5133,7 +5897,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 65,
+   "relevance_tier": "relevant",
+   "employment_type": null,
+   "employer": "Precede Biosciences"
   },
   {
    "id": "5b83f4eae4",
@@ -5156,7 +5924,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 71,
+   "relevance_tier": "relevant",
+   "employment_type": null,
+   "employer": "Basecamp Research"
   },
   {
    "id": "8eef1198ff",
@@ -5178,7 +5950,11 @@
    "salary_currency": "USD",
    "salary_text": "$180,000 – $226,000/yr",
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 98,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Element Biosciences"
   },
   {
    "id": "416eea29d6",
@@ -5201,7 +5977,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-18"
+   "first_seen": "2026-11-18",
+   "relevance": 92,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Bristol Myers Squibb"
   },
   {
    "id": "65e12e0652",
@@ -5225,7 +6005,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 95,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Proxima"
   },
   {
    "id": "c1c1c5fc53",
@@ -5248,7 +6032,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 71,
+   "relevance_tier": "relevant",
+   "employment_type": null,
+   "employer": "Tamarind Bio"
   },
   {
    "id": "417c5daa63",
@@ -5270,7 +6058,11 @@
    "salary_currency": "USD",
    "salary_text": "$160,000 – $190,000/yr",
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Cellular Intelligence"
   },
   {
    "id": "78b0abf75c",
@@ -5292,7 +6084,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Valthos"
   },
   {
    "id": "8f846cf1cc",
@@ -5314,7 +6110,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Valthos"
   },
   {
    "id": "e914d10e66",
@@ -5334,7 +6134,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 86,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Teiko"
   },
   {
    "id": "3f4f307cd6",
@@ -5358,7 +6162,11 @@
    "salary_currency": "USD",
    "salary_text": "$200,000 – $330,000/yr",
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 33,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Profluent"
   },
   {
    "id": "3de3175ac7",
@@ -5381,7 +6189,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 6,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "GenBio AI"
   },
   {
    "id": "2743929e67",
@@ -5407,7 +6219,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 82,
+   "relevance_tier": "high",
+   "employment_type": null,
+   "employer": "Deep Genomics"
   },
   {
    "id": "ae46db48ee",
@@ -5429,7 +6245,11 @@
    "salary_currency": "USD",
    "salary_text": "$340,000 – $390,000/yr",
    "summary": null,
-   "first_seen": "2026-07-13"
+   "first_seen": "2026-07-13",
+   "relevance": 65,
+   "relevance_tier": "relevant",
+   "employment_type": "Full-time",
+   "employer": "Enveda Biosciences"
   },
   {
    "id": "ab99795920",
@@ -5449,7 +6269,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 12,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Galatea Bio"
   },
   {
    "id": "878104171f",
@@ -5471,7 +6295,11 @@
    "salary_currency": "USD",
    "salary_text": "$134,300 – $189,900/yr",
    "summary": null,
-   "first_seen": "2026-09-28"
+   "first_seen": "2026-09-28",
+   "relevance": 30,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Ginkgo Bioworks Inc."
   },
   {
    "id": "34a2ad1d88",
@@ -5495,7 +6323,11 @@
    "salary_currency": null,
    "salary_text": null,
    "summary": null,
-   "first_seen": "2026-11-16"
+   "first_seen": "2026-11-16",
+   "relevance": 45,
+   "relevance_tier": "loose",
+   "employment_type": null,
+   "employer": "Enveda Biosciences"
   }
  ]
 }
